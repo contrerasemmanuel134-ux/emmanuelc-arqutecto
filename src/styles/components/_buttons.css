@@ -1,0 +1,44 @@
+.button {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 999px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+.button--primary {
+    background-color: var(--accent-cyan);
+    color: var(--primary-dark);
+}
+
+.button--primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
+}
+
+.button--secondary {
+    background-color: transparent;
+    border: 2px solid var(--white-color);
+    color: var(--white-color);
+}
+
+.button--secondary:hover {
+    background-color: var(--white-color);
+    color: var(--primary-dark);
+}
+
+/* Variante para tarjetas con fondo claro */
+.portfolio-card .button--secondary {
+    border: 2px solid var(--primary-dark);
+    color: var(--primary-dark);
+    padding: calc(0.9rem - 2px) calc(2rem - 2px);
+    /* Ajuste por el borde */
+}
+
+.portfolio-card .button--secondary:hover {
+    background-color: var(--primary-dark);
+    color: var(--white-color);
+}

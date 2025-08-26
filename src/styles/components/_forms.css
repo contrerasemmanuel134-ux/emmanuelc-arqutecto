@@ -1,0 +1,77 @@
+.form-group {
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem 0.5rem;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: transparent;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    transition: border-color 0.3s;
+}
+
+.form-label {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.5rem;
+    color: #999;
+    transition: all 0.3s ease;
+    z-index: 0;
+}
+
+.form-input:focus,
+.form-input:not(:placeholder-shown) {
+    outline: none;
+    border-bottom-color: var(--accent-cyan);
+}
+
+.form-input:focus+.form-label,
+.form-input:not(:placeholder-shown)+.form-label {
+    top: -1.2rem;
+    font-size: 0.8rem;
+    color: var(--accent-cyan);
+}
+
+/* --- Formulario de Estrellas --- */
+.form-label--static {
+    display: block;
+    color: #999;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2.5rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-rating label:before {
+    content: '★';
+}
+
+.star-rating:not(:hover) input[type="radio"]:checked~label,
+.star-rating:hover input[type="radio"]:hover~label {
+    color: #ffc107;
+}
+
+.star-rating input[type="radio"]:checked+label {
+    color: #ffc107;
+}

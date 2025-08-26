@@ -1,0 +1,89 @@
+/* --- Tarjeta de Portafolio --- */
+.portfolio-card {
+    background: var(--white-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.portfolio-card__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.portfolio-card__content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.portfolio-card__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.portfolio-card__description {
+    color: var(--text-color);
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Tarjeta de Filosofía --- */
+.philosophy-card {
+    background: var(--white-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.philosophy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.philosophy-card__icon {
+    margin-bottom: 1rem;
+    color: var(--accent-cyan);
+}
+
+/* --- Otras Tarjetas --- */
+.persona-card {
+    background: var(--white-color);
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.pillar-card,
+.calendar-day {
+    background: var(--white-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    border-top: 4px solid var(--accent-cyan);
+}
+
+.tech-card {
+    background: var(--white-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}

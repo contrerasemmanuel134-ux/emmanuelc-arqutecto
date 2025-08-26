@@ -1,0 +1,80 @@
+/* --- Hero Home --- */
+.hero-home {
+    background-color: var(--primary-dark);
+    color: var(--white-color);
+    padding: 8rem 2rem;
+    text-align: center;
+}
+
+.hero-home__title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* --- Layout de Pasos --- */
+.item-step {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 5rem;
+}
+
+.item-step:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.item-step__graphic {
+    flex: 1;
+    background-color: var(--light-gray);
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.item-step__graphic svg {
+    width: 100px;
+    height: 100px;
+    color: var(--primary-dark);
+}
+
+.item-step__title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+/* --- CTA Final --- */
+.cta-final {
+    background-color: var(--primary-dark);
+    color: var(--white-color);
+    text-align: center;
+    padding: 5rem 2rem;
+}
+
+.cta-final__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .hero-home__title {
+        font-size: 2.5rem;
+    }
+
+    .item-step,
+    .item-step:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .item-step__graphic {
+        width: 100%;
+        min-height: 250px;
+    }
+}

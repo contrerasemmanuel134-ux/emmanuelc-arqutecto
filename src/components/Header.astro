@@ -1,0 +1,66 @@
+---
+// src/components/Header.astro
+---
+<header class="bg-primary-dark text-white shadow-lg">
+    <div class="container header-container">
+        <a href="/" class="logo-container">
+            <img src="/images/logo-emmanuel-contreras.png" alt="Logo de Emmanuel Contreras - Arquitecto Digital"
+                class="logo-svg">
+            <div class="hidden md:block">
+                <div class="font-bold tracking-wider">EMMANUEL CONTRERAS</div>
+                <div class="text-xs font-light tracking-wider opacity-80">ARQUITECTO DIGITAL</div>
+            </div>
+        </a>
+
+        <div class="header-right-side">
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="/servicios" class="nav-link">Servicios</a>
+                <a href="/caso-de-exito" class="nav-link">Casos de Éxito</a>
+                <div class="relative dropdown">
+                    <button class="nav-link flex items-center" aria-haspopup="true">
+                        Más
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-primary-dark shadow-xl rounded-md mt-2 py-2 w-48">
+                        <a href="/proceso" class="dropdown-item">Mi Proceso</a>
+                        <a href="/sobre-mi" class="dropdown-item">Sobre Mí</a>
+                        <a href="/blog" class="dropdown-item">Blog</a>
+                        <a href="/dejar-testimonios" class="dropdown-item">Dejar Testimonio</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4 ml-6">
+                <a href="/contacto" class="button button--secondary" style="padding: 0.6rem 1.5rem;">Contacto</a>
+            </div>
+            <div class="md:hidden ml-4">
+                <button id="menu-toggle" class="text-white focus:outline-none" aria-controls="mobile-menu"
+                    aria-expanded="false">
+                    <span class="sr-only">Abrir menú</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden">
+        <nav class="px-6 pt-2 pb-4">
+            <ul class="flex flex-col space-y-2">
+                <li><a href="/servicios" class="nav-link text-center block py-2">Servicios</a></li>
+                <li><a href="/caso-de-exito" class="nav-link text-center block py-2">Casos de Éxito</a></li>
+                <li><a href="/proceso" class="nav-link text-center block py-2">Mi Proceso</a></li>
+                <li><a href="/sobre-mi" class="nav-link text-center block py-2">Sobre Mí</a></li>
+                <li><a href="/blog" class="nav-link text-center block py-2">Blog</a></li>
+                <li><a href="/dejar-testimonios" class="nav-link text-center block py-2">Dejar Testimonio</a></li>
+                <li class="border-t border-gray-700 pt-4 mt-2 flex justify-center gap-4">
+                    <a href="/contacto" class="button button--secondary w-full">Contacto</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

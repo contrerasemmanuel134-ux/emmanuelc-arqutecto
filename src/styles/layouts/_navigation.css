@@ -1,0 +1,75 @@
+/* /src/styles/layout/_navigation.css (VERSIÓN COMPLETA Y CORRECTA) */
+
+/* --- Estructura Principal del Header --- */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Manda el logo a la izquierda y el resto a la derecha */
+    align-items: center;           /* Centra todo verticalmente */
+    width: 100%;
+    padding: 1rem 1.5rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-svg {
+    width: 50px;
+    height: auto;
+}
+
+/* --- REGLA CLAVE QUE SOLUCIONA EL MENÚ --- */
+.header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Espacio entre los links y el botón de Contacto */
+}
+
+/* --- Estilos de los Links (esto ya lo tenías bien) --- */
+.nav-link {
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--accent-cyan);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--accent-cyan);
+}
+
+.nav-link:hover:after,
+.nav-link.active:after {
+    width: 100%;
+}
+
+/* --- Menú Desplegable --- */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: var(--white-color);
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: var(--accent-cyan);
+    color: var(--primary-dark);
+}

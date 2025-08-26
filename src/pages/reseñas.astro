@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+    title="Reseñas y Testimonios - Emmanuel Contreras"
+    description="La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.">
+
+    <section class="hero-interior">
+        <h1 class="hero-interior__title">La Voz de Mis Clientes</h1>
+        <p class="text-lg max-w-3xl mx-auto mt-4">La confianza se construye con resultados. Mi mayor satisfacción es ver el impacto real que mi trabajo tiene en los negocios de mis clientes.</p>
+    </section>
+
+    <section class="page-section">
+        <div class="container">
+            <div id="contenedor-reseñas" class="testimonials-page-grid">
+                </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        // Tu configuración de Firebase...
+        const firebaseConfig = {
+          apiKey: "AIzaSyC_3qYKEMcU9mxeUyqX0xxQ_YTKCPypxHc",
+          authDomain: "arquitecto-digital.firebaseapp.com",
+          databaseURL: "https://arquitecto-digital-default-rtdb.firebaseio.com",
+          projectId: "arquitecto-digital",
+          storageBucket: "arquitecto-digital.firebasestorage.app",
+          messagingSenderId: "751037572723",
+          appId: "1:751037572723:web:375feaf76f7271a825ac06",
+          measurementId: "G-BV6P7PSDT4"
+        };
+        const app = initializeApp(firebaseConfig);
+    </script>
+    
+    <script type="module" src="/assets/js/app-reseñas.js"></script>
+
+</Layout>

@@ -1,0 +1,13 @@
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--white-color);
+    color: var(--text-color);
+}
+
+/* Ajuste general para el header fijo */
+main {
+    padding-top: 88px;
+}

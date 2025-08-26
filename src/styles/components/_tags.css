@@ -1,0 +1,48 @@
+.status-tag {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+}
+
+.status--en-desarrollo {
+    background-color: #3B82F6;
+}
+
+.status--completado {
+    background-color: #10B981;
+}
+
+.status--pausado {
+    background-color: #F59E0B;
+}
+
+.status--propuesta {
+    background-color: #6B7280;
+}
+
+.status--desconocido {
+    background-color: #9CA3AF;
+}
+
+.tech-tag {
+    background-color: #E5E7EB;
+    color: #374151;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.portfolio-card__tag {
+    display: inline-block;
+    background-color: var(--accent-cyan);
+    color: var(--primary-dark);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+}

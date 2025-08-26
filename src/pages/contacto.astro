@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+    title="Contacto - Emmanuel Contreras"
+    description="¿Tienes un proyecto en mente? Hablemos. Contáctame para una consulta estratégica y descubre cómo puedo ayudarte a construir la solución digital que necesitas.">
+
+    <section class="page-section">
+        <div class="container">
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <h1 class="contact-info__title">Hablemos de tu Proyecto</h1>
+                    <p class="text-lg leading-relaxed">Dar el primer paso es el momento más importante para
+                        cualquier gran idea. Estoy aquí para escuchar, entender tus desafíos y explorar cómo podemos
+                        construir juntos una solución digital que impulse tu negocio.</p>
+                    <h3 class="font-semibold text-xl text-gray-800 mt-8 mb-4">Otras formas de conectar</h3>
+                    <p class="text-lg">Si prefieres, puedes escribirme directamente a <a
+                            href="mailto:contrerasemmanuel134@gmail.com"
+                            class="contact-info__link">contrerasemmanuel134@gmail.com</a></p>
+                </div>
+                <div class="contact-form">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Envíame un mensaje</h2>
+                    <form action="https://formspree.io/f/xyzpozeq" method="POST">
+                        <div class="form-group"><input type="text" id="name" name="name" class="form-input"
+                                placeholder=" " required><label for="name" class="form-label">Nombre
+                                Completo</label></div>
+                        <div class="form-group"><input type="email" id="email" name="email" class="form-input"
+                                placeholder=" " required><label for="email" class="form-label">Email de
+                                Contacto</label></div>
+                        <div class="form-group"><textarea id="message" name="message" class="form-input"
+                                placeholder=" " rows="5" required></textarea><label for="message"
+                                class="form-label">¿Cómo puedo ayudarte?</label></div><button type="submit"
+                            class="button button--primary w-full">Iniciar la Conversación</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+
