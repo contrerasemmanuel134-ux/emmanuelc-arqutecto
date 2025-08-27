@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+// NOTA: La lógica para cargar proyectos desde Firebase se movería aquí
+// o se pasaría como prop desde un nivel superior. Por ahora, el contenedor está listo.
+---
+
+<Layout
+    title="Casos de Éxito - Emmanuel Contreras"
+    description="Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce."
+>
+    <section class="hero-interior">
+        <h1 class="hero-interior__title">Casos de Éxito</h1>
+        <p class="text-lg max-w-3xl mx-auto mt-4">
+            Aquí puedes ver cómo la aplicación de una metodología estratégica y
+            una ejecución técnica precisa se traducen en resultados reales y
+            medibles.
+        </p>
+    </section>
+
+    <section class="page-section">
+        <div class="container">
+            <div id="contenedor-proyectos-publicos" class="portfolio-grid">
+                <!-- El contenido se cargará aquí mediante JavaScript o se generará en el servidor -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts para esta página específica -->
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"
+    ></script>
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"
+    ></script>
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"
+    ></script>
+    <script>
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
+                authDomain: "expanded-system-469904-v9.firebaseapp.com",
+                projectId: "expanded-system-469904-v9",
+                storageBucket: "expanded-system-469904-v9.firebasestorage.app",
+                messagingSenderId: "546231550004",
+                appId: "1:546231550004:web:0b9ffd3edbb711ad454a61",
+                measurementId: "G-D1ZYSQ6PFZ",
+            });
+            firebase.analytics();
+        }
+    </script>
+    <script src="/assets/app-proyectos-publicos.js" is:inline></script>
+</Layout>

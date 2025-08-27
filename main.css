@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* 1. Abstracts (Variables, etc.) */
+@import '../src/styles/abstracts/_variables.css';
+
+/* 2. Base (Body, Tipografía base) */
+@import '../src/styles/base/_base.css';
+
+/* 3. Components (Bloques reutilizables) */
+@import '../src/styles/components/_buttons.css';
+@import '../src/styles/components/_cards.css';
+@import '../src/styles/components/_forms.css';
+@import '../src/styles/components/_modar.css';
+@import '../src/styles/components/_tables.css';
+@import '../src/styles/components/_tags.css';
+
+/* 4. Layout (Estructura principal) */
+@import '../src/styles/layouts/_grid.css';
+@import '../src/styles/layouts/_navigation.css';
+
+/* 5. Pages (Estilos específicos de cada página) */
+@import '../src/styles/pages/_caso-de-exito.css';
+@import '../src/styles/pages/_contacto.css';
+@import '../src/styles/pages/_index.css';

@@ -1,5 +1,28 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": ["./.astro/types.d.ts", "src/**/*.ts", "src/**/*.js"],
-  "exclude": ["dist"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"strict": true,
+		"jsx": "preserve",
+		"esModuleInterop": true,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		// --- LÍNEAS AGREGADAS ---
+		"outDir": "./dist",
+		"rootDir": "./src"
+		// -------------------------
+	},
+	"include": [
+		"src",
+		"env.d.ts",
+		"public/assets"
+	],
+	"exclude": [
+		"dist",
+		"node_modules",
+		"public/assets"
+	]
 }

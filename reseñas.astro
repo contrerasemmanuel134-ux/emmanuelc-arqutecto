@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+    title="Reseñas y Testimonios - Emmanuel Contreras"
+    description="La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital."
+>
+    <section class="hero-interior">
+        <h1 class="hero-interior__title">La Voz de Mis Clientes</h1>
+        <p class="text-lg max-w-3xl mx-auto mt-4">
+            La confianza se construye con resultados. Mi mayor satisfacción es
+            ver el impacto real que mi trabajo tiene en los negocios de mis
+            clientes.
+        </p>
+    </section>
+
+    <section class="page-section">
+        <div class="container">
+            <div id="contenedor-reseñas" class="testimonials-page-grid"></div>
+        </div>
+    </section>
+
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"
+    ></script>
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"
+    ></script>
+    <script
+        src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"
+    ></script>
+    <script>
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
+                authDomain: "expanded-system-469904-v9.firebaseapp.com",
+                projectId: "expanded-system-469904-v9",
+                storageBucket: "expanded-system-469904-v9.firebasestorage.app",
+                messagingSenderId: "546231550004",
+                appId: "1:546231550004:web:0b9ffd3edbb711ad454a61",
+                measurementId: "G-D1ZYSQ6PFZ",
+            });
+            firebase.analytics();
+        }
+    </script>
+    <script src="/assets/app-reseñas.js" is:inline></script>
+</Layout>
