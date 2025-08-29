@@ -1,5 +1,13 @@
 ---
+// 1. Corregimos la importación del Layout principal.
+// La ruta correcta es '~/layouts/Layout.astro' o '../layouts/Layout.astro' dependiendo de la estructura.
+// Usaremos la ruta relativa estándar que debería funcionar.
 import Layout from '../layouts/Layout.astro';
+
+// 2. Importamos los estilos globales que ahora controlan todo.
+import '../styles/global.css';
+
+// 3. (Futuro) Aquí importaremos la lógica para manejar el formulario de forma segura.
 ---
 
 <Layout
@@ -51,29 +59,10 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </section>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+    <!-- 
+        EL BLOQUE <script> CON LAS CREDENCIALES DE FIREBASE HA SIDO ELIMINADO.
+        La lógica para este formulario se debe manejar en un archivo .js separado e importado
+        en el frontmatter, como hemos hecho en admin.astro y dashboard.astro.
+    -->
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyC_3qYKEMcU9mxeUyqX0xxQ_YTKCPypxHc",
-  authDomain: "arquitecto-digital.firebaseapp.com",
-  databaseURL: "https://arquitecto-digital-default-rtdb.firebaseio.com",
-  projectId: "arquitecto-digital",
-  storageBucket: "arquitecto-digital.firebasestorage.app",
-  messagingSenderId: "751037572723",
-  appId: "1:751037572723:web:375feaf76f7271a825ac06",
-  measurementId: "G-BV6P7PSDT4"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    </script>
-    <script type="module" src="/assets/js/app-dejar-testimonio.js"></script>
 </Layout>

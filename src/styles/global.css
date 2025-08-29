@@ -1,0 +1,11 @@
+/* Este es el PUNTO DE ENTRADA ÚNICO para todos los estilos del proyecto. */
+
+/* 1. Directivas de Tailwind CSS. */
+/* Astro se encarga de procesar esto gracias a la integración que instalamos. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Importamos el resto de nuestros estilos personalizados. */
+/* Main.css ahora solo contiene nuestros propios @imports. */
+@import './main.css';

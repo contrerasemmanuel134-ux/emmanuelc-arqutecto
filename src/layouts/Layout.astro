@@ -1,42 +1,48 @@
 ---
-// src/layouts/Layout.astro (VERSIÓN FINAL Y CORRECTA)
+// src/layouts/Layout.astro (Versión Mejorada)
 
-// ¡AÑADE ESTAS DOS LÍNEAS!
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 
+// 1. Importamos el CSS GLOBAL como única fuente de estilos.
+import '../styles/global.css';
 
-// Y esta para tus estilos, que ya tenías
-import '../styles/main.css';
-
-// El resto de tu código de props...
+// 2. Definimos las props, añadiendo una para ocultar header/footer.
 export interface Props {
     title: string;
     description?: string;
+    hideHeaderFooter?: boolean; // Prop para controlar la visibilidad
 }
-const { title, description = 'Descripción por defecto' } = Astro.props;
+
+const { title, description = 'Descripción por defecto', hideHeaderFooter = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    {/* ... todo tu head ... */}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-</head>
-
-<body>
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNJ8BG7H"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     
-    {/* Y aquí los usas con la Mayúscula */}
-    <Header />
+    {/* Los links a las fuentes que estaban en admin.astro deberían estar aquí si son globales */}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNJ8BG7H"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+</head>
+<body>
+    
+    {/* 3. Renderizamos Header y Footer solo si hideHeaderFooter es false */}
+    {!hideHeaderFooter && <Header />}
+    
     <main>
         <slot />
     </main>
-    <Footer />
+    
+    {!hideHeaderFooter && <Footer />}
 
 </body>
 </html>

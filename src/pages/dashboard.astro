@@ -1,6 +1,12 @@
 ---
-// Esta página no usa el Layout principal.
+// src/pages/dashboard.astro (Versión final, limpia y funcional)
+
+// 1. Importamos todos los assets necesarios para que Astro los procese.
+import '../styles/main.css';         // Estilos globales
+import '../scripts/admin-auth.js';   // Lógica de autenticación (incluye el logout)
+import '../scripts/dashboard-logic.js'; // Lógica específica de este dashboard
 ---
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,22 +14,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Dashboard de Contenidos</title>
+    
+    <!-- Limpiamos el head. Las fuentes y estilos se manejan con imports. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/main.css">
-    <style is:global>
-        @import '../styles/main.css';
-    </style>
-    <style> 
-        /* Estilos específicos del dashboard que estaban en el HTML original */
+    
+    <!-- Estilos específicos que SÍ pueden quedar aquí -->
+    <style>
         .tab-button{padding:.75rem 1.5rem;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}.tab-button:hover{background-color:#f0f0f0}.tab-button.active{border-bottom-color:var(--accent-cyan);font-weight:600;color:var(--primary-dark)}.tab-panel{display:none}.tab-panel.active{display:block}.kpi-card{background-color:#fff;padding:1.5rem;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.05);text-align:center}.kpi-card__number{display:block;font-size:2.5rem;font-weight:700;color:var(--primary-dark)}.kpi-card__label{font-size:.875rem;color:#6B7280}
     </style>
 </head>
 <body class="bg-gray-50">
-    <main class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Estratégico</h1>
 
+    <!-- Encabezado del Dashboard -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Dashboard Estratégico</h1>
+            <button id="logout-btn" class="button button--secondary">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
         <section id="kpi-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             <!-- KPIs se cargarán aquí -->
         </section>
@@ -109,31 +121,8 @@
         </div>
     </div>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyC_3qYKEMcU9mxeUyqX0xxQ_YTKCPypxHc",
-  authDomain: "arquitecto-digital.firebaseapp.com",
-  databaseURL: "https://arquitecto-digital-default-rtdb.firebaseio.com",
-  projectId: "arquitecto-digital",
-  storageBucket: "arquitecto-digital.firebasestorage.app",
-  messagingSenderId: "751037572723",
-  appId: "1:751037572723:web:375feaf76f7271a825ac06",
-  measurementId: "G-BV6P7PSDT4"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    <!-- Los scripts ahora se importan en el frontmatter. Este bloque es necesario pero puede quedar vacío. -->
+    <script>
     </script>
-    <script type="module" src="/assets/js/admin-auth.js"></script>
-    <script type="module" src="/assets/js/app-dashboard-firestore.js"></script>
 </body>
 </html>

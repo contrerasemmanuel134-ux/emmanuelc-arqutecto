@@ -1,7 +1,6 @@
-// assets/js/app-proyectos-publicos.js
-
-// ¡Importamos las funciones de Firestore!
-import { getFirestore, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// 1. IMPORTAMOS LA INSTANCIA `db` Y LAS FUNCIONES NECESARIAS
+import { db } from '../../firebase/client.js';
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 document.addEventListener('DOMContentLoaded', async () => {
   const contenedor = document.getElementById('contenedor-proyectos-publicos');
@@ -11,15 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // Inicializa Firestore
-  const db = getFirestore();
-
-  // --- ¡LA MAGIA OCURRE AQUÍ! ---
-  // 1. Apuntamos a la colección 'proyectos'.
+  // 2. USAMOS LA INSTANCIA `db` IMPORTADA
   const proyectosRef = collection(db, "proyectos");
-  // 2. Creamos una consulta que:
-  //    - Filtra solo los que tengan el estado "Completado".
-  //    - Los ordena por fecha de creación descendente.
+  // 3. Creamos una consulta para obtener solo proyectos "Completado"
   const q = query(proyectosRef, where("estado", "==", "Completado"), orderBy("fechaCreacion", "desc"));
 
   try {
@@ -32,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let tarjetasHTML = '';
     querySnapshot.forEach((doc) => {
-      const proyecto = doc.data();
+      const proyecto = { id: doc.id, ...doc.data() }; // Incluimos el ID
       tarjetasHTML += crearTarjetaProyecto(proyecto);
     });
     contenedor.innerHTML = tarjetasHTML;
@@ -44,18 +37,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function crearTarjetaProyecto(proyecto) {
+  const tecnologias = Array.isArray(proyecto.tecnologias) ? proyecto.tecnologias : [];
+  
   return `
       <article class="portfolio-card">
-          <img src="${proyecto.imagen}" alt="Visual del proyecto ${proyecto.nombre}" class="portfolio-card__image" loading="lazy">
+          ${proyecto.imagen ? `<img src="${proyecto.imagen}" alt="Visual del proyecto ${proyecto.nombre}" class="portfolio-card__image" loading="lazy">` : ''}
           <div class="portfolio-card__content">
               <span class="portfolio-card__tag">${proyecto.tipo || 'Caso de Éxito'}</span>
               <h2 class="portfolio-card__title">${proyecto.nombre}</h2>
-              <p class="portfolio-card__description">${proyecto.descripcion}</p>
+              <p class="portfolio-card__description">${proyecto.descripcion || ''}</p>
               <div class="portfolio-card__tecnologias mb-6">
-                  ${(proyecto.tecnologias || []).map(tech => `<span class="tag">${tech}</span>`).join('')}
+                  ${tecnologias.map(tech => `<span class="tag">${tech}</span>`).join('')}
               </div>
               <div class="mt-auto">
-                  <a href="${proyecto.url_live}" class="button button--primary">Ver Detalles del Caso</a>
+                  ${proyecto.url_live ? `<a href="${proyecto.url_live}" class="button button--primary">Ver Detalles del Caso</a>` : ''}
               </div>
           </div>
       </article>

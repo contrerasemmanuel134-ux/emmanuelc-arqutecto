@@ -1,15 +1,15 @@
-// /assets/js/app-reseñas.js
-
-import { getFirestore, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// 1. IMPORTAMOS LA INSTANCIA `db` Y LAS FUNCIONES NECESARIAS
+import { db } from '../../firebase/client.js';
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 
 document.addEventListener('DOMContentLoaded', async () => {
     const contenedor = document.getElementById('contenedor-reseñas');
     if (!contenedor) return;
 
-    const db = getFirestore();
+    // 2. USAMOS LA INSTANCIA `db` IMPORTADA
     const testimoniosRef = collection(db, "testimonios");
     
-    // Consulta para traer solo los testimonios APROBADOS y ordenarlos
+    // 3. Consulta para traer solo los testimonios APROBADOS y ordenarlos
     const q = query(testimoniosRef, 
         where("estado", "==", "aprobado"), 
         orderBy("fechaCreacion", "desc")
@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function crearTarjetaReseña(testimonio) {
+    if (!testimonio || typeof testimonio.calificacion !== 'number') {
+        return ''; // No renderizar nada si el testimonio es inválido
+    }
     const estrellas = '★'.repeat(testimonio.calificacion) + '☆'.repeat(5 - testimonio.calificacion);
     return `
     <blockquote class="testimonial-card-full">
