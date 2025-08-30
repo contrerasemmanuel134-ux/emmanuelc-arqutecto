@@ -1,128 +1,70 @@
 ---
-// src/pages/dashboard.astro (Versión final, limpia y funcional)
-
-// 1. Importamos todos los assets necesarios para que Astro los procese.
-import '../styles/main.css';         // Estilos globales
-import '../scripts/admin-auth.js';   // Lógica de autenticación (incluye el logout)
-import '../scripts/dashboard-logic.js'; // Lógica específica de este dashboard
+// src/pages/dashboard.astro
+import Layout from '../layouts/Layout.astro';
 ---
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Dashboard de Contenidos</title>
+<Layout title="Dashboard de Cliente">
+    <div id="auth-container">
+        <main class="dashboard-page" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Bienvenido a tu Dashboard</h1>
+                <button id="logout-btn" class="btn btn--secondary">Cerrar Sesión</button>
+            </div>
     
-    <!-- Limpiamos el head. Las fuentes y estilos se manejan con imports. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+            <section id="projects-section">
+                <h2>Mis Proyectos</h2>
+                <div id="projects-list">
+                    <!-- Los proyectos se cargarán aquí desde Firestore -->
+                    <p>Cargando proyectos...</p>
+                </div>
+            </section>
     
-    <!-- Estilos específicos que SÍ pueden quedar aquí -->
-    <style>
-        .tab-button{padding:.75rem 1.5rem;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s}.tab-button:hover{background-color:#f0f0f0}.tab-button.active{border-bottom-color:var(--accent-cyan);font-weight:600;color:var(--primary-dark)}.tab-panel{display:none}.tab-panel.active{display:block}.kpi-card{background-color:#fff;padding:1.5rem;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.05);text-align:center}.kpi-card__number{display:block;font-size:2.5rem;font-weight:700;color:var(--primary-dark)}.kpi-card__label{font-size:.875rem;color:#6B7280}
-    </style>
-</head>
-<body class="bg-gray-50">
-
-    <!-- Encabezado del Dashboard -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-gray-800">Dashboard Estratégico</h1>
-            <button id="logout-btn" class="button button--secondary">Cerrar Sesión</button>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        <section id="kpi-container" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            <!-- KPIs se cargarán aquí -->
-        </section>
-
-        <nav class="bg-white shadow-sm rounded-t-lg">
-            <div class="flex border-b">
-                <button class="tab-button active" data-tab="proyectos">Proyectos</button>
-                <button class="tab-button" data-tab="testimonios">Testimonios</button>
-                <button class="tab-button" data-tab="blog">Blog</button>
-            </div>
-        </nav>
-
-        <div class="bg-white p-6 rounded-b-lg shadow-sm">
-            <div id="proyectos-panel" class="tab-panel active">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-700">Gestionar Proyectos</h2>
-                    <button id="add-project-btn" class="button button--primary">Añadir Proyecto</button>
+            <section id="testimonials-section">
+                <h2>Mis Testimonios</h2>
+                <div id="testimonials-list">
+                    <!-- Los testimonios se cargaron aquí -->
+                    <p>Cargando testimonios...</p>
                 </div>
-                <div style="overflow-x:auto;">
-                    <table class="dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Proyecto</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="proyectos-body"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="testimonios-panel" class="tab-panel">
-                 <h2 class="text-2xl font-bold text-gray-700 mb-4">Gestionar Testimonios</h2>
-                <div style="overflow-x:auto;">
-                    <table class="dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Calificación</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="testimonios-body"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="blog-panel" class="tab-panel">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-gray-700">Gestionar Blog</h2>
-                    <button id="add-blog-btn" class="button button--primary">Añadir Artículo</button>
-                </div>
-                <div style="overflow-x:auto;">
-                    <table class="dashboard-table">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Categoría</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="blog-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl flex flex-col modal-container">
-            <div class="p-6 border-b">
-                <h2 id="modal-title" class="text-2xl font-bold"></h2>
-            </div>
-            <div class="p-6 overflow-y-auto">
-                <form id="modal-form"></form>
-            </div>
-            <div class="flex justify-end gap-4 p-6 border-t bg-gray-50">
-                <button type="button" id="cancel-btn" class="button button--secondary">Cancelar</button>
-                <button type="submit" form="modal-form" class="button button--primary">Guardar</button>
-            </div>
+            </section>
+        </main>
+        <div id="loading-indicator" style="text-align: center; padding: 2rem;">
+            <p>Verificando autenticación...</p>
         </div>
     </div>
+</Layout>
 
-    <!-- Los scripts ahora se importan en el frontmatter. Este bloque es necesario pero puede quedar vacío. -->
-    <script>
-    </script>
-</body>
-</html>
+<script is:inline>
+    import { auth } from '../firebase/client';
+    import { onAuthStateChanged, signOut } from "firebase/auth";
+
+    const mainContent = document.querySelector('.dashboard-page');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // Usuario está logueado, mostramos el contenido
+            loadingIndicator.style.display = 'none';
+            mainContent.style.display = 'block';
+        } else {
+            // Usuario no está logueado, redirigir a la página de login
+            window.location.href = '/admin';
+        }
+    });
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                // El listener onAuthStateChanged se encargará de la redirección
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                alert('Hubo un error al cerrar sesión.');
+            }
+        });
+    }
+
+    // Limpiamos el listener cuando el usuario navega fuera de la página
+    window.addEventListener('beforeunload', () => {
+        unsubscribe();
+    });
+</script>

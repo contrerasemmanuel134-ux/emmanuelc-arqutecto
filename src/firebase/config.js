@@ -1,12 +1,12 @@
 // src/firebase/config.js
-// Este archivo centraliza la configuración de Firebase para la aplicación.
 
+// TODO: Reemplaza este objeto con la configuración de tu propio proyecto de Firebase
+// Puedes encontrar estas credenciales en la consola de Firebase, en la configuración de tu proyecto.
 export const firebaseConfig = {
-  apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
-  authDomain: "expanded-system-469904-v9.firebaseapp.com",
-  projectId: "expanded-system-469904-v9",
-  storageBucket: "expanded-system-469904-v9.firebasestorage.app",
-  messagingSenderId: "546231550004",
-  appId: "1:546231550004:web:867fb0e8078d329b454a61",
-  measurementId: "G-5WCD5R9XZ6",
+  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  authDomain: "tu-proyecto.firebaseapp.com",
+  projectId: "tu-proyecto",
+  storageBucket: "tu-proyecto.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:XXXXXXXXXXXXXXXXXXXXXX"
 };
