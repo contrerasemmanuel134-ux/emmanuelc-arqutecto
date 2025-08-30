@@ -28,8 +28,8 @@ if (loginForm) {
             signInWithPopup(auth, provider)
                 .then((result) => {
                     // Inicio de sesión con Google exitoso, redirige al dashboard
-                    window.location.href = '/dashboard.astro';
-})
+                    window.location.href = '/dashboard';
+                })
                 .catch((error) => {
                     errorMessage.textContent = 'Error al iniciar sesión con Google.';
                     console.error("Error con Google Popup:", error);

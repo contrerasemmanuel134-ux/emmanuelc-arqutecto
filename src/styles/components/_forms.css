@@ -15,6 +15,7 @@
     transition: border-color 0.3s;
 }
 
+
 .form-label {
     position: absolute;
     top: 0.8rem;
@@ -22,16 +23,19 @@
     color: #999;
     transition: all 0.3s ease;
     z-index: 0;
+    pointer-events: none;
 }
 
 .form-input:focus,
-.form-input:not(:placeholder-shown) {
+.form-input:not(:placeholder-shown),
+.form-input[data-has-value="1"] {
     outline: none;
     border-bottom-color: var(--accent-cyan);
 }
 
 .form-input:focus+.form-label,
-.form-input:not(:placeholder-shown)+.form-label {
+.form-input:not(:placeholder-shown)+.form-label,
+.form-input[data-has-value="1"]+.form-label {
     top: -1.2rem;
     font-size: 0.8rem;
     color: var(--accent-cyan);

@@ -1,10 +1,21 @@
+/* Header fijo para páginas públicas */
+.header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
 /* /src/styles/layout/_navigation.css (VERSIÓN COMPLETA Y CORRECTA) */
 
 /* --- Estructura Principal del Header --- */
 .header-container {
     display: flex;
-    justify-content: space-between; /* Manda el logo a la izquierda y el resto a la derecha */
-    align-items: center;           /* Centra todo verticalmente */
+    justify-content: space-between;
+    /* Manda el logo a la izquierda y el resto a la derecha */
+    align-items: center;
+    /* Centra todo verticalmente */
     width: 100%;
     padding: 1rem 1.5rem;
 }
@@ -24,7 +35,8 @@
 .header-right-side {
     display: flex;
     align-items: center;
-    gap: 1.5rem; /* Espacio entre los links y el botón de Contacto */
+    gap: 1.5rem;
+    /* Espacio entre los links y el botón de Contacto */
 }
 
 /* --- Estilos de los Links (esto ya lo tenías bien) --- */

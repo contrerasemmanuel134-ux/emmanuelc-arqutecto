@@ -1,0 +1,18 @@
+//firestore.rules (CORREGIDO)
+
+// --- REGLA CORREGIDA Y MEJORADA ---
+// Regla para la colección "testimonios"
+match /testimonios/{testimonioId} {
+  // Cualquiera puede crear un testimonio si cumple con el formato
+  allow create: if request.resource.data.nombreCliente is string
+                  && request.resource.data.textoTestimonio is string
+                  && request.resource.data.calificacion is number
+                  && request.resource.data.estado == "pendiente";
+
+  // ¡ESTA ES LA LÍNEA CLAVE!
+  // CUALQUIERA PUEDE LEER, pero solo si el testimonio está APROBADO.
+  allow read: if resource.data.estado == 'aprobado';
+
+  // Solo el admin (tú) puede actualizar o borrar testimonios.
+  allow update, delete: if request.auth != null;
+}
