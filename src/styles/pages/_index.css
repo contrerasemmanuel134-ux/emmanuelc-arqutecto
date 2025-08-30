@@ -1,3 +1,12 @@
+/* Título centrado y azul para servicios */
+.servicios-title-centered {
+    text-align: center;
+    color: var(--primary-dark);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-bottom: 1.5rem;
+}
+
 /* --- Hero Home --- */
 .hero-home {
     background-color: var(--primary-dark);
@@ -48,10 +57,16 @@
 }
 
 /* --- CTA Final --- */
+
 .cta-final {
     background-color: var(--primary-dark);
     color: var(--white-color);
     text-align: center;
+    padding: 5rem 2rem;
+}
+
+/* Versión más delgada para el footer */
+.cta-final--footer {
     padding: 5rem 2rem;
 }
 

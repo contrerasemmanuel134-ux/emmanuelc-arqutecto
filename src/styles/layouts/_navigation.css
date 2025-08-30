@@ -5,6 +5,7 @@
     left: 0;
     width: 100%;
     z-index: 100;
+    background-color: var(--primary-dark);
 }
 
 /* /src/styles/layout/_navigation.css (VERSIÓN COMPLETA Y CORRECTA) */

@@ -1,0 +1,52 @@
+/* Estilos para la sección hero de sobre mí con imagen y texto lado a lado */
+.about-hero {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.about-hero__image-container {
+    flex: 0 0 220px;
+    max-width: 220px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.about-hero__image {
+    width: 200px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+}
+
+.about-hero__text {
+    flex: 1 1 320px;
+    min-width: 260px;
+}
+
+.about-hero__title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .about-hero {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .about-hero__image-container {
+        margin-bottom: 1rem;
+    }
+
+    .about-hero__text {
+        min-width: 0;
+    }
+}
