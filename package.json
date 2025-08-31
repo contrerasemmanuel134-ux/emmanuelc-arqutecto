@@ -2,11 +2,21 @@
   "name": "emmanuelc-arqutecto-root",
   "description": "Astro project",
   "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
-    "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^5.13.5",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^3.4.17"
+  }
 }
