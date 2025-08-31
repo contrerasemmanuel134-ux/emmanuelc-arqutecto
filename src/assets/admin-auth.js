@@ -1,9 +1,8 @@
 //public/assets/js/admin-auth.js
 
-// Importa las funciones de Firebase que necesitas (¡hemos añadido nuevas!)
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { auth } from '../firebase/client.js'; // Importa auth desde nuestro archivo central
 
-const auth = getAuth();
 const loginForm = document.getElementById('login-form');
 const googleLoginBtn = document.getElementById('google-login-btn'); // Nuevo botón
 const errorMessage = document.getElementById('error-message');

@@ -1,9 +1,22 @@
 //public/assets/js/admin-auth.js
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 // Importa las funciones de Firebase que necesitas (¡hemos añadido nuevas!)
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const auth = getAuth();
+// Tu configuración de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
+    authDomain: "expanded-system-469904-v9.firebaseapp.com",
+    projectId: "expanded-system-469904-v9",
+    storageBucket: "expanded-system-469904-v9.firebasestorage.app",
+    messagingSenderId: "546231550004",
+    appId: "1:546231550004:web:0b9ffd3edbb711ad454a61",
+    measurementId: "G-D1ZYSQ6PFZ",
+};
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const loginForm = document.getElementById('login-form');
 const googleLoginBtn = document.getElementById('google-login-btn'); // Nuevo botón
 const errorMessage = document.getElementById('error-message');
