@@ -15,7 +15,7 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="/styles/main.css" />
+        <link rel="stylesheet" href="/main.css" />
         <style is:global>
             @import "../styles/main.css";
         </style>
@@ -183,13 +183,7 @@
             </div>
         </div>
 
-        <script type="module">
-            // La inicialización de Firebase ya se realiza en el script `admin-auth.js` que se carga a continuación.
-            // Para evitar inicializar la app dos veces (lo que causaría otro error), he eliminado el código de este bloque.
-            // Si necesitas Analytics, deberías importarlo y inicializarlo en un archivo centralizado.
-            // El error original era porque "firebase/analytics" no es una URL válida para el navegador.
-            // La forma correcta es: import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-        </script>
+        
         <script type="module" src="../assets/admin-auth.js"></script>
         <script type="module" src="../assets/app-dashboard-firestore.js"
         ></script>
