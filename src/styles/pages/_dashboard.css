@@ -1,0 +1,200 @@
+/* ============================================= */
+/*          Estilos para el Dashboard            */
+/* ============================================= */
+
+/* --- Contenedor Principal --- */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 2rem;
+}
+
+/* --- Tarjetas KPI --- */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.kpi-card {
+    background-color: var(--white-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.kpi-card__number {
+    display: block;
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.kpi-card__label {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+/* --- Pestañas de Navegación --- */
+.tabs-navigation {
+    background-color: var(--white-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+    padding: 1rem 2rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #6b7280;
+    background-color: transparent;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.tab-button:hover {
+    background-color: #f9fafb;
+    color: var(--primary-dark);
+}
+
+.tab-button.active {
+    border-bottom-color: var(--accent-cyan);
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+/* --- Paneles de Contenido --- */
+.tab-content-container {
+    background-color: var(--white-color);
+    padding: 2rem;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.panel-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+/* --- Estilos para el Modal --- */
+.modal {
+    display: none; /* Se controla con JS */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(10, 37, 64, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-header,
+.modal-footer {
+    padding: 1.5rem;
+}
+
+.modal-header {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 8px 8px;
+}
+
+/* --- Anulaciones y ajustes específicos para botones en el dashboard --- */
+.dashboard-table .button--primary,
+.dashboard-table .button--secondary {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+.modal-footer .button--secondary {
+    background-color: #e5e7eb;
+    border-color: #e5e7eb;
+    color: #374151;
+}
+
+.modal-footer .button--secondary:hover {
+    background-color: #d1d5db;
+    border-color: #d1d5db;
+    color: var(--primary-dark);
+}
