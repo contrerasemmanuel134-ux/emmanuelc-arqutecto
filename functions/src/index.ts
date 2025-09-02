@@ -1,9 +1,12 @@
-import * as functions from "firebase-functions";
+import { onRequest } from "firebase-functions/v2/https";
+import { setGlobalOptions } from "firebase-functions/v2";
 import * as admin from "firebase-admin";
 import * as express from "express";
 import * as cors from "cors";
 
 admin.initializeApp();
+
+setGlobalOptions({ region: "us-central1" });
 
 const app = express();
 app.use(cors({ origin: true }));
@@ -87,4 +90,4 @@ app.delete("/projects/:id", authenticate, async (req, res) => {
   }
 });
 
-export const api = functions.https.onRequest(app);
+export const api = onRequest(app);
