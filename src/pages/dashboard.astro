@@ -184,30 +184,14 @@
         </div>
 
         <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-            import { getAnalytics } from "firebase/analytics";
-            // TODO: Add SDKs for Firebase products that you want to use
-            // https://firebase.google.com/docs/web/setup#available-libraries
-
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-            const firebaseConfig = {
-                apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
-                authDomain: "expanded-system-469904-v9.firebaseapp.com",
-                projectId: "expanded-system-469904-v9",
-                storageBucket: "expanded-system-469904-v9.firebasestorage.app",
-                messagingSenderId: "546231550004",
-                appId: "1:546231550004:web:0b9ffd3edbb711ad454a61",
-                measurementId: "G-D1ZYSQ6PFZ",
-            };
-
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
+            // La inicialización de Firebase ya se realiza en el script `admin-auth.js` que se carga a continuación.
+            // Para evitar inicializar la app dos veces (lo que causaría otro error), he eliminado el código de este bloque.
+            // Si necesitas Analytics, deberías importarlo y inicializarlo en un archivo centralizado.
+            // El error original era porque "firebase/analytics" no es una URL válida para el navegador.
+            // La forma correcta es: import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
         </script>
-        <script type="module" src="/assets/js/admin-auth.js"></script>
-        <script type="module" src="/assets/js/app-dashboard-firestore.js"
+        <script type="module" src="../assets/admin-auth.js"></script>
+        <script type="module" src="../assets/app-dashboard-firestore.js"
         ></script>
     </body>
 </html>

@@ -1,6 +1,7 @@
 // src/firebase/client.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFunctions } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
 // Tu configuración de Firebase
 const firebaseConfig = {
@@ -18,3 +19,4 @@ const app = initializeApp(firebaseConfig);
 
 // Inicializar y exportar los servicios de Firebase que necesites
 export const auth = getAuth(app);
+export const functions = getFunctions(app);

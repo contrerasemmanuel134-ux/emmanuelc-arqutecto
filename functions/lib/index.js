@@ -8,14 +8,27 @@ const cors = require("cors");
 admin.initializeApp();
 const app = express();
 app.use(cors({ origin: true }));
-// TODO: Replace this with proper Firebase Authentication
-const authenticate = (req, res, next) => {
-    const apiKey = req.headers["x-api-key"];
-    if (apiKey !== "your-secret-api-key") {
-        res.status(401).send("Unauthorized");
+// In production, you should restrict the origin to your app's domain.
+// Example: app.use(cors({ origin: 'https://your-app-name.firebaseapp.com' }));
+// Middleware to verify Firebase ID token.
+const authenticate = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        res.status(401).send('Unauthorized: No token provided');
         return;
     }
-    next();
+    const idToken = authHeader.split('Bearer ')[1];
+    try {
+        // Verify the ID token. You can get the user's info from the decoded token if needed.
+        // const decodedToken = await admin.auth().verifyIdToken(idToken);
+        // (req as any).user = decodedToken;
+        await admin.auth().verifyIdToken(idToken);
+        next();
+    }
+    catch (error) {
+        console.error('Error while verifying Firebase ID token:', error);
+        res.status(401).send('Unauthorized: Invalid token');
+    }
 };
 // Project CRUD
 app.get("/projects", async (req, res) => {

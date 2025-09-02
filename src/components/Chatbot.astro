@@ -1,9 +1,51 @@
 ---
 // src/components/Chatbot.astro
+// Este es un "Astro Island", un componente interactivo.
+// El HTML se renderiza en el servidor, pero el script se ejecuta en el cliente.
 ---
 
+<style is:global>
+    /* Importamos los estilos que ya tienes para el chatbot */
+    @import "../styles/components/_chatbot.css";
+</style>
+
 <div id="chatbot-container">
-    <button id="chatbot-toggle-btn" aria-label="Abrir chat de ayuda">
+    <div id="chatbot-window" class="hidden">
+        <header id="chatbot-header">
+            <h2>Asistente Virtual</h2>
+            <p>¿Cómo puedo ayudarte hoy?</p>
+        </header>
+        <div id="chatbot-messages">
+            <div class="message bot-message">
+                <p>
+                    ¡Hola! Soy tu asistente. Pregúntame sobre los servicios,
+                    proyectos o el proceso de trabajo.
+                </p>
+            </div>
+        </div>
+        <footer id="chatbot-footer">
+            <form id="chatbot-form">
+                <input
+                    type="text"
+                    id="chatbot-input"
+                    placeholder="Escribe tu mensaje..."
+                    autocomplete="off"
+                />
+                <button type="submit" aria-label="Enviar mensaje">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        ><path
+                            d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z"
+                        ></path></svg
+                    >
+                </button>
+            </form>
+        </footer>
+    </div>
+
+    <button id="chatbot-toggle-btn" aria-label="Abrir chat">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -14,65 +56,14 @@
             <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972_0_015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
             ></path>
         </svg>
     </button>
-
-    <div id="chatbot-window" class="hidden">
-        <header id="chatbot-header">
-            <h2>Asistente Digital</h2>
-            <p>¿Cómo puedo ayudarte?</p>
-        </header>
-        <div id="chatbot-messages">
-            <!-- Los mensajes aparecerán aquí -->
-            <div class="message bot-message">
-                <p>
-                    ¡Hola! Soy el asistente digital de Emmanuel. Estoy aquí para
-                    responder tus preguntas sobre sus servicios y proceso. ¿En
-                    qué puedo ayudarte?
-                </p>
-            </div>
-        </div>
-        <footer id="chatbot-footer">
-            <form id="chatbot-form">
-                <input
-                    type="text"
-                    id="chatbot-input"
-                    placeholder="Escribe tu pregunta..."
-                    autocomplete="off"
-                    required
-                />
-                <button type="submit" aria-label="Enviar mensaje">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                    >
-                        <path
-                            d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z"
-                        ></path>
-                    </svg>
-                </button>
-            </form>
-        </footer>
-    </div>
 </div>
 
-<script type="module">
-    // Este script inicializa Firebase y carga la lógica del cliente
-    import { initializeApp } from "firebase/app";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyD1IN_OPtXDXo7h5xgdHoqexANhPW6UBSY",
-        authDomain: "expanded-system-469904-v9.firebaseapp.com",
-        projectId: "expanded-system-469904-v9",
-        storageBucket: "expanded-system-469904-v9.firebasestorage.app",
-        messagingSenderId: "546231550004",
-        appId: "1:546231550004:web:0b9ffd3edbb711ad454a61",
-        measurementId: "G-D1ZYSQ6PFZ",
-    };
-
-    initializeApp(firebaseConfig);
-</script>
-<script type="module" src="/assets/js/chatbot-client.js"></script>
+<!-- 
+  La directiva `client:load` le dice a Astro que este script debe ejecutarse en el navegador
+  tan pronto como la página cargue. Es la forma correcta de añadir interactividad.
+-->
+<script client:load src="../assets/chatbot-client.js"></script>
