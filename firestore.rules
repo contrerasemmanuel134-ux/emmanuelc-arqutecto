@@ -1,18 +1,31 @@
-//firestore.rules (CORREGIDO)
+rules_version = '2';
 
-// --- REGLA CORREGIDA Y MEJORADA ---
-// Regla para la colección "testimonios"
-match /testimonios/{testimonioId} {
-  // Cualquiera puede crear un testimonio si cumple con el formato
-  allow create: if request.resource.data.nombreCliente is string
-                  && request.resource.data.textoTestimonio is string
-                  && request.resource.data.calificacion is number
-                  && request.resource.data.estado == "pendiente";
+service cloud.firestore {
+  match /databases/{database}/documents {
 
-  // ¡ESTA ES LA LÍNEA CLAVE!
-  // CUALQUIERA PUEDE LEER, pero solo si el testimonio está APROBADO.
-  allow read: if resource.data.estado == 'aprobado';
+    // Proyectos: Solo el admin puede leer y escribir
+    match /proyectos/{proyectoId} {
+      allow read, write: if request.auth != null;
+    }
 
-  // Solo el admin (tú) puede actualizar o borrar testimonios.
-  allow update, delete: if request.auth != null;
+    // Blog: Solo el admin puede leer y escribir
+    match /blogPosts/{postId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Testimonios: Reglas más complejas
+    match /testimonios/{testimonioId} {
+      // Cualquiera puede crear un testimonio (dejar una reseña)
+      allow create: if request.resource.data.nombreCliente is string
+                      && request.resource.data.textoTestimonio is string
+                      && request.resource.data.calificacion is number
+                      && request.resource.data.estado == "pendiente";
+
+      // El admin puede leer todos, y el público solo los aprobados.
+      allow read: if request.auth != null || resource.data.estado == 'aprobado';
+
+      // El admin puede actualizar y borrar
+      allow update, delete: if request.auth != null;
+    }
+  }
 }

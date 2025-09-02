@@ -9,10 +9,29 @@
 
 /* --- Hero Home --- */
 .hero-home {
-    background-color: var(--primary-dark);
+    /* Imagen de fondo de ejemplo. ¡Reemplázala por la tuya! */
+    background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
     color: var(--white-color);
     padding: 8rem 2rem;
     text-align: center;
+    position: relative;
+    /* Necesario para la capa de superposición */
+    z-index: 1;
+}
+
+/* Capa oscura para mejorar la legibilidad del texto */
+.hero-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Ajusta la opacidad (0.5) según necesites */
+    z-index: -1;
 }
 
 .hero-home__title {
@@ -35,13 +54,11 @@
 
 .item-step__graphic {
     flex: 1;
-    background-color: var(--light-gray);
     min-height: 350px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    padding: 2rem;
 }
 
 .item-step__graphic svg {
