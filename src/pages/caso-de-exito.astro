@@ -1,12 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const title = "Casos de Éxito - Emmanuel Contreras";
+const description = "Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce.";
+
 // NOTA: La lógica para cargar proyectos desde Firebase se movería aquí
 // o se pasaría como prop desde un nivel superior. Por ahora, el contenedor está listo.
 ---
 
 <Layout
-    title="Casos de Éxito - Emmanuel Contreras"
-    description="Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce."
+    title={title}
+    description={description}
 >
     <section class="hero-interior">
         <h1 class="hero-interior__title">Casos de Éxito</h1>

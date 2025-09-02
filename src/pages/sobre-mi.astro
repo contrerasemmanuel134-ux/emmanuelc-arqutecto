@@ -1,5 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const title = "Emmanuel Contreras - Arquitecto Digital";
+const description = "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pasión es ser el puente entre tus metas de negocio y la tecnología que necesitas para lograrlas.";
 ---
 
 <style is:global>
@@ -7,8 +10,8 @@ import Layout from "../layouts/Layout.astro";
 </style>
 
 <Layout
-    title="Emmanuel Contreras - Arquitecto Digital"
-    description="Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pasión es ser el puente entre tus metas de negocio y la tecnología que necesitas para lograrlas."
+    title={title}
+    description={description}
 >
     <section class="page-section">
         <div class="container">
