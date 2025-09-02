@@ -1,6 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
+// 1. Importamos el componente Image de Astro y nuestras imágenes
+import { Image } from "astro:assets";
+import imgEstrategia from "../assets/images/estrategia-consultoria.webp";
+import imgDesarrollo from "../assets/images/desarrollo-web.webp";
+import imgOptimizacion from "../assets/images/optimizacion.webp";
 ---
+
+<style>
+    .servicio-imagen {
+        width: 100%;
+        max-width: 220px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        object-fit: cover;
+    }
+</style>
 
 <Layout
     title="Servicios - Emmanuel Contreras"
@@ -22,11 +37,12 @@ import Layout from "../layouts/Layout.astro";
         <div class="container">
             <article class="item-step">
                 <div class="item-step__graphic">
-                    <img
-                        src="/images/estrategia-consultoria.webp"
+                    <Image
+                        src={imgEstrategia}
                         alt="Estrategia y consultoría digital"
-                        style="width:100%;max-width:220px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.10);object-fit:cover;"
-                        loading="lazy"
+                        class="servicio-imagen"
+                        width={220}
+                        height={220}
                     />
                 </div>
                 <div class="item-step__content">
@@ -49,11 +65,12 @@ import Layout from "../layouts/Layout.astro";
 
             <article class="item-step">
                 <div class="item-step__graphic">
-                    <img
-                        src="/images/desarrollo-web.webp"
+                    <Image
+                        src={imgDesarrollo}
                         alt="Desarrollo de plataformas web"
-                        style="width:100%;max-width:220px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.10);object-fit:cover;"
-                        loading="lazy"
+                        class="servicio-imagen"
+                        width={220}
+                        height={220}
                     />
                 </div>
                 <div class="item-step__content">
@@ -76,11 +93,12 @@ import Layout from "../layouts/Layout.astro";
 
             <article class="item-step">
                 <div class="item-step__graphic">
-                    <img
-                        src="/images/optimizacion.webp"
+                    <Image
+                        src={imgOptimizacion}
                         alt="Optimización de rendimiento"
-                        style="width:100%;max-width:220px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.10);object-fit:cover;"
-                        loading="lazy"
+                        class="servicio-imagen"
+                        width={220}
+                        height={220}
                     />
                 </div>
                 <div class="item-step__content">
