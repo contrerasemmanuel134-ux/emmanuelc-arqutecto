@@ -1,5 +1,13 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": ["./.astro/types.d.ts", "src/**/*.ts", "src/**/*.js"],
-  "exclude": ["dist"]
+  "include": [
+    "./.astro/types.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "public/assets/js/app-dashboard-firestore.js",
+    "public/assets/js/app-dejar-testimonios.js"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }
