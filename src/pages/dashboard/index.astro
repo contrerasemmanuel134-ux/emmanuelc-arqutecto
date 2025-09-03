@@ -1,0 +1,38 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+---
+
+<DashboardLayout title="Resumen General">
+    <p class="text-lg text-gray-600 mb-4">
+        Bienvenido al panel de control. Desde aquí puedes gestionar todo el contenido de tu sitio web.
+    </p>
+    <p class="text-gray-600">
+        Selecciona una de las opciones en el menú de la izquierda para empezar.
+    </p>
+    
+    <h2 class="text-2xl font-bold text-gray-700 mt-8 mb-4">Métricas Clave (KPIs)</h2>
+    <section
+        id="kpi-container"
+        class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8"
+    >
+        <!-- Los KPIs (Indicadores Clave de Rendimiento) se cargarán aquí dinámicamente -->
+        <div class="bg-gray-50 p-4 rounded-lg text-center border">
+            <p class="text-gray-500">Proyectos Activos</p>
+            <p id="kpi-proyectos" class="text-3xl font-bold">-</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg text-center border">
+            <p class="text-gray-500">Testimonios Aprobados</p>
+            <p id="kpi-testimonios" class="text-3xl font-bold">-</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg text-center border">
+            <p class="text-gray-500">Artículos Publicados</p>
+            <p id="kpi-blog" class="text-3xl font-bold">-</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg text-center border">
+            <p class="text-gray-500">Nuevos Leads</p>
+            <p id="kpi-leads" class="text-3xl font-bold">-</p>
+        </div>
+    </section>
+
+    <script type="module" src="/assets/js/dashboard-kpis.js"></script>
+</DashboardLayout>

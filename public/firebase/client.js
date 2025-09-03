@@ -1,7 +1,9 @@
 // public/firebase/client.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFunctions } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
+import { getAuth, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+import { getFunctions, connectFunctionsEmulator } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js";
 
 // Tu configuración de Firebase
 const firebaseConfig = {
@@ -20,3 +22,13 @@ const app = initializeApp(firebaseConfig);
 // Inicializar y exportar los servicios de Firebase que necesites
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
+export const db = getFirestore(app);
+export const analytics = getAnalytics(app);
+
+// Conectar a los emuladores si estamos en localhost
+if (location.hostname === "localhost") {
+    console.log("Localhost detectado, conectando a los emuladores de Firebase...");
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectFirestoreEmulator(db, "localhost", 8080);
+    connectFunctionsEmulator(functions, "localhost", 5001);
+}

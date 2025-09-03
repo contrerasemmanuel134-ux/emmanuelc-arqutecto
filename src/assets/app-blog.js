@@ -1,6 +1,7 @@
 // assets/js/app-blog.js
 
-import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { db } from '/firebase/client.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const contenedor = document.getElementById('blog-posts-container');
@@ -10,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    const db = getFirestore();
     const blogRef = collection(db, "blogPosts");
     // Creamos una consulta para ordenar los artículos por fecha de creación, del más nuevo al más viejo
     const q = query(blogRef, orderBy("fechaCreacion", "desc"));

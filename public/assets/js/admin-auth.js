@@ -41,7 +41,7 @@ if (loginForm) {
 if (window.location.pathname.includes('/dashboard')) {
     onAuthStateChanged(auth, (user) => {
         if (!user) {
-            window.location.href = '/admin';
+            window.location.href = '/login';
         }
     });
 
@@ -53,7 +53,7 @@ if (window.location.pathname.includes('/dashboard')) {
     logoutButton.style.right = '20px';
 
     logoutButton.addEventListener('click', () => {
-        signOut(auth).then(() => { window.location.href = '/admin'; });
+        signOut(auth).then(() => { window.location.href = '/login'; });
     });
 
     document.body.appendChild(logoutButton);

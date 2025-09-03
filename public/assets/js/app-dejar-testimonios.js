@@ -1,7 +1,8 @@
 // assets/js/app-testimonios.js
 
 // Importamos las funciones de Firestore que necesitamos para AÑADIR datos.
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { db } from '/firebase/client.js';
 
 // "Escuchamos" para asegurarnos de que toda la página se haya cargado primero.
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,9 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombreCliente = document.getElementById('nombreCliente').value;
             const textoTestimonio = document.getElementById('textoTestimonio').value;
             const calificacion = document.querySelector('input[name="rating"]:checked').value;
-
-            // 3. Obtenemos una referencia a nuestra base de datos.
-            const db = getFirestore();
 
             try {
                 // 4. Creamos un nuevo "documento" (el testimonio) con todos los datos.

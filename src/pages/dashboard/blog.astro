@@ -1,0 +1,233 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+
+// Determinar la URL base de la API según el entorno (desarrollo o producción)
+const projectId = "expanded-system-469904-v9";
+const region = "us-central1";
+const isDev = Astro.url.hostname === "localhost" || Astro.url.hostname === "127.0.0.1";
+const apiBaseUrl = isDev
+  ? `http://127.0.0.1:5001/${projectId}/${region}/api`
+  : `https://${region}-${projectId}.cloudfunctions.net/api`;
+
+let posts = [];
+let error = null;
+
+try {
+  const response = await fetch(`${apiBaseUrl}/blogs`);
+  if (!response.ok) {
+    throw new Error(`Error al obtener los artículos: ${response.statusText}`);
+  }
+  posts = await response.json();
+} catch (e) {
+  console.error(e);
+  error = e.message;
+}
+---
+
+<DashboardLayout title="Dashboard | Blog">
+  <main class="container">
+    <h1>Gestión de Blog</h1>
+    <p>Aquí puedes administrar los artículos de tu blog.</p>
+
+    <button id="create-post-btn" class="btn btn-primary">Crear Artículo</button>
+
+    {error && <p class="text-danger">Error al cargar los artículos: {error}</p>}
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="blog-table-body">
+          {posts.map((post) => (
+            <tr data-post-id={post.id}>
+              <td data-label="Título">{post.titulo}</td>
+              <td data-label="Categoría">{post.categoria}</td>
+              <td data-label="Acciones">
+                <button class="btn btn-secondary edit-btn" data-id={post.id}>Editar</button>
+                <button class="btn btn-danger delete-btn" data-id={post.id}>Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal para Crear/Editar Artículo -->
+  <div id="postModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2 id="modal-title"></h2>
+      <form id="post-form">
+        <input type="hidden" id="post-id" />
+        <div class="form-group">
+          <label for="post-titulo">Título</label>
+          <input type="text" id="post-titulo" required />
+        </div>
+        <div class="form-group">
+          <label for="post-slug">URL (slug)</label>
+          <input type="text" id="post-slug" required />
+        </div>
+        <div class="form-group">
+          <label for="post-categoria">Categoría</label>
+          <input type="text" id="post-categoria" required />
+        </div>
+        <div class="form-group">
+          <label for="post-resumen">Resumen</label>
+          <textarea id="post-resumen" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="post-contenido">Contenido (Markdown)</label>
+          <textarea id="post-contenido" rows="10"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </form>
+    </div>
+  </div>
+</DashboardLayout>
+
+<script>
+  import { auth } from "../../../public/firebase/client.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const projectId = "expanded-system-469904-v9";
+  const region = "us-central1";
+  const isDev = window.location.hostname === "localhost";
+  const apiBaseUrl = isDev
+    ? `http://127.0.0.1:5001/${projectId}/${region}/api`
+    : `https://us-central1-${projectId}.cloudfunctions.net/api`;
+
+  let idToken = null;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      user.getIdToken().then((token) => {
+        idToken = token;
+      });
+    } else {
+      idToken = null;
+    }
+  });
+
+  // --- Lógica de Modales ---
+  const postModal = document.getElementById("postModal");
+  const modalTitle = document.getElementById("modal-title");
+  const createBtn = document.getElementById("create-post-btn");
+  const closeBtn = postModal.querySelector(".close-btn");
+
+  createBtn.onclick = () => {
+    modalTitle.textContent = "Crear Nuevo Artículo";
+    document.getElementById("post-form").reset();
+    document.getElementById("post-id").value = "";
+    postModal.style.display = "block";
+  };
+  closeBtn.onclick = () => postModal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target == postModal) postModal.style.display = "none";
+  };
+
+  // --- Lógica para Crear y Actualizar ---
+  const postForm = document.getElementById("post-form");
+  postForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!idToken) return alert("Debes estar autenticado.");
+
+    const id = document.getElementById("post-id").value;
+    const postData = {
+      titulo: document.getElementById("post-titulo").value,
+      slug: document.getElementById("post-slug").value,
+      categoria: document.getElementById("post-categoria").value,
+      resumen: document.getElementById("post-resumen").value,
+      contenido: document.getElementById("post-contenido").value,
+    };
+
+    const url = id ? `${apiBaseUrl}/blogs/${id}` : `${apiBaseUrl}/blogs`;
+    const method = id ? "PUT" : "POST";
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (!response.ok) throw new Error("Error al guardar el artículo.");
+      
+      alert(`Artículo ${id ? 'actualizado' : 'creado'} con éxito.`);
+      location.reload();
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo guardar el artículo.");
+    }
+  });
+
+  // --- Lógica para Editar y Eliminar ---
+  const tableBody = document.getElementById("blog-table-body");
+  tableBody.addEventListener("click", async (e) => {
+    const target = e.target;
+    if (!idToken) return alert("Debes estar autenticado.");
+
+    // Botón de Eliminar
+    if (target.classList.contains("delete-btn")) {
+      const id = target.dataset.id;
+      if (confirm("¿Estás seguro de eliminar este artículo?")) {
+        try {
+          const response = await fetch(`${apiBaseUrl}/blogs/${id}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${idToken}` },
+          });
+          if (!response.ok) throw new Error("Fallo al eliminar");
+          alert("Artículo eliminado.");
+          location.reload();
+        } catch (error) {
+          console.error(error);
+          alert("No se pudo eliminar el artículo.");
+        }
+      }
+    }
+
+    // Botón de Editar
+    if (target.classList.contains("edit-btn")) {
+      const row = target.closest("tr");
+      const id = row.dataset.postId;
+      
+      // Para poblar el modal, necesitamos todos los datos.
+      // Es más eficiente obtenerlos de una fuente de verdad (la API) 
+      // que del DOM, especialmente para campos grandes como 'contenido'.
+      try {
+        const response = await fetch(`${apiBaseUrl}/blogs`); // Re-usamos la lista que ya podría estar cacheada
+        const posts = await response.json();
+        const post = posts.find(p => p.id === id);
+
+        if(post) {
+            document.getElementById("post-id").value = post.id;
+            document.getElementById("post-titulo").value = post.titulo;
+            document.getElementById("post-slug").value = post.slug;
+            document.getElementById("post-categoria").value = post.categoria;
+            document.getElementById("post-resumen").value = post.resumen;
+            document.getElementById("post-contenido").value = post.contenido;
+            
+            modalTitle.textContent = "Editar Artículo";
+            postModal.style.display = "block";
+        }
+      } catch(error) {
+          alert("No se pudieron cargar los datos para editar.")
+      }
+    }
+  });
+</script>
+
+<style>
+.modal-content {
+    width: 90%;
+    max-width: 800px; /* Aumentar el ancho para el contenido del blog */
+}
+</style>

@@ -90,4 +90,60 @@ app.delete("/projects/:id", authenticate, async (req, res) => {
   }
 });
 
+// Blog Post CRUD
+app.get("/blogs", async (req, res) => {
+  try {
+    const snapshot = await admin.firestore().collection("blogPosts").orderBy("fechaCreacion", "desc").get();
+    const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    res.status(200).send(posts);
+  } catch (error) {
+    console.error("Error getting blog posts:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/blogs", authenticate, async (req, res) => {
+  try {
+    const postData = req.body;
+    // Basic validation
+    if (!postData.titulo || !postData.slug) {
+      res.status(400).send("Bad Request: Missing title or slug");
+      return;
+    }
+    const post = { ...postData, fechaCreacion: admin.firestore.FieldValue.serverTimestamp() };
+    const writeResult = await admin.firestore().collection("blogPosts").add(post);
+    res.status(201).send({ id: writeResult.id });
+  } catch (error) {
+    console.error("Error adding blog post:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.put("/blogs/:id", authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const postData = req.body;
+    if (!postData.titulo || !postData.slug) {
+      res.status(400).send("Bad Request: Missing title or slug");
+      return;
+    }
+    await admin.firestore().collection("blogPosts").doc(id).update(postData);
+    res.status(200).send({ id });
+  } catch (error) {
+    console.error("Error updating blog post:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.delete("/blogs/:id", authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    await admin.firestore().collection("blogPosts").doc(id).delete();
+    res.status(200).send({ id });
+  } catch (error) {
+    console.error("Error deleting blog post:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 export const api = onRequest(app);

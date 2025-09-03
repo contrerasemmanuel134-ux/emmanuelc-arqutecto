@@ -1,7 +1,8 @@
 // assets/js/app-proyectos-publicos.js
 
 // ¡Importamos las funciones de Firestore!
-import { getFirestore, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { db } from '/firebase/client.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const contenedor = document.getElementById('contenedor-proyectos-publicos');
@@ -11,8 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // Inicializa Firestore
-  const db = getFirestore();
+  // Ya no se necesita inicializar 'db' aquí.
 
   // --- ¡LA MAGIA OCURRE AQUÍ! ---
   // 1. Apuntamos a la colección 'proyectos'.

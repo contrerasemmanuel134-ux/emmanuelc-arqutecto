@@ -13,8 +13,9 @@ import '../styles/main.css';
 export interface Props {
     title: string;
     description?: string;
+    showFooter?: boolean;
 }
-const { title, description = 'Descripción por defecto' } = Astro.props;
+const { title, description = 'Descripción por defecto', showFooter = true } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -37,7 +38,7 @@ const { title, description = 'Descripción por defecto' } = Astro.props;
     <main>
         <slot />
     </main>
-    <Footer />
+    {showFooter && <Footer />}
 
 </body>
 </html>
