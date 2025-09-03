@@ -1,12 +1,11 @@
 // app-dashboard-firestore.js
-
-// **1. Añade esta línea JUSTO al principio del archivo (línea 1)**
-console.log("--- DEBUG: app-dashboard-firestore.js INICIADO ---");
-
 import { getFirestore, collection, getDocs, orderBy, query, addDoc, serverTimestamp, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const db = getFirestore();
+    console.log("--- DEBUG: app-dashboard-firestore.js INICIADO ---");
+
+
 
     // --- MANEJO DE PESTAÑAS ---
     const tabs = document.querySelectorAll('.tab-button');
