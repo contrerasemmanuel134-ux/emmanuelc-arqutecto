@@ -3,19 +3,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Proyectos: Cualquiera puede leer, solo admin puede escribir
+    // Proyectos: Cualquiera puede leer. Nadie puede escribir directamente.
     match /proyectos/{proyectoId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false; // Bloqueamos la escritura directa. Solo la API puede escribir.
     }
 
-    // Blog: Cualquiera puede leer, solo admin puede escribir
+    // Blog: Cualquiera puede leer. Nadie puede escribir directamente.
     match /blogPosts/{postId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if false; // Bloqueamos la escritura directa. Solo la API puede escribir.
     }
 
-    // Testimonios: Reglas más complejas
+    // Testimonios: Reglas más complejas para un formulario público.
+    // Se mantienen sin cambios ya que no son gestionados por la API del dashboard.
     match /testimonios/{testimonioId} {
       // Cualquiera puede crear un testimonio (dejar una reseña)
       allow create: if request.resource.data.nombreCliente is string
@@ -32,6 +33,7 @@ service cloud.firestore {
   }
 }
 
+// Las reglas de Storage se mantienen igual por ahora, ya que la API no gestiona subida de archivos.
 service firebase.storage {
   match /b/{bucket}/o {
     // Las imágenes del blog son públicas

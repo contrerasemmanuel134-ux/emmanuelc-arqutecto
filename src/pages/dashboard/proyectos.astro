@@ -1,28 +1,7 @@
 ---
 import DashboardLayout from "../../layouts/DashboardLayout.astro";
-
-// Determinar la URL base de la API según el entorno (desarrollo o producción)
-const projectId = "expanded-system-469904-v9";
-const region = "us-central1";
-const isDev = Astro.url.hostname === "localhost" || Astro.url.hostname === "127.0.0.1";
-const apiBaseUrl = isDev
-  ? `http://127.0.0.1:5001/${projectId}/${region}/api`
-  : `https://${region}-${projectId}.cloudfunctions.net/api`;
-
-let projects = [];
-let error = null;
-
-try {
-  const response = await fetch(`${apiBaseUrl}/projects`);
-  if (!response.ok) {
-    throw new Error(`Error al obtener los proyectos: ${response.statusText}`);
-  }
-  projects = await response.json();
-} catch (e) {
-  console.error(e);
-  error = e.message;
-}
 ---
+
 
 <DashboardLayout title="Dashboard | Proyectos">
   <main class="container">
@@ -32,8 +11,6 @@ try {
     </p>
 
     <button id="create-project-btn" class="btn btn-primary">Crear Proyecto</button>
-
-    {error && <p class="text-danger">Error al cargar los proyectos: {error}</p>}
 
     <div class="table-container">
       <table>
@@ -45,22 +22,13 @@ try {
           </tr>
         </thead>
         <tbody id="proyectos-table-body">
-          {projects.map((project) => (
-            <tr data-project-id={project.id}>
-              <td data-label="Nombre">{project.name}</td>
-              <td data-label="Descripción">{project.description}</td>
-              <td data-label="Acciones">
-                <button class="btn btn-secondary edit-btn" data-id={project.id}>Editar</button>
-                <button class="btn btn-danger delete-btn" data-id={project.id}>Eliminar</button>
-              </td>
-            </tr>
-          ))}
+          <!-- El contenido se cargará dinámicamente con JavaScript -->
         </tbody>
       </table>
     </div>
   </main>
 
-  <!-- Modal para Crear Proyecto -->
+ 
   <div id="createModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="closeCreateModal">&times;</span>
@@ -79,7 +47,7 @@ try {
     </div>
   </div>
 
-  <!-- Modal para Editar Proyecto -->
+  
   <div id="editModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="closeEditModal">&times;</span>
@@ -98,158 +66,5 @@ try {
       </form>
     </div>
   </div>
+  <script type="module" src="/assets/js/dashboard-proyectos.js"></script>
 </DashboardLayout>
-
-<script>
-  import { auth } from "../../../public/firebase/client.js";
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  const projectId = "expanded-system-469904-v9";
-  const region = "us-central1";
-  const isDev = window.location.hostname === "localhost";
-  const apiBaseUrl = isDev
-    ? `http://127.0.0.1:5001/${projectId}/${region}/api`
-    : `https://us-central1-${projectId}.cloudfunctions.net/api`;
-
-  let idToken = null;
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      user.getIdToken().then((token) => {
-        idToken = token;
-      });
-    } else {
-      idToken = null;
-      // Redirigir al login si no está autenticado
-      // window.location.href = '/login';
-    }
-  });
-
-  // --- Lógica de Modales ---
-  const createModal = document.getElementById("createModal");
-  const editModal = document.getElementById("editModal");
-  const createBtn = document.getElementById("create-project-btn");
-  const closeCreateModal = document.getElementById("closeCreateModal");
-  const closeEditModal = document.getElementById("closeEditModal");
-
-  createBtn.onclick = () => createModal.style.display = "block";
-  closeCreateModal.onclick = () => createModal.style.display = "none";
-  closeEditModal.onclick = () => editModal.style.display = "none";
-  window.onclick = (event) => {
-    if (event.target == createModal) createModal.style.display = "none";
-    if (event.target == editModal) editModal.style.display = "none";
-  };
-
-  // --- Lógica para Crear Proyecto ---
-  const createForm = document.getElementById("create-project-form");
-  createForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!idToken) {
-      alert("Debes estar autenticado para realizar esta acción.");
-      return;
-    }
-
-    const name = (document.getElementById("create-name") as HTMLInputElement).value;
-    const description = (document.getElementById("create-description") as HTMLTextAreaElement).value;
-
-    try {
-      const response = await fetch(`${apiBaseUrl}/projects`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ name, description }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al crear el proyecto.");
-      }
-      
-      alert("Proyecto creado con éxito.");
-      location.reload();
-    } catch (error) {
-      console.error(error);
-      alert("No se pudo crear el proyecto.");
-    }
-  });
-
-  // --- Lógica para Editar y Eliminar ---
-  const tableBody = document.getElementById("proyectos-table-body");
-  tableBody.addEventListener("click", async (e) => {
-    const target = e.target as HTMLElement;
-
-    if (!idToken) {
-      alert("Debes estar autenticado para realizar esta acción.");
-      return;
-    }
-
-    // Botón de Eliminar
-    if (target.classList.contains("delete-btn")) {
-      const id = target.dataset.id;
-      if (confirm(`¿Estás seguro de que quieres eliminar este proyecto?`)) {
-        try {
-          const response = await fetch(`${apiBaseUrl}/projects/${id}`, {
-            method: "DELETE",
-            headers: { "Authorization": `Bearer ${idToken}` },
-          });
-          if (!response.ok) throw new Error("Fallo al eliminar");
-          alert("Proyecto eliminado.");
-          location.reload();
-        } catch (error) {
-          console.error(error);
-          alert("No se pudo eliminar el proyecto.");
-        }
-      }
-    }
-
-    // Botón de Editar
-    if (target.classList.contains("edit-btn")) {
-      const id = target.dataset.id;
-      const row = target.closest("tr");
-      const name = row.querySelector('[data-label="Nombre"]').textContent;
-      const description = row.querySelector('[data-label="Descripción"]').textContent;
-
-      (document.getElementById("edit-id") as HTMLInputElement).value = id;
-      (document.getElementById("edit-name") as HTMLInputElement).value = name;
-      (document.getElementById("edit-description") as HTMLTextAreaElement).value = description;
-      
-      editModal.style.display = "block";
-    }
-  });
-
-  // --- Lógica para Actualizar Proyecto ---
-  const editForm = document.getElementById("edit-project-form");
-  editForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!idToken) {
-      alert("Debes estar autenticado para realizar esta acción.");
-      return;
-    }
-
-    const id = (document.getElementById("edit-id") as HTMLInputElement).value;
-    const name = (document.getElementById("edit-name") as HTMLInputElement).value;
-    const description = (document.getElementById("edit-description") as HTMLTextAreaElement).value;
-
-    try {
-      const response = await fetch(`${apiBaseUrl}/projects/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ name, description }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al actualizar el proyecto.");
-      }
-
-      alert("Proyecto actualizado con éxito.");
-      location.reload();
-    } catch (error) {
-      console.error(error);
-      alert("No se pudo actualizar el proyecto.");
-    }
-  });
-</script>

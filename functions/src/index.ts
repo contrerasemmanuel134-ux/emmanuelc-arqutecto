@@ -146,4 +146,52 @@ app.delete("/blogs/:id", authenticate, async (req, res) => {
   }
 });
 
+// Media (Firebase Storage) CRUD
+app.get("/media", authenticate, async (req, res) => {
+  try {
+    const bucket = admin.storage().bucket();
+    // Puedes especificar un prefijo si guardas las imágenes en una carpeta, ej: "uploads/"
+    const [files] = await bucket.getFiles();
+
+    const mediaItems = await Promise.all(
+      files.map(async (file) => {
+        const [metadata] = await file.getMetadata();
+        const [url] = await file.getSignedUrl({
+          action: 'read',
+          expires: '03-09-2491' // Una fecha muy lejana en el futuro
+        });
+        return {
+          name: file.name,
+          url: url,
+          contentType: metadata.contentType,
+          size: metadata.size,
+          updated: metadata.updated,
+        };
+      })
+    );
+
+    res.status(200).send(mediaItems);
+  } catch (error) {
+    console.error("Error getting media files:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.delete("/media/:fileName", authenticate, async (req, res) => {
+  try {
+    const bucket = admin.storage().bucket();
+    const fileName = req.params.fileName;
+    // Si usas carpetas, asegúrate de que el fileName incluya la ruta completa, ej: "uploads/image.jpg"
+    await bucket.file(fileName).delete();
+    res.status(204).send(); // 204 No Content
+  } catch (error) {
+    console.error(`Error deleting file ${req.params.fileName}:`, error);
+    if ((error as any).code === 404) {
+      res.status(404).send("File not found");
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  }
+});
+
 export const api = onRequest(app);

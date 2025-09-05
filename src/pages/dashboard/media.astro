@@ -1,0 +1,44 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Dashboard | Media">
+    <main class="container">
+        <p>Sube, visualiza y elimina imágenes de tu Firebase Storage.</p>
+
+        <div class="media-upload-box">
+            <h2>Subir nueva imagen</h2>
+            <form id="upload-form">
+                <input type="file" id="file-input" accept="image/*" required />
+                <button type="submit" class="btn btn-primary">Subir</button>
+            </form>
+            <progress
+                id="upload-progress"
+                value="0"
+                max="100"
+                style="width: 100%; display: none;"></progress>
+        </div>
+
+        <div id="media-gallery" class="media-gallery">
+            <!-- Las imágenes se cargarán aquí -->
+            <p>Cargando imágenes...</p>
+        </div>
+    </main>
+
+    <style>
+        .media-upload-box {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+
+    <script type="module" src="/assets/js/dashboard-media.js"></script>
+</DashboardLayout>
