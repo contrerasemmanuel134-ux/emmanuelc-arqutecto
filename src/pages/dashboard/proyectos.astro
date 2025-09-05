@@ -2,31 +2,35 @@
 import DashboardLayout from "../../layouts/DashboardLayout.astro";
 ---
 
-<DashboardLayout title="Dashboard | Proyectos">
-  <main class="container">
-    <p>
-      Aquí puedes administrar los proyectos que se muestran en tu sitio web.
-    </p>
+<DashboardLayout title="Gestionar Proyectos">
+  <!-- Contenedor principal para la tabla de proyectos -->
+  <div class="bg-white p-8 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+      <p>
+        Aquí puedes administrar los proyectos que se muestran en tu sitio web.
+      </p>
+      <button id="create-project-btn" class="btn btn-primary"
+        >Crear Proyecto</button
+      >
+    </div>
 
-    <button id="create-project-btn" class="btn btn-primary"
-      >Crear Proyecto</button
-    >
-
+    <!-- Tabla de Proyectos -->
     <div class="table-container">
       <table>
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Tipo</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody id="proyectos-table-body">
-          <!-- El contenido se cargará dinámicamente con JavaScript -->
+          <!-- El contenido se cargará dinámicamente -->
         </tbody>
       </table>
     </div>
-  </main>
+  </div>
 
   <div id="createModal" class="modal">
     <div class="modal-content">
@@ -37,10 +41,63 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
           <label for="create-name">Nombre del Proyecto</label>
           <input type="text" id="create-name" required />
         </div>
+
         <div class="form-group">
           <label for="create-description">Descripción</label>
           <textarea id="create-description" rows="3" required></textarea>
         </div>
+
+        <div class="form-group">
+          <label for="create-tecnologias"
+            >Tecnologías (separadas por comas)</label
+          >
+          <input
+            type="text"
+            id="create-tecnologias"
+            placeholder="HTML, CSS, JavaScript"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="create-url-live">URL del Sitio (Live)</label>
+          <input type="url" id="create-url-live" placeholder="https://..." />
+        </div>
+
+        <div class="form-group">
+          <label for="create-url-repo">URL del Repositorio</label>
+          <input
+            type="url"
+            id="create-url-repo"
+            placeholder="https://github.com/..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="create-imagen">Ruta de la Imagen</label>
+          <input
+            type="text"
+            id="create-imagen"
+            placeholder="images/nombre-archivo.webp"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="create-tipo">Tipo de Proyecto</label>
+          <select id="create-tipo" required>
+            <option value="Cliente Real">Cliente Real</option>
+            <option value="Proyecto Personal">Proyecto Personal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="create-estado">Estado</label>
+          <select id="create-estado" required>
+            <option value="Completado">Completado</option>
+            <option value="En Progreso">En Progreso</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
       </form>
     </div>
@@ -59,6 +116,37 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
         <div class="form-group">
           <label for="edit-description">Descripción</label>
           <textarea id="edit-description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-tecnologias">Tecnologías (separadas por comas)</label
+          >
+          <input type="text" id="edit-tecnologias" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-url-live">URL del Sitio (Live)</label>
+          <input type="url" id="edit-url-live" />
+        </div>
+        <div class="form-group">
+          <label for="edit-url-repo">URL del Repositorio</label>
+          <input type="url" id="edit-url-repo" />
+        </div>
+        <div class="form-group">
+          <label for="edit-imagen">Ruta de la Imagen</label>
+          <input type="text" id="edit-imagen" />
+        </div>
+        <div class="form-group">
+          <label for="edit-tipo">Tipo de Proyecto</label>
+          <select id="edit-tipo" required>
+            <option value="Cliente Real">Cliente Real</option>
+            <option value="Proyecto Personal">Proyecto Personal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-estado">Estado</label>
+          <select id="edit-estado" required>
+            <option value="Completado">Completado</option>
+            <option value="En Progreso">En Progreso</option>
+          </select>
         </div>
         <button type="submit" class="btn btn-primary"
           >Actualizar Proyecto</button
