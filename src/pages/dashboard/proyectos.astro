@@ -2,15 +2,15 @@
 import DashboardLayout from "../../layouts/DashboardLayout.astro";
 ---
 
-
 <DashboardLayout title="Dashboard | Proyectos">
   <main class="container">
-    <h1>Gestión de Proyectos</h1>
     <p>
       Aquí puedes administrar los proyectos que se muestran en tu sitio web.
     </p>
 
-    <button id="create-project-btn" class="btn btn-primary">Crear Proyecto</button>
+    <button id="create-project-btn" class="btn btn-primary"
+      >Crear Proyecto</button
+    >
 
     <div class="table-container">
       <table>
@@ -28,7 +28,6 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
     </div>
   </main>
 
- 
   <div id="createModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="closeCreateModal">&times;</span>
@@ -47,7 +46,6 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
     </div>
   </div>
 
-  
   <div id="editModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" id="closeEditModal">&times;</span>
@@ -62,9 +60,10 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
           <label for="edit-description">Descripción</label>
           <textarea id="edit-description" rows="3" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Actualizar Proyecto</button>
+        <button type="submit" class="btn btn-primary"
+          >Actualizar Proyecto</button
+        >
       </form>
     </div>
   </div>
-  <script type="module" src="/assets/js/dashboard-proyectos.js"></script>
 </DashboardLayout>
