@@ -1,15 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+import imgEstrategia from "@/assets/IMAGES-SERVICIOS/arquitectura-abstracta.webp";
+import imgDesarrollo from "@/assets/IMAGES-SERVICIOS/diagrama-arquitectura-2.webp";
+import imgOptimizacion from "@/assets/IMAGES-SERVICIOS/velocimetro-rendimiento.webp";
 
 const title = "Servicios - Emmanuel Contreras";
 const description =
     "Ofrezco servicios de arquitectura digital: desde la consultoría y estrategia de transformación digital hasta el desarrollo de plataformas web a medida y optimización.";
-
-// 1. Importamos el componente Image de Astro y nuestras imágenes
-import { Image } from "astro:assets";
-import imgEstrategia from "../assets/images/estrategia-consultoria.webp";
-import imgDesarrollo from "../assets/images/desarrollo-web.webp";
-import imgOptimizacion from "../assets/images/optimizacion.webp";
 ---
 
 <style>
@@ -23,6 +22,11 @@ import imgOptimizacion from "../assets/images/optimizacion.webp";
 </style>
 
 <Layout title={title} description={description}>
+    <img
+        src="/images/logo-emmanuel-contreras.png"
+        alt="Test Image"
+        style="width: 100px; height: 100px;"
+    />
     <section class="hero-interior">
         <h1 class="hero-interior__title servicios-title-centered">
             Servicios de Arquitectura Digital

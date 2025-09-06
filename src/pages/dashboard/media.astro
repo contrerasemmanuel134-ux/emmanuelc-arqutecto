@@ -3,20 +3,19 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
 ---
 
 <DashboardLayout title="Dashboard | Media">
-    <main class="container">
-        <p>Sube, visualiza y elimina imágenes de tu Firebase Storage.</p>
+    <main class="container mx-auto px-4 sm:px-8 py-8">
+        <div>
+            <h2 class="text-2xl font-semibold leading-tight">Gestor de Medios</h2>
+            <p class="text-gray-600">Sube, visualiza y elimina imágenes de tu Firebase Storage.</p>
+        </div>
 
-        <div class="media-upload-box">
-            <h2>Subir nueva imagen</h2>
+        <div class="media-upload-box my-5 p-6 border rounded-lg shadow-sm bg-white">
+            <h3 class="text-lg font-medium mb-3">Subir nueva imagen</h3>
             <form id="upload-form">
-                <input type="file" id="file-input" accept="image/*" required />
-                <button type="submit" class="btn btn-primary">Subir</button>
+                <input type="file" id="file-input" accept="image/*" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+                <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700">Subir</button>
             </form>
-            <progress
-                id="upload-progress"
-                value="0"
-                max="100"
-                style="width: 100%; display: none;"></progress>
+            <progress id="upload-progress" value="0" max="100" class="w-full mt-3" style="display: none;"></progress>
         </div>
 
         <div id="media-gallery" class="media-gallery">
@@ -26,17 +25,71 @@ import DashboardLayout from "../../layouts/DashboardLayout.astro";
     </main>
 
     <style>
-        .media-upload-box {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
         .media-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .media-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        .media-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .media-info {
+            padding: 0.75rem;
+            background-color: #f9fafb;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .media-info p {
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.5rem;
+        }
+        .media-url-input {
+            width: 100%;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #d1d5db;
+            background-color: #f3f4f6;
+            margin-bottom: 0.75rem;
+            box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+        }
+        .media-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .media-actions button {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+        .copy-url-btn {
+            background-color: #d1fae5; /* green-200 */
+            color: #065f46; /* green-800 */
+        }
+        .delete-media-btn {
+            background-color: #fee2e2; /* red-200 */
+            color: #991b1b; /* red-800 */
         }
     </style>
 </DashboardLayout>
+
+<script src="../../assets/app-dashboard-media.js"></script>

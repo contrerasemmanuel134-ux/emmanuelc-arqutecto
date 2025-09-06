@@ -1,8 +1,7 @@
 // assets/js/app-proyectos-publicos.js
 
-// ¡Importamos las funciones de Firestore!
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { db } from '@/firebase/client.ts';
+import { db } from '../firebase/client';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const contenedor = document.getElementById('contenedor-proyectos-publicos');
@@ -12,15 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Ya no se necesita inicializar 'db' aquí.
-
-    // --- ¡LA MAGIA OCURRE AQUÍ! ---
-    // 1. Apuntamos a la colección 'proyectos'.
     const proyectosRef = collection(db, "proyectos");
-    // 2. Creamos una consulta que:
-    //    - Filtra solo los que tengan el estado "Completado".
-    //    - Los ordena por fecha de creación descendente.
-    const q = query(proyectosRef, where("estado", "==", "Completado"), orderBy("fechaCreacion", "desc"));
+    // La consulta ahora filtra por 'completado' (minúsculas) y ordena por fecha.
+    const q = query(proyectosRef, where("estado", "==", "completado"), orderBy("fechaCreacion", "desc"));
 
     try {
         const querySnapshot = await getDocs(q);
@@ -44,18 +37,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function crearTarjetaProyecto(proyecto) {
+    // Usamos los nombres de campo correctos: title, imageUrl, description, urlSitioWeb
     return `
       <article class="portfolio-card">
-          <img src="${proyecto.imagen}" alt="Visual del proyecto ${proyecto.nombre}" class="portfolio-card__image" loading="lazy">
+          <img src="${proyecto.imageUrl}" alt="Visual del proyecto ${proyecto.title}" class="portfolio-card__image" loading="lazy">
           <div class="portfolio-card__content">
-              <span class="portfolio-card__tag">${proyecto.tipo || 'Caso de Éxito'}</span>
-              <h2 class="portfolio-card__title">${proyecto.nombre}</h2>
-              <p class="portfolio-card__description">${proyecto.descripcion}</p>
-              <div class="portfolio-card__tecnologias mb-6">
-                  ${(proyecto.tecnologias || []).map(tech => `<span class="tag">${tech}</span>`).join('')}
-              </div>
+              <h2 class="portfolio-card__title">${proyecto.title}</h2>
+              <p class="portfolio-card__description">${proyecto.description}</p>
               <div class="mt-auto">
-                  <a href="${proyecto.url_live}" class="button button--primary">Ver Detalles del Caso</a>
+                  <a href="${proyecto.urlSitioWeb}" class="button button--primary" target="_blank" rel="noopener noreferrer">Ver Proyecto en Vivo</a>
               </div>
           </div>
       </article>

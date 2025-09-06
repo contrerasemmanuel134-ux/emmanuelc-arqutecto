@@ -1,41 +1,20 @@
-import { onAuthStateChanged, getIdToken } from "firebase/auth";
-import { auth } from '@/firebase/client.ts';
-
-const API_BASE_URL = 'https://us-central1-expanded-system-469904-v9.cloudfunctions.net/api';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../firebase/client';
+import { ref, listAll, getDownloadURL, deleteObject, uploadBytesResumable } from "firebase/storage";
+import { storage } from '../firebase/client';
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             initMediaPage();
         } else {
-            window.location.href = '/admin';
+            // Si no está autenticado, no hacer nada o redirigir
+            console.log("Usuario no autenticado.");
+            const gallery = document.getElementById('media-gallery');
+            gallery.innerHTML = '<p>Necesitas iniciar sesión para ver los archivos.</p>';
         }
     });
 });
-
-const apiFetch = async (endpoint, options = {}) => {
-    const user = auth.currentUser;
-    if (!user) throw new Error("Usuario no autenticado.");
-
-    const token = await getIdToken(user);
-    const headers = {
-        'Authorization': `Bearer ${token}`,
-        ...options.headers,
-    };
-
-    if (!(options.body instanceof FormData)) {
-        headers['Content-Type'] = 'application/json';
-    }
-
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Error en la API [${endpoint}]: ${response.status} ${errorText}`);
-    }
-    if (response.status === 204) return null;
-    return response.json();
-};
 
 const initMediaPage = () => {
     const gallery = document.getElementById('media-gallery');
@@ -44,32 +23,44 @@ const initMediaPage = () => {
     const progressBar = document.getElementById('upload-progress');
 
     const loadMedia = async () => {
+        if (!gallery) return;
+        gallery.innerHTML = '<p>Cargando imágenes...</p>';
+
         try {
-            const mediaItems = await apiFetch('/media');
+            const storageRef = ref(storage); // Apuntamos a la RAÍZ del bucket
+            const result = await listAll(storageRef);
+
             gallery.innerHTML = ''; // Limpiar galería
-            if (mediaItems.length === 0) {
-                gallery.innerHTML = '<p>No hay imágenes en la galería. ¡Sube la primera!</p>';
+
+            if (result.items.length === 0) {
+                gallery.innerHTML = '<p>No hay imágenes. Sube la primera.</p>';
                 return;
             }
-            mediaItems.forEach(item => {
+
+            for (const itemRef of result.items) {
+                const url = await getDownloadURL(itemRef);
                 const itemElement = document.createElement('div');
                 itemElement.className = 'media-item';
                 itemElement.innerHTML = `
-                    <img src="${item.url}" alt="${item.name}" loading="lazy">
+                    <img src="${url}" alt="${itemRef.name}" loading="lazy">
                     <div class="media-info">
-                        <p>${item.name}</p>
-                        <button class="delete-media-btn" data-filename="${item.name}">Eliminar</button>
+                        <p title="${itemRef.name}">${itemRef.name}</p>
+                        <input type="text" readonly value="${url}" class="media-url-input" />
+                        <div class="media-actions">
+                            <button class="copy-url-btn" data-url="${url}">Copiar URL</button>
+                            <button class="delete-media-btn" data-path="${itemRef.fullPath}">Eliminar</button>
+                        </div>
                     </div>
                 `;
                 gallery.appendChild(itemElement);
-            });
+            }
         } catch (error) {
-            console.error("Error al cargar medios:", error);
-            gallery.innerHTML = '<p>Error al cargar las imágenes.</p>';
+            console.error("Error al cargar los medios:", error);
+            gallery.innerHTML = '<p>Error al cargar los medios.</p>';
         }
     };
 
-    uploadForm.addEventListener('submit', async (e) => {
+    uploadForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const file = fileInput.files[0];
         if (!file) return;
@@ -77,37 +68,51 @@ const initMediaPage = () => {
         progressBar.style.display = 'block';
         progressBar.value = 0;
 
-        try {
-            // En una implementación más avanzada, obtendríamos una URL firmada para subir directamente.
-            // Por simplicidad aquí, podrías enviar el archivo a una función que lo suba.
-            // Esta es una simplificación y no es la forma más eficiente.
-            // La forma recomendada es:
-            // 1. Cliente pide a la API una URL firmada para subir (nuevo endpoint POST /media/signed-url).
-            // 2. API genera y devuelve la URL firmada de Storage.
-            // 3. Cliente sube el archivo directamente a esa URL con PUT.
-            alert("La subida de archivos requiere un endpoint de URL firmada que no está implementado en este ejemplo. Consulta la documentación de Firebase Storage para 'Signed URLs'.");
+        const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-        } catch (error) {
-            console.error("Error al subir archivo:", error);
-            alert('Error al subir el archivo.');
-        } finally {
-            progressBar.style.display = 'none';
-            uploadForm.reset();
-        }
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                progressBar.value = progress;
+            },
+            (error) => {
+                console.error("Error al subir archivo:", error);
+                alert('Error al subir el archivo.');
+                progressBar.style.display = 'none';
+            },
+            () => {
+                alert('¡Archivo subido con éxito!');
+                progressBar.style.display = 'none';
+                uploadForm.reset();
+                loadMedia(); // Recargar la galería
+            }
+        );
     });
 
     gallery.addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-media-btn')) {
-            const fileName = e.target.dataset.filename;
-            if (confirm(`¿Seguro que quieres eliminar "${fileName}"?`)) {
+            const filePath = e.target.dataset.path;
+            if (confirm(`¿Seguro que quieres eliminar este archivo?`)) {
                 try {
-                    await apiFetch(`/media/${fileName}`, { method: 'DELETE' });
+                    const fileRef = ref(storage, filePath);
+                    await deleteObject(fileRef);
                     alert('Archivo eliminado.');
                     loadMedia();
                 } catch (error) {
+                    console.error("Error al eliminar:", error);
                     alert('Error al eliminar el archivo.');
                 }
             }
+        }
+
+        if (e.target.classList.contains('copy-url-btn')) {
+            const url = e.target.dataset.url;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('URL copiada al portapapeles.');
+            }).catch(err => {
+                alert('No se pudo copiar la URL.');
+            });
         }
     });
 

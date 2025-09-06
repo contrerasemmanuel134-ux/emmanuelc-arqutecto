@@ -3,12 +3,19 @@ import Layout from '../layouts/Layout.astro';
 import { db } from '../firebase/client';
 import { collection, getDocs } from 'firebase/firestore';
 
+interface BlogPost {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+}
+
 const title = "Blog - Emmanuel Contreras, Arquitecto Digital";
 const description = "Artículos sobre estrategia digital, desarrollo web y tecnología para ayudar a los negocios a construir activos digitales que generan resultados.";
 
 const blogPostsCollection = collection(db, 'blogPosts');
 const blogPostsSnapshot = await getDocs(blogPostsCollection);
-const blogPosts = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as BlogPost) }));
 ---
 
 <Layout title={title} description={description}>
@@ -25,10 +32,10 @@ const blogPosts = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data()
             <div class="portfolio-grid">
                 {blogPosts.map(post => (
                     <a href={`/blog/${post.id}`} class="card">
-                        <img src={post.imageUrl} alt={post.title} class="card__image">
+                        <img src={post.imageUrl || ''} alt={post.title || 'Blog Post Image'} class="card__image">
                         <div class="card__content">
-                            <h3 class="card__title">{post.title}</h3>
-                            <p>{post.content.substring(0, 100)}...</p>
+                            <h3 class="card__title">{post.title || 'Untitled Post'}</h3>
+                            <p>{(post.content && post.content.substring(0, 100)) || 'No content available.'}...</p>
                         </div>
                     </a>
                 ))}
