@@ -1,8 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
+import { db } from '../firebase/client';
+import { collection, getDocs } from 'firebase/firestore';
 
 const title = "Blog - Emmanuel Contreras, Arquitecto Digital";
 const description = "Artículos sobre estrategia digital, desarrollo web y tecnología para ayudar a los negocios a construir activos digitales que generan resultados.";
+
+const blogPostsCollection = collection(db, 'blogPosts');
+const blogPostsSnapshot = await getDocs(blogPostsCollection);
+const blogPosts = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 ---
 
 <Layout title={title} description={description}>
@@ -16,15 +22,17 @@ const description = "Artículos sobre estrategia digital, desarrollo web y tecno
 
     <section class="page-section">
         <div class="container">
-            <div id="blog-posts-container" class="portfolio-grid">
-                <!-- El contenido se cargará aquí mediante JavaScript -->
+            <div class="portfolio-grid">
+                {blogPosts.map(post => (
+                    <a href={`/blog/${post.id}`} class="card">
+                        <img src={post.imageUrl} alt={post.title} class="card__image">
+                        <div class="card__content">
+                            <h3 class="card__title">{post.title}</h3>
+                            <p>{post.content.substring(0, 100)}...</p>
+                        </div>
+                    </a>
+                ))}
             </div>
         </div>
     </section>
-
-    <script type="module">
-        // Se importa el cliente de Firebase para asegurar la inicialización.
-        import '/firebase/client.js';
-    </script>
-    <script type="module" src="/assets/js/app-blog.js"></script>
 </Layout>

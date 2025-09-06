@@ -1,51 +1,95 @@
-// assets/js/app-blog.js
+import { db } from '../firebase/client';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
-import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from '/firebase/client.js';
+document.addEventListener('DOMContentLoaded', () => {
+    const addPostBtn = document.getElementById('add-post-btn');
+    const postModal = document.getElementById('post-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const postForm = document.getElementById('post-form');
+    const postsTableBody = document.getElementById('posts-table-body');
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const contenedor = document.getElementById('blog-posts-container');
+    const postIdField = document.getElementById('post-id');
+    const postTitleField = document.getElementById('post-title');
+    const postContentField = document.getElementById('post-content');
+    const postImageUrlField = document.getElementById('post-image-url');
 
-    if (!contenedor) {
-        console.error('El contenedor de artículos del blog no se encontró.');
-        return;
-    }
+    const openModal = () => postModal.classList.remove('hidden');
+    const closeModal = () => postModal.classList.add('hidden');
 
-    const blogRef = collection(db, "blogPosts");
-    // Creamos una consulta para ordenar los artículos por fecha de creación, del más nuevo al más viejo
-    const q = query(blogRef, orderBy("fechaCreacion", "desc"));
+    addPostBtn.addEventListener('click', () => {
+        postForm.reset();
+        postIdField.value = '';
+        openModal();
+    });
 
-    try {
-        const querySnapshot = await getDocs(q);
+    closeModalBtn.addEventListener('click', closeModal);
 
-        if (querySnapshot.empty) {
-            contenedor.innerHTML = '<p class="text-center col-span-full">Aún no hay artículos en el blog. ¡Vuelve pronto!</p>';
-            return;
+    const renderPosts = async () => {
+        const postsCollection = collection(db, 'blogPosts');
+        const postsSnapshot = await getDocs(postsCollection);
+        postsTableBody.innerHTML = '';
+        postsSnapshot.forEach(doc => {
+            const post = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">${post.title}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">${post.content.substring(0, 50)}...</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <button class="edit-btn bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" data-id="${doc.id}">Editar</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-id="${doc.id}">Eliminar</button>
+                </td>
+            `;
+            postsTableBody.appendChild(row);
+        });
+
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const id = e.target.dataset.id;
+                const postDoc = doc(db, 'blogPosts', id);
+                const postSnapshot = await getDoc(postDoc);
+                const post = postSnapshot.data();
+
+                postIdField.value = id;
+                postTitleField.value = post.title;
+                postContentField.value = post.content;
+                postImageUrlField.value = post.imageUrl;
+
+                openModal();
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const id = e.target.dataset.id;
+                if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
+                    await deleteDoc(doc(db, 'blogPosts', id));
+                    renderPosts();
+                }
+            });
+        });
+    };
+
+    postForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = postIdField.value;
+        const postData = {
+            title: postTitleField.value,
+            content: postContentField.value,
+            imageUrl: postImageUrlField.value,
+        };
+
+        if (id) {
+            // Update
+            const postDoc = doc(db, 'blogPosts', id);
+            await updateDoc(postDoc, postData);
+        } else {
+            // Create
+            await addDoc(collection(db, 'blogPosts'), postData);
         }
 
-        let tarjetasHTML = '';
-        querySnapshot.forEach((doc) => {
-            const post = doc.data();
-            tarjetasHTML += crearTarjetaBlog(post);
-        });
-        contenedor.innerHTML = tarjetasHTML;
+        closeModal();
+        renderPosts();
+    });
 
-    } catch (error) {
-        console.error("Error al obtener los artículos del blog:", error);
-        contenedor.innerHTML = '<p class="text-center col-span-full">Hubo un error al cargar los artículos. Intenta de nuevo más tarde.</p>';
-    }
+    renderPosts();
 });
-
-// Esta función crea el HTML para cada tarjeta de artículo
-function crearTarjetaBlog(post) {
-    return `
-    <article class="portfolio-card">
-        <div class="portfolio-card__content">
-            <span class="portfolio-card__tag">${post.categoria || 'Artículo'}</span>
-            <h2 class="portfolio-card__title">${post.titulo}</h2>
-            <p class="portfolio-card__description">${post.resumen}</p>
-            <a href="${post.slug}" class="button button--primary mt-auto">Leer Artículo</a>
-        </div>
-    </article>
-  `;
-}

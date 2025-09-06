@@ -1,8 +1,8 @@
 // src/assets/app-dashboard-firestore.js
 
 // 1. IMPORTAMOS TODO LO NECESARIO
-import { auth } from '../../firebase/client.js';
-import { onAuthStateChanged, getIdToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { onAuthStateChanged, getIdToken } from "firebase/auth";
+import { auth } from '@/firebase/client.ts';
 
 // 2. LÓGICA DE AUTENTICACIÓN (SE MANTIENE IGUAL)
 document.addEventListener('DOMContentLoaded', () => {

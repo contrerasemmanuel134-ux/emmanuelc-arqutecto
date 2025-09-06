@@ -1,5 +1,5 @@
-import { auth } from '../../firebase/client.js';
-import { onAuthStateChanged, getIdToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { onAuthStateChanged, getIdToken } from "firebase/auth";
+import { auth } from '@/firebase/client.ts';
 
 const API_BASE_URL = 'https://us-central1-expanded-system-469904-v9.cloudfunctions.net/api';
 

@@ -1,8 +1,8 @@
 // assets/js/app-testimonios.js
 
 // Importamos las funciones de Firestore que necesitamos para AÑADIR datos.
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from '/firebase/client.js';
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from '@/firebase/client.ts';
 
 // "Escuchamos" para asegurarnos de que toda la página se haya cargado primero.
 document.addEventListener('DOMContentLoaded', () => {

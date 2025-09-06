@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { db } from '../../firebase/client';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+
+export async function getStaticPaths() {
+  const blogPostsCollection = collection(db, 'blogPosts');
+  const blogPostsSnapshot = await getDocs(blogPostsCollection);
+  return blogPostsSnapshot.docs.map(doc => ({
+    params: { id: doc.id },
+    props: { post: { id: doc.id, ...doc.data() } },
+  }));
+}
+
+const { id } = Astro.params;
+const { post } = Astro.props;
+---
+
+<Layout title={post.title} description={post.content.substring(0, 160)}>
+    <section class="page-section">
+        <div class="container prose lg:prose-xl mx-auto">
+            <h1>{post.title}</h1>
+            <img src={post.imageUrl} alt={post.title} class="w-full h-auto rounded-lg mb-8">
+            <p>{post.content}</p>
+        </div>
+    </section>
+</Layout>

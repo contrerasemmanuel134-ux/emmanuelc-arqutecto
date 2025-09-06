@@ -1,8 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { db } from '../firebase/client';
+import { collection, getDocs } from 'firebase/firestore';
 
 const title = "Proyectos - Emmanuel Contreras, Arquitecto Digital";
 const description = "Portafolio de proyectos de Emmanuel Contreras. Descubre casos de éxito en desarrollo web, optimización de rendimiento y estrategia digital.";
+
+const proyectosCollection = collection(db, 'proyectos');
+const proyectosSnapshot = await getDocs(proyectosCollection);
+const proyectos = proyectosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 ---
 
 <Layout
@@ -17,12 +23,17 @@ const description = "Portafolio de proyectos de Emmanuel Contreras. Descubre cas
 
     <section class="page-section">
         <div class="container">
-            <div id="contenedor-proyectos" class="portfolio-grid">
-                <!-- El contenido se cargará aquí vía JavaScript -->
+            <div class="portfolio-grid">
+                {proyectos.map(proyecto => (
+                    <div class="card">
+                        <img src={proyecto.imageUrl} alt={proyecto.title} class="card__image">
+                        <div class="card__content">
+                            <h3 class="card__title">{proyecto.title}</h3>
+                            <p>{proyecto.description}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     </section>
-
-    <!-- Scripts específicos para esta página -->
-    <script type="module" src="/assets/js/app-proyectos.js"></script>
 </Layout>

@@ -1,8 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
+import { db } from '../firebase/client';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const title = "Reseñas y Testimonios - Emmanuel Contreras";
 const description = "La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.";
+
+const q = query(collection(db, "testimonios"), where("estado", "==", "aprobado"));
+const testimoniosSnapshot = await getDocs(q);
+const testimonios = testimoniosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 ---
 
 <Layout
@@ -20,14 +26,14 @@ const description = "La confianza se construye con resultados. Lee los testimoni
 
     <section class="page-section">
         <div class="container">
-            <div id="contenedor-reseñas" class="testimonials-page-grid"></div>
+            <div class="testimonials-page-grid">
+                {testimonios.map(testimonio => (
+                    <div class="testimonial-card">
+                        <p class="testimonial-card__text">"{testimonio.textoTestimonio}"</p>
+                        <p class="testimonial-card__author">- {testimonio.nombreCliente}</p>
+                    </div>
+                ))}
+            </div>
         </div>
     </section>
-
-    <script type="module">
-        // Se importa el cliente de Firebase para asegurar la inicialización.
-        import '/firebase/client.js';
-    </script>
-
-    <script type="module" src="/assets/js/app-reseñas.js"></script>
 </Layout>

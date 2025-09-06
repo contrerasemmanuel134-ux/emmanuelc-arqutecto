@@ -1,47 +1,92 @@
-// /assets/js/app-reseñas.js
+import { db } from '../firebase/client';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
-import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from '/firebase/client.js';
+document.addEventListener('DOMContentLoaded', () => {
+    const addReviewBtn = document.getElementById('add-review-btn');
+    const reviewModal = document.getElementById('review-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const reviewForm = document.getElementById('review-form');
+    const reviewsTableBody = document.getElementById('reviews-table-body');
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const contenedor = document.getElementById('contenedor-reseñas');
-    if (!contenedor) return;
+    const reviewIdField = document.getElementById('review-id');
+    const reviewAuthorField = document.getElementById('review-author');
+    const reviewTextField = document.getElementById('review-text');
 
-    const testimoniosRef = collection(db, "testimonios");
-    
-    // Consulta para traer solo los testimonios APROBADOS y ordenarlos
-    const q = query(testimoniosRef, 
-        where("estado", "==", "aprobado"), 
-        orderBy("fechaCreacion", "desc")
-    );
+    const openModal = () => reviewModal.classList.remove('hidden');
+    const closeModal = () => reviewModal.classList.add('hidden');
 
-    try {
-        const querySnapshot = await getDocs(q);
+    addReviewBtn.addEventListener('click', () => {
+        reviewForm.reset();
+        reviewIdField.value = '';
+        openModal();
+    });
 
-        if (querySnapshot.empty) {
-            contenedor.innerHTML = '<p class="text-center">Aún no hay testimonios públicos. ¡Gracias por la confianza!</p>';
-            return;
+    closeModalBtn.addEventListener('click', closeModal);
+
+    const renderReviews = async () => {
+        const reviewsCollection = collection(db, 'testimonios');
+        const reviewsSnapshot = await getDocs(reviewsCollection);
+        reviewsTableBody.innerHTML = '';
+        reviewsSnapshot.forEach(doc => {
+            const review = doc.data();
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">${review.nombreCliente}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">${review.textoTestimonio}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    <button class="edit-btn bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" data-id="${doc.id}">Editar</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-id="${doc.id}">Eliminar</button>
+                </td>
+            `;
+            reviewsTableBody.appendChild(row);
+        });
+
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const id = e.target.dataset.id;
+                const reviewDoc = doc(db, 'testimonios', id);
+                const reviewSnapshot = await getDoc(reviewDoc);
+                const review = reviewSnapshot.data();
+
+                reviewIdField.value = id;
+                reviewAuthorField.value = review.nombreCliente;
+                reviewTextField.value = review.textoTestimonio;
+
+                openModal();
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const id = e.target.dataset.id;
+                if (confirm('¿Estás seguro de que quieres eliminar esta reseña?')) {
+                    await deleteDoc(doc(db, 'testimonios', id));
+                    renderReviews();
+                }
+            });
+        });
+    };
+
+    reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = reviewIdField.value;
+        const reviewData = {
+            nombreCliente: reviewAuthorField.value,
+            textoTestimonio: reviewTextField.value,
+        };
+
+        if (id) {
+            // Update
+            const reviewDoc = doc(db, 'testimonios', id);
+            await updateDoc(reviewDoc, reviewData);
+        } else {
+            // Create
+            await addDoc(collection(db, 'testimonios'), reviewData);
         }
 
-        let tarjetasHTML = '';
-        querySnapshot.forEach((doc) => {
-            tarjetasHTML += crearTarjetaReseña(doc.data());
-        });
-        contenedor.innerHTML = tarjetasHTML;
+        closeModal();
+        renderReviews();
+    });
 
-    } catch (error) {
-        console.error("Error al obtener los testimonios:", error);
-        contenedor.innerHTML = '<p class="text-center">Hubo un error al cargar los testimonios.</p>';
-    }
+    renderReviews();
 });
-
-function crearTarjetaReseña(testimonio) {
-    const estrellas = '★'.repeat(testimonio.calificacion) + '☆'.repeat(5 - testimonio.calificacion);
-    return `
-    <blockquote class="testimonial-card-full">
-        <div class="star-rating-display">${estrellas}</div>
-        <p>"${testimonio.textoTestimonio}"</p>
-        <figcaption>– ${testimonio.nombreCliente}</figcaption>
-    </blockquote>
-    `;
-}

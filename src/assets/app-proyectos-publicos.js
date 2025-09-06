@@ -1,50 +1,50 @@
 // assets/js/app-proyectos-publicos.js
 
 // ¡Importamos las funciones de Firestore!
-import { collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { db } from '/firebase/client.js';
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { db } from '@/firebase/client.ts';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const contenedor = document.getElementById('contenedor-proyectos-publicos');
+    const contenedor = document.getElementById('contenedor-proyectos-publicos');
 
-  if (!contenedor) {
-    console.error('El contenedor de proyectos públicos no se encontró.');
-    return;
-  }
-
-  // Ya no se necesita inicializar 'db' aquí.
-
-  // --- ¡LA MAGIA OCURRE AQUÍ! ---
-  // 1. Apuntamos a la colección 'proyectos'.
-  const proyectosRef = collection(db, "proyectos");
-  // 2. Creamos una consulta que:
-  //    - Filtra solo los que tengan el estado "Completado".
-  //    - Los ordena por fecha de creación descendente.
-  const q = query(proyectosRef, where("estado", "==", "Completado"), orderBy("fechaCreacion", "desc"));
-
-  try {
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      contenedor.innerHTML = '<p class="text-center">Aún no hay casos de éxito públicos. ¡Pronto habrá nuevos proyectos completados!</p>';
-      return;
+    if (!contenedor) {
+        console.error('El contenedor de proyectos públicos no se encontró.');
+        return;
     }
 
-    let tarjetasHTML = '';
-    querySnapshot.forEach((doc) => {
-      const proyecto = doc.data();
-      tarjetasHTML += crearTarjetaProyecto(proyecto);
-    });
-    contenedor.innerHTML = tarjetasHTML;
+    // Ya no se necesita inicializar 'db' aquí.
 
-  } catch (error) {
-    console.error("Error al obtener los casos de éxito:", error);
-    contenedor.innerHTML = '<p class="text-center">Hubo un error al cargar los proyectos. Intenta de nuevo más tarde.</p>';
-  }
+    // --- ¡LA MAGIA OCURRE AQUÍ! ---
+    // 1. Apuntamos a la colección 'proyectos'.
+    const proyectosRef = collection(db, "proyectos");
+    // 2. Creamos una consulta que:
+    //    - Filtra solo los que tengan el estado "Completado".
+    //    - Los ordena por fecha de creación descendente.
+    const q = query(proyectosRef, where("estado", "==", "Completado"), orderBy("fechaCreacion", "desc"));
+
+    try {
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            contenedor.innerHTML = '<p class="text-center">Aún no hay casos de éxito públicos. ¡Pronto habrá nuevos proyectos completados!</p>';
+            return;
+        }
+
+        let tarjetasHTML = '';
+        querySnapshot.forEach((doc) => {
+            const proyecto = doc.data();
+            tarjetasHTML += crearTarjetaProyecto(proyecto);
+        });
+        contenedor.innerHTML = tarjetasHTML;
+
+    } catch (error) {
+        console.error("Error al obtener los casos de éxito:", error);
+        contenedor.innerHTML = '<p class="text-center">Hubo un error al cargar los proyectos. Intenta de nuevo más tarde.</p>';
+    }
 });
 
 function crearTarjetaProyecto(proyecto) {
-  return `
+    return `
       <article class="portfolio-card">
           <img src="${proyecto.imagen}" alt="Visual del proyecto ${proyecto.nombre}" class="portfolio-card__image" loading="lazy">
           <div class="portfolio-card__content">
