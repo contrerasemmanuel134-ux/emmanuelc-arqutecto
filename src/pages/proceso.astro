@@ -11,6 +11,10 @@ const title = "Proceso - Emmanuel Contreras";
 const description = "Mi proceso probado de 4 fases (Descubrimiento, Diseño, Desarrollo y Lanzamiento) garantiza que tu proyecto se construya sobre cimientos sólidos y tenga éxito.";
 ---
 
+<style is:global>
+    @import "../styles/pages/_servicios-layout.css";
+</style>
+
 <Layout
     title={title}
     description={description}>
@@ -23,45 +27,45 @@ const description = "Mi proceso probado de 4 fases (Descubrimiento, Diseño, Des
     </section>
     <section class="page-section">
         <div class="container">
-            <div class="item-step">
-                <div class="item-step__graphic">
+            <div class="service-item">
+                <div class="service-item__graphic">
                     <Image src={fase1Img} alt="Fase de Descubrimiento y Estrategia" width={200} height={150} class="rounded-lg shadow-lg"/>
                 </div>
-                <div class="item-step__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 1</span>
-                    <h2 class="item-step__title">Descubrimiento y Estrategia</h2>
+                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 1</span>
+                    <h2 class="service-item__title">Descubrimiento y Estrategia</h2>
                     <p>Antes de construir, debemos tener el plano perfecto. Esta fase se dedica a entender a fondo
                         tu visión, audiencia y metas de negocio, definiendo los indicadores de éxito y el alcance
                         del proyecto.</p>
                 </div>
             </div>
-            <div class="item-step">
-                <div class="item-step__graphic">
+            <div class="service-item">
+                <div class="service-item__graphic">
                     <Image src={fase2Img} alt="Fase de Arquitectura y Diseño" width={200} height={150} class="rounded-lg shadow-lg"/>
                 </div>
-                <div class="item-step__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 2</span>
-                    <h2 class="item-step__title">Arquitectura y Diseño (UX/UI)</h2>
+                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 2</span>
+                    <h2 class="service-item__title">Arquitectura y Diseño (UX/UI)</h2>
                     <p>Traducimos la estrategia en una experiencia de usuario intuitiva y un diseño visual
                         atractivo. Creamos wireframes, flujos de navegación y un prototipo interactivo para que
                         puedas "sentir" la plataforma.</p>
                 </div>
             </div>
-            <div class="item-step">
-                <div class="item-step__graphic">
+            <div class="service-item">
+                <div class="service-item__graphic">
                     <Image src={fase3Img} alt="Fase de Desarrollo e Implementación" width={200} height={150} class="rounded-lg shadow-lg"/>
                 </div>
-                <div class="item-step__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 3</span>
-                    <h2 class="item-step__title">Desarrollo e Implementación</h2>
+                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 3</span>
+                    <h2 class="service-item__title">Desarrollo e Implementación</h2>
                     <p>Materializamos el plano y el diseño en una plataforma digital robusta, escribiendo código
                         limpio y eficiente. Trabajamos con metodologías ágiles para que veas avances constantes y
                         realizamos pruebas exhaustivas.</p>
                 </div>
             </div>
-            <div class="item-step">
-                <div class="item-step__graphic">
+            <div class="service-item">
+                <div class="service-item__graphic">
                     <Image src={fase4Img} alt="Fase de Lanzamiento y Optimización" width={200} height={150} class="rounded-lg shadow-lg"/>
                 </div>
-                <div class="item-step__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 4</span>
-                    <h2 class="item-step__title">Lanzamiento y Optimización</h2>
+                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 4</span>
+                    <h2 class="service-item__title">Lanzamiento y Optimización</h2>
                     <p>Aseguramos una transición suave al mundo real. Gestionamos el despliegue final, realizamos
                         una última ronda de pruebas e instalamos herramientas de analítica para medir el rendimiento
                         desde el primer día.</p>

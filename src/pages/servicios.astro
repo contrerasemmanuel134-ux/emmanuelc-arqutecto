@@ -11,22 +11,11 @@ const description =
     "Ofrezco servicios de arquitectura digital: desde la consultoría y estrategia de transformación digital hasta el desarrollo de plataformas web a medida y optimización.";
 ---
 
-<style>
-    .servicio-imagen {
-        width: 100%;
-        max-width: 220px;
-        border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        object-fit: cover;
-    }
+<style is:global>
+    @import "../styles/pages/_servicios-layout.css";
 </style>
 
 <Layout title={title} description={description}>
-    <img
-        src="/images/logo-emmanuel-contreras.png"
-        alt="Test Image"
-        style="width: 100px; height: 100px;"
-    />
     <section class="hero-interior">
         <h1 class="hero-interior__title servicios-title-centered">
             Servicios de Arquitectura Digital
@@ -41,8 +30,8 @@ const description =
 
     <section class="page-section">
         <div class="container">
-            <article class="item-step">
-                <div class="item-step__graphic">
+            <article class="service-item">
+                <div class="service-item__graphic">
                     <Image
                         src={imgEstrategia}
                         alt="Estrategia y consultoría digital"
@@ -51,9 +40,9 @@ const description =
                         height={220}
                     />
                 </div>
-                <div class="item-step__content">
+                <div class="service-item__content">
                     <header>
-                        <h2 class="item-step__title">
+                        <h2 class="service-item__title">
                             Estrategia y Consultoría de Transformación Digital
                         </h2>
                     </header>
@@ -69,8 +58,8 @@ const description =
                 </div>
             </article>
 
-            <article class="item-step">
-                <div class="item-step__graphic">
+            <article class="service-item">
+                <div class="service-item__graphic">
                     <Image
                         src={imgDesarrollo}
                         alt="Desarrollo de plataformas web"
@@ -79,9 +68,9 @@ const description =
                         height={220}
                     />
                 </div>
-                <div class="item-step__content">
+                <div class="service-item__content">
                     <header>
-                        <h2 class="item-step__title">
+                        <h2 class="service-item__title">
                             Desarrollo de Plataformas Web a Medida
                         </h2>
                     </header>
@@ -97,8 +86,8 @@ const description =
                 </div>
             </article>
 
-            <article class="item-step">
-                <div class="item-step__graphic">
+            <article class="service-item">
+                <div class="service-item__graphic">
                     <Image
                         src={imgOptimizacion}
                         alt="Optimización de rendimiento"
@@ -107,9 +96,9 @@ const description =
                         height={220}
                     />
                 </div>
-                <div class="item-step__content">
+                <div class="service-item__content">
                     <header>
-                        <h2 class="item-step__title">
+                        <h2 class="service-item__title">
                             Optimización de Rendimiento y Procesos
                         </h2>
                     </header>

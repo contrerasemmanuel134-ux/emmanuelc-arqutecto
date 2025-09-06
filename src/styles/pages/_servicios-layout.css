@@ -1,0 +1,50 @@
+/* Estilos para los elementos de servicio con imagen y texto lado a lado */
+.service-item {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.service-item:nth-child(even) {
+    flex-direction: row-reverse; /* Invert order for even items */
+}
+
+.service-item__graphic {
+    flex: 0 0 300px;
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.service-item__content {
+    flex: 1 1 320px;
+    min-width: 260px;
+}
+
+.service-item__title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 900px) {
+    .service-item,
+    .service-item:nth-child(even) {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .service-item__graphic {
+        margin-bottom: 1rem;
+    }
+
+    .service-item__content {
+        min-width: 0;
+    }
+}
