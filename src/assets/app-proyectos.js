@@ -1,7 +1,8 @@
-import { db } from '../firebase/client';
+import { getFirebaseFirestore } from '../firebase/client';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const db = await getFirebaseFirestore();
     const addProjectBtn = document.getElementById('add-project-btn');
     const projectModal = document.getElementById('project-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');

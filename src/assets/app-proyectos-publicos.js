@@ -1,9 +1,10 @@
 // assets/js/app-proyectos-publicos.js
 
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { db } from '../firebase/client';
+import { getFirebaseFirestore } from '../firebase/client';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const db = await getFirebaseFirestore();
     const contenedor = document.getElementById('contenedor-proyectos-publicos');
 
     if (!contenedor) {

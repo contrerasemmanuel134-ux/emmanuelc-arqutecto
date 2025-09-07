@@ -1,7 +1,8 @@
-import { db } from '../firebase/client';
+import { getFirebaseFirestore } from '../firebase/client';
 import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const db = await getFirebaseFirestore();
     const reviewModal = document.getElementById('review-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
     const reviewForm = document.getElementById('review-form');

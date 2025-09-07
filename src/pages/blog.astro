@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { db } from '../firebase/client';
 import { collection, getDocs } from 'firebase/firestore';
+const { getFirebaseFirestore } = await import('../firebase/client');
+const db = await getFirebaseFirestore();
 
 interface BlogPost {
   id: string;

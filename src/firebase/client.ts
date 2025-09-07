@@ -1,7 +1,7 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getAuth as _getAuth } from "firebase/auth"; // Rename to avoid conflict
+import { getFirestore as _getFirestore } from "firebase/firestore"; // Rename
+import { getStorage as _getStorage } from "firebase/storage"; // Rename
 
 // TODO: Replace with your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,8 +15,24 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
 
-export { app, auth, db, storage };
+// Synchronous exports for build-time use (e.g., getStaticPaths)
+export const auth = _getAuth(app);
+export const db = _getFirestore(app);
+export const storage = _getStorage(app);
+
+// Asynchronous getters for client-side dynamic imports
+export const getFirebaseAuth = async () => {
+  const { getAuth } = await import("firebase/auth");
+  return getAuth(app);
+};
+
+export const getFirebaseFirestore = async () => {
+  const { getFirestore } = await import("firebase/firestore");
+  return getFirestore(app);
+};
+
+export const getFirebaseStorage = async () => {
+  const { getStorage } = await import("firebase/storage");
+  return getStorage(app);
+};

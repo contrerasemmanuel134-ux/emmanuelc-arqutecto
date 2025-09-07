@@ -1,9 +1,10 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../firebase/client';
+import { getFirebaseAuth } from '../firebase/client';
 import { ref, listAll, getDownloadURL, deleteObject, uploadBytesResumable } from "firebase/storage";
-import { storage } from '../firebase/client';
+import { getFirebaseStorage } from '../firebase/client';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const auth = await getFirebaseAuth();
+    const storage = await getFirebaseStorage();
     onAuthStateChanged(auth, (user) => {
         if (user) {
             initMediaPage();

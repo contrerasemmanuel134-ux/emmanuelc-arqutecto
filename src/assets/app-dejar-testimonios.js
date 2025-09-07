@@ -2,10 +2,10 @@
 
 // Importamos las funciones de Firestore que necesitamos para AÑADIR datos.
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from '@/firebase/client.ts';
+import { getFirebaseFirestore } from '@/firebase/client.ts';
 
 // "Escuchamos" para asegurarnos de que toda la página se haya cargado primero.
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const testimonialForm = document.getElementById('testimonial-form');
     const formMessage = document.getElementById('form-message');
 
@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const nombreCliente = document.getElementById('nombreCliente').value;
             const textoTestimonio = document.getElementById('textoTestimonio').value;
             const calificacion = document.querySelector('input[name="rating"]:checked').value;
+
+            const db = await getFirebaseFirestore();
 
             try {
                 // 4. Creamos un nuevo "documento" (el testimonio) con todos los datos.

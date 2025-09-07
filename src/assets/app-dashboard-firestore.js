@@ -1,11 +1,11 @@
 // src/assets/app-dashboard-firestore.js
 
 // 1. IMPORTAMOS TODO LO NECESARIO
-import { onAuthStateChanged, getIdToken } from "firebase/auth";
-import { auth } from '@/firebase/client.ts';
+import { getFirebaseAuth } from '@/firebase/client.ts';
 
 // 2. LÓGICA DE AUTENTICACIÓN (SE MANTIENE IGUAL)
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const auth = await getFirebaseAuth();
     const mainContent = document.getElementById('main-content');
     const loadingIndicator = document.getElementById('loading-indicator');
 
