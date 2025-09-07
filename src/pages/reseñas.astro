@@ -1,8 +1,7 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-const { getFirebaseFirestore } = await import('../firebase/client');
-const db = await getFirebaseFirestore();
+import Layout from "../layouts/Layout.astro";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase/client";
 
 interface Testimonio {
     textoTestimonio: string;
@@ -10,17 +9,22 @@ interface Testimonio {
 }
 
 const title = "Reseñas y Testimonios - Emmanuel Contreras";
-const description = "La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.";
+const description =
+    "La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.";
 
-const q = query(collection(db, "testimonios"), where("estado", "==", "aprobado"));
+const q = query(
+    collection(db, "testimonios"),
+    where("estado", "==", "aprobado"),
+);
 const testimoniosSnapshot = await getDocs(q);
-const testimonios: (Testimonio & { id: string })[] = testimoniosSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as Testimonio) }));
+const testimonios: (Testimonio & { id: string })[] =
+    testimoniosSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Testimonio),
+    }));
 ---
 
-<Layout
-    title={title}
-    description={description}
->
+<Layout title={title} description={description}>
     <section class="hero-interior">
         <h1 class="hero-interior__title">La Voz de Mis Clientes</h1>
         <p class="text-lg max-w-3xl mx-auto mt-4">
@@ -29,19 +33,27 @@ const testimonios: (Testimonio & { id: string })[] = testimoniosSnapshot.docs.ma
             clientes.
         </p>
         <div class="mt-8 text-center">
-            <a href="/dejar-testimonios" class="button button--primary">Deja tu Testimonio</a>
+            <a href="/dejar-testimonios" class="button button--primary"
+                >Deja tu Testimonio</a
+            >
         </div>
     </section>
 
     <section class="page-section">
         <div class="container">
             <div class="testimonials-page-grid">
-                {testimonios.map(testimonio => (
-                    <div class="testimonial-card">
-                        <p class="testimonial-card__text">"{testimonio.textoTestimonio}"</p>
-                        <p class="testimonial-card__author">- {testimonio.nombreCliente}</p>
-                    </div>
-                ))}
+                {
+                    testimonios.map((testimonio) => (
+                        <div class="testimonial-card">
+                            <p class="testimonial-card__text">
+                                "{testimonio.textoTestimonio}"
+                            </p>
+                            <p class="testimonial-card__author">
+                                - {testimonio.nombreCliente}
+                            </p>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>

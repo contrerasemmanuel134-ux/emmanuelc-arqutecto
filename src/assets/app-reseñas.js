@@ -1,20 +1,20 @@
-import { getFirebaseFirestore } from '../firebase/client';
+import { db } from '../firebase/client';
 import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const db = await getFirebaseFirestore();
+    // `db` is now imported directly and is ready to use.
     const reviewModal = document.getElementById('review-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
     const reviewForm = document.getElementById('review-form');
     const reviewsTableBody = document.getElementById('reviews-table-body');
 
-    // Campos del formulario modal
+    // Form fields
     const reviewIdField = document.getElementById('review-id');
     const reviewAuthorField = document.getElementById('review-author');
     const reviewTextField = document.getElementById('review-text');
     const reviewStatusField = document.getElementById('review-status');
 
-    // Ocultamos el botón de añadir, ya que las reseñas vienen de fuera
+    // We hide the add button, as reviews come from an external form.
     const addReviewBtn = document.getElementById('add-review-btn');
     if (addReviewBtn) {
         addReviewBtn.style.display = 'none';
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const updateReviewStatus = async (id, newStatus) => {
         const reviewDoc = doc(db, 'testimonios', id);
         await updateDoc(reviewDoc, { estado: newStatus });
-        renderReviews(); // Recargar la tabla
+        renderReviews(); // Reload the table
     };
 
     const renderReviews = async () => {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const review = doc.data();
             const row = document.createElement('tr');
 
-            const status = review.estado || 'pendiente'; // Default a pendiente si no existe
+            const status = review.estado || 'pendiente';
             const statusBg = status === 'aprobado' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800';
             const statusText = status === 'aprobado' ? 'Aprobado' : 'Pendiente';
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             reviewsTableBody.appendChild(row);
         });
 
-        // --- Asignar eventos a los botones --- 
+        // --- Assign events to buttons --- 
 
         document.querySelectorAll('.approve-btn').forEach(button => {
             button.addEventListener('click', (e) => updateReviewStatus(e.target.dataset.id, 'aprobado'));
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     reviewForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = reviewIdField.value;
-        if (!id) return; // No permitir crear nuevas desde aquí
+        if (!id) return;
 
         const reviewData = {
             nombreCliente: reviewAuthorField.value,

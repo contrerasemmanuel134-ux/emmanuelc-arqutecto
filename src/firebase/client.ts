@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth as _getAuth } from "firebase/auth"; // Rename to avoid conflict
+import { getAuth as _getAuth, onAuthStateChanged } from "firebase/auth"; // Rename to avoid conflict
 import { getFirestore as _getFirestore } from "firebase/firestore"; // Rename
 import { getStorage as _getStorage } from "firebase/storage"; // Rename
 
@@ -20,19 +20,4 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = _getAuth(app);
 export const db = _getFirestore(app);
 export const storage = _getStorage(app);
-
-// Asynchronous getters for client-side dynamic imports
-export const getFirebaseAuth = async () => {
-  const { getAuth } = await import("firebase/auth");
-  return getAuth(app);
-};
-
-export const getFirebaseFirestore = async () => {
-  const { getFirestore } = await import("firebase/firestore");
-  return getFirestore(app);
-};
-
-export const getFirebaseStorage = async () => {
-  const { getStorage } = await import("firebase/storage");
-  return getStorage(app);
-};
+export { onAuthStateChanged }

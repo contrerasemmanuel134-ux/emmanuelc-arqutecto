@@ -10,7 +10,7 @@
 /* --- Hero Home --- */
 .hero-home {
     /* Imagen de fondo de ejemplo. ¡Reemplázala por la tuya! */
-    background-image: url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2072&auto=format&fit=crop');
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una%20imagen%20de%20un%20arquitecto%20trabajando%20en%20un%20escritorio%20hologr%C3%A1fico%2C%20dise%C3%B1ando%20la%20estructura%20tridimensional%20de%20un%20complejo%20edificio%20digital%20hecho%20de%20luz%20y%20datos.%20El%20entorno%20es%20oscuro%20y%20enfocado%20en%20la%20creaci%C3%B3n.%20(1).jpg?alt=media&token=c0a33034-c37e-461c-a2b2-3ffd1a76f634');
     background-size: cover;
     background-position: center;
     color: var(--white-color);

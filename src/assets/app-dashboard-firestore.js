@@ -1,15 +1,18 @@
 // src/assets/app-dashboard-firestore.js
 
 // 1. IMPORTAMOS TODO LO NECESARIO
-import { getFirebaseAuth } from '@/firebase/client.ts';
+// Importa la instancia 'auth' y la función 'onAuthStateChanged'
+// desde la librería de Firebase y desde tu archivo de cliente de Firebase.
+import { onAuthStateChanged, getIdToken } from 'firebase/auth'; // Importa onAuthStateChanged y getIdToken
+import { auth } from '@/firebase/client'; // Importa la instancia de auth desde tu archivo de cliente
 
-// 2. LÓGICA DE AUTENTICACIÓN (SE MANTIENE IGUAL)
-document.addEventListener('DOMContentLoaded', async () => {
-    const auth = await getFirebaseAuth();
-    const mainContent = document.getElementById('main-content');
-    const loadingIndicator = document.getElementById('loading-indicator');
-
+// 2. LÓGICA DE AUTENTICACIÓN (AHORA ES SÍNCRONA)
+document.addEventListener('DOMContentLoaded', () => {
+    // onAuthStateChanged ahora puede usar la instancia de 'auth' directamente
     onAuthStateChanged(auth, (user) => {
+        const mainContent = document.getElementById('main-content');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
         if (user) {
             mainContent.style.display = 'block';
             loadingIndicator.style.display = 'none';
@@ -74,7 +77,6 @@ const iniciarDashboard = async () => {
             throw new Error(`Error en la API: ${errorText}`);
         }
 
-        // Si la respuesta no tiene contenido (ej. DELETE), devuelve null
         if (response.status === 204 || response.headers.get('content-length') === '0') {
             return null;
         }
@@ -86,12 +88,12 @@ const iniciarDashboard = async () => {
     const cargarDatos = async () => {
         try {
             const [proyectos, blogPosts] = await Promise.all([
-                apiFetch('/projects', { isPublic: true }), // GET /projects es público
-                apiFetch('/blogs', { isPublic: true })      // GET /blogs es público
+                apiFetch('/projects', { isPublic: true }),
+                apiFetch('/blogs', { isPublic: true })
             ]);
             renderizarTabla('proyectos-tbody', proyectos, crearFilaProyecto, 'proyectos');
             renderizarTabla('blog-tbody', blogPosts, crearFilaBlog, 'blogPosts');
-            actualizarKPIs(proyectos, [], blogPosts); // Ajustado para no tener testimonios
+            actualizarKPIs(proyectos, [], blogPosts);
         } catch (error) {
             console.error("Error al cargar datos desde la API:", error);
             alert("No se pudieron cargar los datos. Revisa la consola.");
@@ -118,7 +120,7 @@ const iniciarDashboard = async () => {
             </td>
         </tr>`;
 
-    const crearFilaTestimonio = (data, collectionName) => ``; // (sin cambios)
+    const crearFilaTestimonio = (data, collectionName) => ``;
     const crearFilaBlog = (data, collectionName) => `
         <tr data-id="${data.id}" data-collection="blogPosts">
             <td><strong>${data.titulo}</strong></td>
@@ -136,7 +138,7 @@ const iniciarDashboard = async () => {
     const modalForm = document.getElementById('modal-form');
     let currentCollection = '';
     let currentDocId = '';
-    let easyMDEInstance = null; // Variable para guardar la instancia del editor
+    let easyMDEInstance = null;
 
     const formTemplates = {
         proyectos: `
@@ -147,8 +149,8 @@ const iniciarDashboard = async () => {
             <div class="form-group"><label>URL del Repositorio</label><input type="url" name="url_repo" class="form-input"></div>
             <div class="form-group"><label>URL de la Imagen</label><input type="url" name="imagen" class="form-input"></div>
             <div class="form-group"><label>Estado</label><select name="estado" class="form-input"><option>Propuesta</option><option>En Desarrollo</option><option>Completado</option><option>Pausado</option></select></div>
-        `, // Nota: el nombre del campo es 'name' para coincidir con la API
-        testimonios: ``, // (sin cambios)
+        `,
+        testimonios: ``,
         blogPosts: `
             <div class="form-group"><label>Título</label><input type="text" name="titulo" class="form-input" required></div>
             <div class="form-group"><label>Slug (URL amigable)</label><input type="text" name="slug" class="form-input" required></div>
@@ -165,7 +167,6 @@ const iniciarDashboard = async () => {
         currentDocId = data.id || '';
         modalTitle.textContent = title;
 
-        // Destruir la instancia anterior de EasyMDE si existe
         if (easyMDEInstance) {
             easyMDEInstance.toTextArea();
             easyMDEInstance = null;
@@ -173,7 +174,6 @@ const iniciarDashboard = async () => {
 
         modalForm.innerHTML = formTemplates[collection];
 
-        // Llenamos el formulario con los datos existentes si estamos editando
         if (data.id) {
             Object.keys(data).forEach(key => {
                 if (modalForm.elements[key]) {
@@ -181,13 +181,11 @@ const iniciarDashboard = async () => {
                         modalForm.elements[key].checked = !!data[key];
                         return;
                     }
-                    // Si es un array (como tecnologías), lo unimos con comas
                     modalForm.elements[key].value = Array.isArray(data[key]) ? data[key].join(', ') : data[key];
                 }
             });
         }
 
-        // Si es el modal de blog, inicializamos el editor de Markdown
         if (collection === 'blogPosts') {
             const contentTextArea = modalForm.querySelector('textarea[name="contenido"]');
             if (contentTextArea) {
@@ -200,10 +198,7 @@ const iniciarDashboard = async () => {
 
     modal.querySelector('#cancel-btn').addEventListener('click', () => modal.classList.add('hidden'));
 
-    // Event listener para el botón de Añadir Proyecto
     document.getElementById('add-project-btn').addEventListener('click', () => showModal('Añadir Nuevo Proyecto', 'proyectos'));
-
-    // (Puedes mantener el de blog si quieres)
     document.getElementById('add-blog-btn').addEventListener('click', () => showModal('Añadir Artículo', 'blogPosts'));
 
 
@@ -215,24 +210,21 @@ const iniciarDashboard = async () => {
         const id = row.dataset.id;
         const collection = row.dataset.collection;
 
-        // Si se hace clic en Editar
         if (e.target.classList.contains('edit-btn')) {
             try {
-                // La API no tiene un endpoint GET /:id, así que buscamos en los datos ya cargados
-                const data = await apiFetch(`/${collection}/${id}`, { method: 'GET', isPublic: true }); // Asumiendo que tienes un GET por ID
+                const data = await apiFetch(`/${collection}/${id}`, { method: 'GET', isPublic: true });
                 showModal(`Editar ${collection.slice(0, -1)}`, collection, data);
             } catch (error) {
                 alert("No se pudo cargar el elemento para editar. Es posible que necesites un endpoint GET /<coleccion>/:id en tu API.");
             }
         }
 
-        // Si se hace clic en Eliminar
         if (e.target.classList.contains('delete-btn')) {
             if (confirm('¿Estás seguro de que quieres eliminar este elemento? Esta acción no se puede deshacer.')) {
                 try {
                     await apiFetch(`/${collection}/${id}`, { method: 'DELETE' });
                     alert('Elemento eliminado correctamente.');
-                    cargarDatos(); // Recargamos los datos para reflejar el cambio
+                    cargarDatos();
                 } catch (error) {
                     alert("Hubo un error al eliminar el elemento.");
                 }
@@ -246,12 +238,10 @@ const iniciarDashboard = async () => {
         const formData = new FormData(modalForm);
         const data = Object.fromEntries(formData.entries());
 
-        // Si estamos guardando un post de blog, obtenemos el valor del editor
         if (currentCollection === 'blogPosts' && easyMDEInstance) {
             data.contenido = easyMDEInstance.value();
         }
 
-        // Procesamos los datos antes de enviarlos
         Object.keys(data).forEach(key => {
             if (data[key] === 'on' && modalForm.elements[key].type === 'checkbox') {
                 data[key] = true;
@@ -263,14 +253,12 @@ const iniciarDashboard = async () => {
 
         try {
             if (currentDocId) {
-                // Actualizando un documento existente
                 await apiFetch(`/${currentCollection}/${currentDocId}`, {
                     method: 'PUT',
                     body: JSON.stringify(data)
                 });
                 alert('¡Actualizado con éxito!');
             } else {
-                // Creando un nuevo documento
                 await apiFetch(`/${currentCollection}`, {
                     method: 'POST',
                     body: JSON.stringify(data)
@@ -278,13 +266,12 @@ const iniciarDashboard = async () => {
                 alert('¡Creado con éxito!');
             }
             modal.classList.add('hidden');
-            cargarDatos(); // Recargamos todo para ver los cambios
+            cargarDatos();
         } catch (error) {
             console.error("Error al guardar en Firestore:", error);
             alert("Hubo un error al guardar los datos.");
         }
     });
 
-    // Carga inicial de datos
     cargarDatos();
 };

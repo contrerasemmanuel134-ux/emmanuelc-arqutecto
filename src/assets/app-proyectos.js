@@ -1,15 +1,15 @@
-import { getFirebaseFirestore } from '../firebase/client';
+import { db } from '../firebase/client';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const db = await getFirebaseFirestore();
+    // The `db` variable is now imported directly and is ready to use.
     const addProjectBtn = document.getElementById('add-project-btn');
     const projectModal = document.getElementById('project-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
     const projectForm = document.getElementById('project-form');
     const projectsTableBody = document.getElementById('projects-table-body');
 
-    // Campos del formulario
+    // Form fields
     const projectIdField = document.getElementById('project-id');
     const projectTitleField = document.getElementById('project-title');
     const projectDescriptionField = document.getElementById('project-description');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         projectsSnapshot.forEach(doc => {
             const project = doc.data();
             const row = document.createElement('tr');
-            
+
             const statusBg = project.estado === 'completado' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800';
             const statusText = project.estado === 'completado' ? 'Completado' : 'En Proceso';
 
@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             projectsTableBody.appendChild(row);
         });
 
-        // Re-asignar eventos a los botones de editar y eliminar
         document.querySelectorAll('.edit-btn').forEach(button => {
             button.addEventListener('click', async (e) => {
                 const id = e.target.dataset.id;
@@ -100,12 +99,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
 
         if (id) {
-            // Actualizar
             const projectDoc = doc(db, 'proyectos', id);
             await updateDoc(projectDoc, projectData);
         } else {
-            // Crear
-            projectData.fechaCreacion = serverTimestamp(); // Añadir timestamp
+            projectData.fechaCreacion = serverTimestamp();
             await addDoc(collection(db, 'proyectos'), projectData);
         }
 

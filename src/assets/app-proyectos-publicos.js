@@ -1,10 +1,10 @@
 // assets/js/app-proyectos-publicos.js
 
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { getFirebaseFirestore } from '../firebase/client';
+import { db } from '../firebase/client'; // Importa la instancia 'db' directamente
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const db = await getFirebaseFirestore();
+    // Ya no necesitas la línea `const db = await getFirebaseFirestore();`
     const contenedor = document.getElementById('contenedor-proyectos-publicos');
 
     if (!contenedor) {
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const proyectosRef = collection(db, "proyectos");
     // La consulta ahora filtra por 'completado' (minúsculas) y ordena por fecha.
-    const q = query(proyectosRef, where("estado", "==", "completado"), orderBy("fechaCreacion", "desc"));
+    const q = query(proyectosRef, where("estado", "==", "Completado"), orderBy("fechaCreacion", "desc"));
 
     try {
         const querySnapshot = await getDocs(q);
@@ -41,12 +41,12 @@ function crearTarjetaProyecto(proyecto) {
     // Usamos los nombres de campo correctos: title, imageUrl, description, urlSitioWeb
     return `
       <article class="portfolio-card">
-          <img src="${proyecto.imageUrl}" alt="Visual del proyecto ${proyecto.title}" class="portfolio-card__image" loading="lazy">
+          <img src="${proyecto.imagen}" alt="Visual del proyecto ${proyecto.nombre}" class="portfolio-card__image" loading="lazy">
           <div class="portfolio-card__content">
-              <h2 class="portfolio-card__title">${proyecto.title}</h2>
-              <p class="portfolio-card__description">${proyecto.description}</p>
+              <h2 class="portfolio-card__title">${proyecto.nombre}</h2>
+              <p class="portfolio-card__description">${proyecto.descripcion}</p>
               <div class="mt-auto">
-                  <a href="${proyecto.urlSitioWeb}" class="button button--primary" target="_blank" rel="noopener noreferrer">Ver Proyecto en Vivo</a>
+                  <a href="${proyecto.url_live}" class="button button--primary" target="_blank" rel="noopener noreferrer">Ver Proyecto en Vivo</a>
               </div>
           </div>
       </article>

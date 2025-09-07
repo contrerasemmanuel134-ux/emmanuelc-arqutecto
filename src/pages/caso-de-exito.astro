@@ -1,8 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { collection, getDocs, query, where } from 'firebase/firestore';
-const { getFirebaseFirestore } = await import('../firebase/client');
-const db = await getFirebaseFirestore();
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase/client";
 
 interface Proyecto {
     title: string;
@@ -14,17 +13,20 @@ interface Proyecto {
 }
 
 const title = "Casos de Éxito - Emmanuel Contreras";
-const description = "Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce.";
+const description =
+    "Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce.";
 
-const q = query(collection(db, "proyectos"), where("estado", "==", "completado"));
+const q = query(
+    collection(db, "proyectos"),
+    where("estado", "==", "completado"),
+);
 const proyectosSnapshot = await getDocs(q);
-const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as Proyecto) }));
+const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
+    (doc) => ({ id: doc.id, ...(doc.data() as Proyecto) }),
+);
 ---
 
-<Layout
-    title={title}
-    description={description}
->
+<Layout title={title} description={description}>
     <section class="hero-interior">
         <h1 class="hero-interior__title">Casos de Éxito</h1>
         <p class="text-lg max-w-3xl mx-auto mt-4">
@@ -37,17 +39,45 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(doc 
     <section class="page-section">
         <div class="container">
             <div class="portfolio-grid">
-                {proyectos.map(proyecto => (
-                    <div class="portfolio-item">
-                        <img src={proyecto.imageUrl} alt={proyecto.title} class="portfolio-item__image" />
-                        <h3 class="portfolio-item__title">{proyecto.title}</h3>
-                        <p class="portfolio-item__description">{proyecto.description}</p>
-                        <div class="portfolio-item__links">
-                            {proyecto.urlSitioWeb && <a href={proyecto.urlSitioWeb} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ver Sitio</a>}
-                            {proyecto.urlRepositorio && <a href={proyecto.urlRepositorio} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Ver Repositorio</a>}
+                {
+                    proyectos.map((proyecto) => (
+                        <div class="portfolio-item">
+                            <img
+                                src={proyecto.imageUrl}
+                                alt={proyecto.title}
+                                class="portfolio-item__image"
+                            />
+                            <h3 class="portfolio-item__title">
+                                {proyecto.title}
+                            </h3>
+                            <p class="portfolio-item__description">
+                                {proyecto.description}
+                            </p>
+                            <div class="portfolio-item__links">
+                                {proyecto.urlSitioWeb && (
+                                    <a
+                                        href={proyecto.urlSitioWeb}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="btn btn-primary"
+                                    >
+                                        Ver Sitio
+                                    </a>
+                                )}
+                                {proyecto.urlRepositorio && (
+                                    <a
+                                        href={proyecto.urlRepositorio}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="btn btn-secondary"
+                                    >
+                                        Ver Repositorio
+                                    </a>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                }
             </div>
         </div>
     </section>

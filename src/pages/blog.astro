@@ -1,22 +1,24 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { collection, getDocs } from 'firebase/firestore';
-const { getFirebaseFirestore } = await import('../firebase/client');
-const db = await getFirebaseFirestore();
-
+import Layout from "../layouts/Layout.astro";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase/client";
 interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  imageUrl: string;
+    id: string;
+    title: string;
+    content: string;
+    imageUrl: string;
 }
 
 const title = "Blog - Emmanuel Contreras, Arquitecto Digital";
-const description = "Artículos sobre estrategia digital, desarrollo web y tecnología para ayudar a los negocios a construir activos digitales que generan resultados.";
+const description =
+    "Artículos sobre estrategia digital, desarrollo web y tecnología para ayudar a los negocios a construir activos digitales que generan resultados.";
 
-const blogPostsCollection = collection(db, 'blogPosts');
+const blogPostsCollection = collection(db, "blogPosts");
 const blogPostsSnapshot = await getDocs(blogPostsCollection);
-const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as BlogPost) }));
+const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as BlogPost),
+}));
 ---
 
 <Layout title={title} description={description}>
@@ -31,15 +33,28 @@ const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map(doc => ({ id: doc.id, .
     <section class="page-section">
         <div class="container">
             <div class="portfolio-grid">
-                {blogPosts.map(post => (
-                    <a href={`/blog/${post.id}`} class="card">
-                        <img src={post.imageUrl || ''} alt={post.title || 'Blog Post Image'} class="card__image">
-                        <div class="card__content">
-                            <h3 class="card__title">{post.title || 'Untitled Post'}</h3>
-                            <p>{(post.content && post.content.substring(0, 100)) || 'No content available.'}...</p>
-                        </div>
-                    </a>
-                ))}
+                {
+                    blogPosts.map((post) => (
+                        <a href={`/blog/${post.id}`} class="card">
+                            <img
+                                src={post.imageUrl || ""}
+                                alt={post.title || "Blog Post Image"}
+                                class="card__image"
+                            />
+                            <div class="card__content">
+                                <h3 class="card__title">
+                                    {post.title || "Untitled Post"}
+                                </h3>
+                                <p>
+                                    {(post.content &&
+                                        post.content.substring(0, 100)) ||
+                                        "No content available."}
+                                    ...
+                                </p>
+                            </div>
+                        </a>
+                    ))
+                }
             </div>
         </div>
     </section>

@@ -1,10 +1,11 @@
-import { getFirebaseAuth } from '../firebase/client';
+// Importa onAuthStateChanged y la instancia de auth directamente
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, storage } from '../firebase/client';
 import { ref, listAll, getDownloadURL, deleteObject, uploadBytesResumable } from "firebase/storage";
-import { getFirebaseStorage } from '../firebase/client';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const auth = await getFirebaseAuth();
-    const storage = await getFirebaseStorage();
+
     onAuthStateChanged(auth, (user) => {
         if (user) {
             initMediaPage();

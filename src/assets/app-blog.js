@@ -1,8 +1,12 @@
-import { getFirebaseFirestore } from '../firebase/client';
+// src/assets/app-dashboard-firestore.js
+
+// 1. IMPORTAMOS TODO LO NECESARIO
+// Importa la instancia 'db' directamente, sin la función asíncrona.
+import { db } from '../firebase/client';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const db = await getFirebaseFirestore();
+    // 2. AHORA 'db' ES ACCESIBLE DIRECTAMENTE
     const addPostBtn = document.getElementById('add-post-btn');
     const postModal = document.getElementById('post-modal');
     const closeModalBtn = document.getElementById('close-modal-btn');
@@ -14,22 +18,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postContentField = document.getElementById('post-content');
     const postImageUrlField = document.getElementById('post-image-url');
 
-    let easyMDEInstance = null; // Declare EasyMDE instance
+    let easyMDEInstance = null;
 
     const openModal = () => {
-        // Destroy existing EasyMDE instance if any
         if (easyMDEInstance) {
             easyMDEInstance.toTextArea();
             easyMDEInstance = null;
         }
         postModal.classList.remove('hidden');
-        // Initialize EasyMDE after modal is visible
         easyMDEInstance = new EasyMDE({ element: postContentField, spellChecker: false });
     };
 
     const closeModal = () => {
         postModal.classList.add('hidden');
-        // Destroy EasyMDE instance when modal is closed
         if (easyMDEInstance) {
             easyMDEInstance.toTextArea();
             easyMDEInstance = null;
@@ -39,7 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     addPostBtn.addEventListener('click', () => {
         postForm.reset();
         postIdField.value = '';
-        // Set initial content for new post
         if (easyMDEInstance) {
             easyMDEInstance.value('');
         }
@@ -76,10 +76,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 postIdField.value = id;
                 postTitleField.value = post.title;
                 postImageUrlField.value = post.imageUrl;
-                
-                openModal(); // Open modal first to initialize EasyMDE
+
+                openModal();
                 if (easyMDEInstance) {
-                    easyMDEInstance.value(post.content); // Set content after EasyMDE is initialized
+                    easyMDEInstance.value(post.content);
                 }
             });
         });
@@ -100,16 +100,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const id = postIdField.value;
         const postData = {
             title: postTitleField.value,
-            content: easyMDEInstance ? easyMDEInstance.value() : postContentField.value, // Get content from EasyMDE
+            content: easyMDEInstance ? easyMDEInstance.value() : postContentField.value,
             imageUrl: postImageUrlField.value,
         };
 
         if (id) {
-            // Update
             const postDoc = doc(db, 'blogPosts', id);
             await updateDoc(postDoc, postData);
         } else {
-            // Create
             await addDoc(collection(db, 'blogPosts'), postData);
         }
 
