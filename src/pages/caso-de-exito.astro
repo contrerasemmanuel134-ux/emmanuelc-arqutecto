@@ -1,11 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { db } from '../firebase/client';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+
+interface Proyecto {
+    title: string;
+    description: string;
+    imageUrl: string;
+    urlSitioWeb?: string;
+    urlRepositorio?: string;
+    estado: string;
+}
 
 const title = "Casos de Éxito - Emmanuel Contreras";
 const description = "Explora cómo mis proyectos se traducen en resultados reales. Descubre casos de éxito de optimización SEO local y planos estratégicos para e-commerce.";
 
-// NOTA: La lógica para cargar proyectos desde Firebase se movería aquí
-// o se pasaría como prop desde un nivel superior. Por ahora, el contenedor está listo.
+const q = query(collection(db, "proyectos"), where("estado", "==", "completado"));
+const proyectosSnapshot = await getDocs(q);
+const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as Proyecto) }));
 ---
 
 <Layout
@@ -23,11 +35,19 @@ const description = "Explora cómo mis proyectos se traducen en resultados reale
 
     <section class="page-section">
         <div class="container">
-            <div id="contenedor-proyectos-publicos" class="portfolio-grid">
-                <!-- El contenido se cargará aquí mediante JavaScript -->
+            <div class="portfolio-grid">
+                {proyectos.map(proyecto => (
+                    <div class="portfolio-item">
+                        <img src={proyecto.imageUrl} alt={proyecto.title} class="portfolio-item__image" />
+                        <h3 class="portfolio-item__title">{proyecto.title}</h3>
+                        <p class="portfolio-item__description">{proyecto.description}</p>
+                        <div class="portfolio-item__links">
+                            {proyecto.urlSitioWeb && <a href={proyecto.urlSitioWeb} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ver Sitio</a>}
+                            {proyecto.urlRepositorio && <a href={proyecto.urlRepositorio} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Ver Repositorio</a>}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     </section>
-
-    <script src="../assets/app-proyectos-publicos.js"></script>
 </Layout>

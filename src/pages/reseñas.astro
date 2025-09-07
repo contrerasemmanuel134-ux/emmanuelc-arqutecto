@@ -3,12 +3,17 @@ import Layout from '../layouts/Layout.astro';
 import { db } from '../firebase/client';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
+interface Testimonio {
+    textoTestimonio: string;
+    nombreCliente: string;
+}
+
 const title = "Reseñas y Testimonios - Emmanuel Contreras";
 const description = "La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.";
 
 const q = query(collection(db, "testimonios"), where("estado", "==", "aprobado"));
 const testimoniosSnapshot = await getDocs(q);
-const testimonios = testimoniosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+const testimonios: (Testimonio & { id: string })[] = testimoniosSnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as Testimonio) }));
 ---
 
 <Layout
