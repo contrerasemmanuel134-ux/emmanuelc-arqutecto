@@ -1,74 +1,123 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
-
-import fase1Img from '@/assets/IMAGES-SERVICIOS/diagrama-arquitectura-1.webp';
-import fase2Img from '@/assets/IMAGES-SERVICIOS/relojeria-precision-1.webp';
-import fase3Img from '@/assets/IMAGES-SERVICIOS/visualizacion-datos-1.webp';
-import fase4Img from '@/assets/IMAGES-SERVICIOS/visualizacion-datos-2.webp';
+import Layout from "../layouts/Layout.astro";
+import "../styles/pages/_servicios-layout.css";
 
 const title = "Proceso - Emmanuel Contreras";
-const description = "Mi proceso probado de 4 fases (Descubrimiento, Diseño, Desarrollo y Lanzamiento) garantiza que tu proyecto se construya sobre cimientos sólidos y tenga éxito.";
+const description =
+    "Mi proceso probado de 4 fases (Descubrimiento, Diseño, Desarrollo y Lanzamiento) garantiza que tu proyecto se construya sobre cimientos sólidos y tenga éxito.";
 ---
 
-<style is:global>
-    @import "../styles/pages/_servicios-layout.css";
-</style>
-
-<Layout
-    title={title}
-    description={description}>
-
+<Layout title={title} description={description}>
     <section class="hero-interior">
-        <h1 class="hero-interior__title">Nuestro Proceso: De la Idea a un Activo Digital de Alto Impacto</h1>
-        <p class="text-lg max-w-3xl mx-auto mt-4">Los grandes resultados no son producto de la casualidad, sino de
-            un proceso disciplinado. Este es el mapa que seguiremos juntos para construir tu proyecto sobre
-            cimientos sólidos.</p>
+        <h1 class="hero-interior__title">
+            Nuestro Proceso: De la Idea a un Activo Digital de Alto Impacto
+        </h1>
+        <p class="text-lg max-w-3xl mx-auto mt-4">
+            Los grandes resultados no son producto de la casualidad, sino de un
+            proceso disciplinado. Este es el mapa que seguiremos juntos para
+            construir tu proyecto sobre cimientos sólidos.
+        </p>
     </section>
     <section class="page-section">
         <div class="container">
             <div class="service-item">
                 <div class="service-item__graphic">
-                    <Image src={fase1Img} alt="Fase de Descubrimiento y Estrategia" width={200} height={150} class="rounded-lg shadow-lg"/>
+                    <img
+                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un%20diagrama%20de%20arquitectura%20de%20software%20profesional%20y%20limpio.%20Nodos%20representando%20'Astro%20Frontend'%2C%20'Firebase%20Auth'%2C%20y%20'Firestore%20Database'%20est%C3%A1n%20conectados%20con%20l%C3%ADneas%20brillantes%20de%20color%20cian.%20El%20diagrama%20est%20(2).jpg?alt=media&token=f051f9e0-b50c-4d8a-9e9b-e1fb38a26be1"
+                        alt="Fase de Descubrimiento y Estrategia"
+                        width={200}
+                        height={150}
+                        class="rounded-lg shadow-lg"
+                    />
                 </div>
-                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 1</span>
-                    <h2 class="service-item__title">Descubrimiento y Estrategia</h2>
-                    <p>Antes de construir, debemos tener el plano perfecto. Esta fase se dedica a entender a fondo
-                        tu visión, audiencia y metas de negocio, definiendo los indicadores de éxito y el alcance
-                        del proyecto.</p>
-                </div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image src={fase2Img} alt="Fase de Arquitectura y Diseño" width={200} height={150} class="rounded-lg shadow-lg"/>
-                </div>
-                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 2</span>
-                    <h2 class="service-item__title">Arquitectura y Diseño (UX/UI)</h2>
-                    <p>Traducimos la estrategia en una experiencia de usuario intuitiva y un diseño visual
-                        atractivo. Creamos wireframes, flujos de navegación y un prototipo interactivo para que
-                        puedas "sentir" la plataforma.</p>
-                </div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image src={fase3Img} alt="Fase de Desarrollo e Implementación" width={200} height={150} class="rounded-lg shadow-lg"/>
-                </div>
-                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 3</span>
-                    <h2 class="service-item__title">Desarrollo e Implementación</h2>
-                    <p>Materializamos el plano y el diseño en una plataforma digital robusta, escribiendo código
-                        limpio y eficiente. Trabajamos con metodologías ágiles para que veas avances constantes y
-                        realizamos pruebas exhaustivas.</p>
+                <div class="service-item__content">
+                    <span class="font-semibold text-cyan-500 mb-2 block"
+                        >Fase 1</span
+                    >
+                    <h2 class="service-item__title">
+                        Descubrimiento y Estrategia
+                    </h2>
+                    <p>
+                        Antes de construir, debemos tener el plano perfecto.
+                        Esta fase se dedica a entender a fondo tu visión,
+                        audiencia y metas de negocio, definiendo los indicadores
+                        de éxito y el alcance del proyecto.
+                    </p>
                 </div>
             </div>
             <div class="service-item">
                 <div class="service-item__graphic">
-                    <Image src={fase4Img} alt="Fase de Lanzamiento y Optimización" width={200} height={150} class="rounded-lg shadow-lg"/>
+                    <img
+                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una%20fotograf%C3%ADa%20macro%20de%20un%20mecanismo%20de%20relojer%C3%ADa%20suizo%2C%20con%20engranajes%20de%20precisi%C3%B3n%20encajando%20perfectamente.%20La%20imagen%20est%C3%A1%20te%C3%B1ida%20sutilmente%20con%20tonos%20azules%20y%20cian%2C%20y%20de%20los%20engranajes%20emanan%20tenues%20l%C3%ADneas%20%20(1).jpg?alt=media&token=36fa4b66-3bfc-4088-bce1-b6c480582d03"
+                        alt="Fase de Arquitectura y Diseño"
+                        width={200}
+                        height={150}
+                        class="rounded-lg shadow-lg"
+                    />
                 </div>
-                <div class="service-item__content"><span class="font-semibold text-cyan-500 mb-2 block">Fase 4</span>
-                    <h2 class="service-item__title">Lanzamiento y Optimización</h2>
-                    <p>Aseguramos una transición suave al mundo real. Gestionamos el despliegue final, realizamos
-                        una última ronda de pruebas e instalamos herramientas de analítica para medir el rendimiento
-                        desde el primer día.</p>
+                <div class="service-item__content">
+                    <span class="font-semibold text-cyan-500 mb-2 block"
+                        >Fase 2</span
+                    >
+                    <h2 class="service-item__title">
+                        Arquitectura y Diseño (UX/UI)
+                    </h2>
+                    <p>
+                        Traducimos la estrategia en una experiencia de usuario
+                        intuitiva y un diseño visual atractivo. Creamos
+                        wireframes, flujos de navegación y un prototipo
+                        interactivo para que puedas "sentir" la plataforma.
+                    </p>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-item__graphic">
+                    <img
+                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una%20visualizaci%C3%B3n%20de%20datos%20en%203D%20que%20muestra%20un%20gr%C3%A1fico%20de%20barras%20ascendente%20que%20se%20transforma%20en%20un%20holograma%20brillante%20de%20un%20edificio%20complejo%20y%20bien%20estructurado.%20La%20escena%20representa%20c%C3%B3mo%20los%20datos%20y%20resultado.jpg?alt=media&token=60ae6425-88e3-463c-97b5-f1b7c9e97ed9"
+                        alt="Fase de Desarrollo e Implementación"
+                        width={200}
+                        height={150}
+                        class="rounded-lg shadow-lg"
+                    />
+                </div>
+                <div class="service-item__content">
+                    <span class="font-semibold text-cyan-500 mb-2 block"
+                        >Fase 3</span
+                    >
+                    <h2 class="service-item__title">
+                        Desarrollo e Implementación
+                    </h2>
+                    <p>
+                        Materializamos el plano y el diseño en una plataforma
+                        digital robusta, escribiendo código limpio y eficiente.
+                        Trabajamos con metodologías ágiles para que veas avances
+                        constantes y realizamos pruebas exhaustivas.
+                    </p>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-item__graphic">
+                    <img
+                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una%20visualizaci%C3%B3n%20de%20datos%20en%203D%20que%20muestra%20un%20gr%C3%A1fico%20de%20barras%20ascendente%20que%20se%20transforma%20en%20un%20holograma%20brillante%20de%20un%20edificio%20complejo%20y%20bien%20estructurado.%20La%20escena%20representa%20c%C3%B3mo%20los%20datos%20y%20resul%20(1).jpg?alt=media&token=2de86d1e-1252-47b9-9c6d-cfec9f6d0e65"
+                        alt="Fase de Lanzamiento y Optimización"
+                        width={200}
+                        height={150}
+                        class="rounded-lg shadow-lg"
+                    />
+                </div>
+                <div class="service-item__content">
+                    <span class="font-semibold text-cyan-500 mb-2 block"
+                        >Fase 4</span
+                    >
+                    <h2 class="service-item__title">
+                        Lanzamiento y Optimización
+                    </h2>
+                    <p>
+                        Aseguramos una transición suave al mundo real.
+                        Gestionamos el despliegue final, realizamos una última
+                        ronda de pruebas e instalamos herramientas de analítica
+                        para medir el rendimiento desde el primer día.
+                    </p>
                 </div>
             </div>
         </div>

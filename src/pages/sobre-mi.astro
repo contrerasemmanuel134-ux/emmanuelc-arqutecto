@@ -1,29 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Image } from "astro:assets";
-
-import imgEstrategia from "@/assets/images/estrategia-consultoria.webp";
-import imgDesarrollo from "@/assets/images/desarrollo-web.webp";
-import imgOptimizacion from "@/assets/images/optimizacion.webp";
+import "../styles/pages/_sobre-mi.css";
 
 const title = "Emmanuel Contreras - Arquitecto Digital";
-const description = "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pasión es ser el puente entre tus metas de negocio y la tecnología que necesitas para lograrlas.";
+const description =
+    "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pasión es ser el puente entre tus metas de negocio y la tecnología que necesitas para lograrlas.";
 ---
 
-<style>
-    @import "../styles/pages/_sobre-mi.css";
-</style>
-
-<Layout
-    title={title}
-    description={description}
->
+<Layout title={title} description={description}>
     <section class="page-section">
         <div class="container">
             <div class="about-hero">
                 <div class="about-hero__image-container">
                     <img
-                        src="/images/emmanuel-contreras.png"
+                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/emmanuel-contreras.webp?alt=media&token=70f9f486-954a-4398-85ee-7964b666a548"
                         alt="Retrato de Emmanuel Contreras"
                         class="about-hero__image"
                     />
@@ -60,8 +50,8 @@ const description = "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pas
             <div class="philosophy-grid">
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <Image
-                            src={imgEstrategia}
+                        <img
+                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/estratefia%20y%20consultoria.webp?alt=media&token=d794ea95-fb90-438c-9c02-414c1fe47658"
                             alt="Estrategia y Diseño UX"
                             width={80}
                             height={80}
@@ -79,8 +69,8 @@ const description = "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pas
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <Image
-                            src={imgDesarrollo}
+                        <img
+                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/desarrollo-web.webp?alt=media&token=5dee2d1e-6419-4e64-b9e1-fad5b2cf0c2e"
                             alt="Desarrollo de Calidad"
                             width={80}
                             height={80}
@@ -98,8 +88,8 @@ const description = "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pas
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <Image
-                            src={imgOptimizacion}
+                        <img
+                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/optimisacion.webp?alt=media&token=a46e7a25-afad-41ef-9013-128d9a1a4a58"
                             alt="Fusión y Resultados"
                             width={80}
                             height={80}
