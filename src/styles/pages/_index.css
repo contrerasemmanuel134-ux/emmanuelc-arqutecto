@@ -10,7 +10,7 @@
 /* --- Hero Home --- */
 .hero-home {
     /* Imagen de fondo de ejemplo. ¡Reemplázala por la tuya! */
-    background-image: url('https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una%20imagen%20de%20un%20arquitecto%20trabajando%20en%20un%20escritorio%20hologr%C3%A1fico%2C%20dise%C3%B1ando%20la%20estructura%20tridimensional%20de%20un%20complejo%20edificio%20digital%20hecho%20de%20luz%20y%20datos.%20El%20entorno%20es%20oscuro%20y%20enfocado%20en%20la%20creaci%C3%B3n.%20(1).jpg?alt=media&token=c0a33034-c37e-461c-a2b2-3ffd1a76f634');
+    background-image: url('');
     background-size: cover;
     background-position: center;
     color: var(--white-color);
@@ -21,92 +21,92 @@
     z-index: 1;
 }
 
-/* Capa oscura para mejorar la legibilidad del texto */
-.hero-home::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Ajusta la opacidad (0.5) según necesites */
-    z-index: -1;
-}
-
-.hero-home__title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/* --- Layout de Pasos --- */
-.item-step {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    margin-bottom: 5rem;
-}
-
-.item-step:nth-child(even) {
-    flex-direction: row-reverse;
-}
-
-.item-step__graphic {
-    flex: 1;
-    min-height: 350px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-}
-
-.item-step__graphic svg {
-    width: 100px;
-    height: 100px;
-    color: var(--primary-dark);
-}
-
-.item-step__title {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: var(--primary-dark);
-}
-
-/* --- CTA Final --- */
-
-.cta-final {
-    background-color: var(--primary-dark);
-    color: var(--white-color);
-    text-align: center;
-    padding: 5rem 2rem;
-}
-
-/* Versión más delgada para el footer */
-.cta-final--footer {
-    padding: 5rem 2rem;
-}
-
-.cta-final__title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-@media (max-width: 768px) {
-    .hero-home__title {
-        font-size: 2.5rem;
+    /* Capa oscura para mejorar la legibilidad del texto */
+    .hero-home::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Ajusta la opacidad (0.5) según necesites */
+        z-index: -1;
     }
 
-    .item-step,
+    .hero-home__title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    /* --- Layout de Pasos --- */
+    .item-step {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        margin-bottom: 5rem;
+    }
+
     .item-step:nth-child(even) {
-        flex-direction: column;
-        text-align: center;
-        gap: 2rem;
+        flex-direction: row-reverse;
     }
 
     .item-step__graphic {
-        width: 100%;
-        min-height: 250px;
+        flex: 1;
+        min-height: 350px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
     }
-}
+
+    .item-step__graphic svg {
+        width: 100px;
+        height: 100px;
+        color: var(--primary-dark);
+    }
+
+    .item-step__title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: var(--primary-dark);
+    }
+
+    /* --- CTA Final --- */
+
+    .cta-final {
+        background-color: var(--primary-dark);
+        color: var(--white-color);
+        text-align: center;
+        padding: 5rem 2rem;
+    }
+
+    /* Versión más delgada para el footer */
+    .cta-final--footer {
+        padding: 5rem 2rem;
+    }
+
+    .cta-final__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .hero-home__title {
+            font-size: 2.5rem;
+        }
+
+        .item-step,
+        .item-step:nth-child(even) {
+            flex-direction: column;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .item-step__graphic {
+            width: 100%;
+            min-height: 250px;
+        }
+    }
