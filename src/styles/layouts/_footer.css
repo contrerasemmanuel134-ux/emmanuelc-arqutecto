@@ -1,0 +1,19 @@
+/* src/styles/layouts/_footer.css */
+
+.footer {
+    background-color: var(--white-color); /* Cambiado a blanco */
+    color: var(--text-color); /* Cambiado a negro */
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.footer a {
+    color: var(--text-color); /* Cambiado a negro */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--accent-cyan);
+    /* Color cian al pasar el mouse */
+}

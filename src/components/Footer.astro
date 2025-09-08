@@ -1,89 +1,44 @@
 ---
 // src/components/Footer.astro
+import CallToAction from "./CallToAction.astro";
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="bg-primary-dark text-white pt-8 pb-4">
-    <section
-        class="cta-final cta-final--footer"
-        style="background-image: linear-gradient(rgba(23, 37, 84, 0.85), rgba(23, 37, 84, 0.85)), url('https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un%20fondo%20abstracto%20y%20futurista%20que%20representa%20la%20%27arquitectura%20digital%27.%20Un%20lienzo%20azul%20oscuro%20con%20l%C3%ADneas%20de%20color%20cian%20brillante%20que%20forman%20complejas%20redes%20de%20datos%2C%20entrelazadas%20con%20elegantes%20y%20tenues%20l%C3%ADneas%20(1).jpg?alt=media&token=2894e998-6f36-4773-b23d-02d174a32603'); background-size: cover; background-position: center;"
-    >
-        <div class="container">
-            <h2 class="cta-final__title">
-                ¿Tu negocio está listo para una transformación?
-            </h2>
-            <p class="max-w-xl mx-auto mb-8">
-                Descubre cómo una arquitectura digital estratégica puede
-                desbloquear el verdadero potencial de tu negocio.
-            </p>
-            <a href="/contacto" class="button button--primary"
-                >Agenda tu Consulta Estratégica</a
-            >
-        </div>
-    </section>
-    <div class="bg-primary-dark text-white pt-8 pb-4">
-        <div class="container mx-auto px-6">
-            <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left"
-            >
-                <div class="flex flex-col items-center md:items-start">
-                    <a href="/" class="logo-container mb-4">
-                        <img
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/logo-emmanuel-contreras.svg?alt=media&token=b2508db8-8db3-4212-a88e-d661a0c7739b"
-                            alt="Logo de Emmanuel Contreras"
-                            class="logo-svg footer-logo"
-                        />
-                    </a>
-                    <p class="text-gray-400 max-w-xs">
-                        Construyendo puentes entre la estrategia de negocio y la
-                        ejecución digital.
-                    </p>
-                </div>
-                <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-xl font-bold mb-4">Navegación</h3>
-                    <a
-                        href="/proceso"
-                        class="text-gray-400 hover:text-cyan-500 mb-2"
-                        >Proceso</a
-                    >
-                    <a
-                        href="/servicios"
-                        class="text-gray-400 hover:text-cyan-500 mb-2"
-                        >Servicios</a
-                    >
-                    <a
-                        href="/caso-de-exito"
-                        class="text-gray-400 hover:text-cyan-500 mb-2"
-                        >Casos de Éxito</a
-                    >
-                    <a
-                        href="/reseñas"
-                        class="text-gray-400 hover:text-cyan-500 mb-2"
-                        >Reseñas</a
-                    >
-                    <a
-                        href="/sobre-mi"
-                        class="text-gray-400 hover:text-cyan-500 mb-2"
-                        >Sobre Mí</a
-                    >
-                </div>
-                <div class="flex flex-col items-center md:items-start">
-                    <h3 class="text-xl font-bold mb-4">Contacto</h3>
-                    <a
-                        href="mailto:contrerasemmanuel134@gmail.com"
-                        class="text-gray-400 hover:text-cyan-500 mb-4"
-                        >contrerasemmanuel134@gmail.com</a
-                    >
-                </div>
-            </div>
+<!-- Primero, el Llamado a la Acción -->
+<CallToAction />
 
-            <div
-                class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500"
+<!-- Luego, el pie de página principal -->
+<footer class="footer" id="main-footer">
+    <div class="container text-center">
+        <div class="mb-6">
+            <a
+                href="/servicios"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Servicios</a
             >
-                <p>
-                    &copy; 2025 Emmanuel Contreras. Todos los derechos
-                    reservados.
-                </p>
-            </div>
+            <a
+                href="/caso-de-exito"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Casos de Éxito</a
+            >
+            <a
+                href="/proceso"
+                class="mx-3 hover:text-accent-cyan transition-colors">Proceso</a
+            >
+            <a
+                href="/sobre-mi"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Sobre Mí</a
+            >
+            <a
+                href="/contacto"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Contacto</a
+            >
         </div>
+        <p class="text-sm opacity-80">
+            &copy; {currentYear} Emmanuel Contreras - Arquitecto Digital. Todos los
+            derechos reservados.
+        </p>
     </div>
 </footer>

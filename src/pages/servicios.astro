@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import "../styles/pages/_servicios-layout.css";
+import { Image } from "astro:assets";
 
 const title = "Servicios - Emmanuel Contreras";
 const description =
@@ -24,12 +25,13 @@ const description =
         <div class="container">
             <article class="service-item">
                 <div class="service-item__graphic">
-                    <img
+                    <Image
                         src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/estratefia%20y%20consultoria.webp?alt=media&token=d794ea95-fb90-438c-9c02-414c1fe47658"
                         alt="Estrategia y consultoría digital"
                         class="servicio-imagen"
                         width={220}
                         height={220}
+                        densities={[1, 1.5, 2]}
                     />
                 </div>
                 <div class="service-item__content">
@@ -52,12 +54,13 @@ const description =
 
             <article class="service-item">
                 <div class="service-item__graphic">
-                    <img
+                    <Image
                         src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un-diagrama-de-arquitectura-de-software-profesional-y-limpio%20(1).webp?alt=media&token=c03624e5-3945-44c3-af0b-05e112a3b42e"
                         alt="Desarrollo de plataformas web"
                         class="servicio-imagen"
                         width={220}
                         height={220}
+                        densities={[1, 1.5, 2]}
                     />
                 </div>
                 <div class="service-item__content">
@@ -80,12 +83,13 @@ const description =
 
             <article class="service-item">
                 <div class="service-item__graphic">
-                    <img
+                    <Image
                         src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/optimisacion.webp?alt=media&token=a46e7a25-afad-41ef-9013-128d9a1a4a58"
                         alt="Optimización de rendimiento"
                         class="servicio-imagen"
                         width={220}
                         height={220}
+                        densities={[1, 1.5, 2]}
                     />
                 </div>
                 <div class="service-item__content">

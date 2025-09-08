@@ -1,0 +1,13 @@
+.hero-home {
+    background-image: var(--hero-bg-image);
+    background-size: cover;
+    background-position: center;
+    color: var(--white-color);
+    text-align: center;
+    padding: 6rem 1.5rem;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

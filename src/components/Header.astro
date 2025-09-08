@@ -1,15 +1,12 @@
 ---
 // src/components/Header.astro
+import Logo from "./Logo.astro";
 ---
 
 <header class="bg-primary-dark text-white shadow-lg header-fixed">
     <div class="container header-container">
         <a href="/" class="logo-container">
-            <img
-                src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/logo-emmanuel-contreras.svg?alt=media&token=b2508db8-8db3-4212-a88e-d661a0c7739b"
-                alt="Logo de Emmanuel Contreras - Arquitecto Digital"
-                class="logo-svg"
-            />
+            <Logo class="logo-svg" />
             <div class="hidden md:block">
                 <div class="font-bold tracking-wider">EMMANUEL CONTRERAS</div>
                 <div class="text-xs font-light tracking-wider opacity-80">

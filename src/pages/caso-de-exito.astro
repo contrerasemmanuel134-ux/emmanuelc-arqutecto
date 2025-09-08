@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/client";
+import { Image } from "astro:assets";
 
 interface Proyecto {
     title: string;
@@ -42,10 +43,13 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
                 {
                     proyectos.map((proyecto) => (
                         <div class="portfolio-item">
-                            <img
+                            <Image
                                 src={proyecto.imageUrl}
                                 alt={proyecto.title}
                                 class="portfolio-item__image"
+                                width={800}
+                                height={600}
+                                densities={[1, 1.5, 2]}
                             />
                             <h3 class="portfolio-item__title">
                                 {proyecto.title}

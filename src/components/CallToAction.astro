@@ -1,0 +1,23 @@
+---
+// src/components/CallToAction.astro
+import ctaBackgroundImage from "@/assets/cta-background.webp";
+import "@/styles/components/_cta.css";
+---
+
+<style define:vars={{ "cta-bg-image": `url(${ctaBackgroundImage.src})` }}
+></style>
+
+<section class="cta-final">
+    <div class="container">
+        <h2 class="cta-final__title">
+            ¿Listo para construir tu próximo gran proyecto?
+        </h2>
+        <p class="text-xl max-w-2xl mx-auto opacity-90 mb-10">
+            Hablemos de cómo puedo ayudarte a transformar tu visión en una
+            realidad digital.
+        </p>
+        <a href="/contacto" class="button button--primary"
+            >Iniciar Conversación</a
+        >
+    </div>
+</section>

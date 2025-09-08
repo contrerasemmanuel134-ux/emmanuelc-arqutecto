@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import { db } from '../../firebase/client';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
+import { Image } from "astro:assets";
 
 interface BlogPost {
   id: string;
@@ -36,7 +37,7 @@ const imageAlt = post?.title || 'Blog Post Image';
     <section class="page-section">
         <div class="container prose lg:prose-xl mx-auto">
             <h1>{pageTitle}</h1>
-            {imageUrl && <img src={imageUrl} alt={imageAlt} class="w-full h-auto rounded-lg mb-8">}
+            {imageUrl && <Image src={imageUrl} alt={imageAlt} class="w-full h-auto rounded-lg mb-8" width={1200} height={800} densities={[1, 1.5, 2]}/>}
             <p>{post?.content || 'Content not available.'}</p>
         </div>
     </section>

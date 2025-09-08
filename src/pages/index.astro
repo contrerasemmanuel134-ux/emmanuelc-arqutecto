@@ -1,12 +1,24 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import heroImage from "@/assets/hero-index.webp";
+import strategyImage from "@/assets/strategy-diagram.webp";
+import uxUiImage from "@/assets/ux-ui-mockup.webp";
+import developmentImage from "@/assets/development-gears.webp";
+import "../styles/components/hero.css";
 
 const title = "Emmanuel Contreras - Arquitecto Digital";
 const description =
     "Convierto tu visión de negocio en plataformas digitales robustas y que generan resultados. Como Arquitecto Digital, construyo soluciones web a medida.";
 ---
 
-<Layout title={title} description={description}>
+<Layout {title} {description}>
+    <Fragment slot="head">
+        <link rel="preload" href={heroImage.src} as="image" type="image/webp" />
+        <style define:vars={{ "hero-bg-image": `url(${heroImage.src})` }}
+        ></style>
+    </Fragment>
+
     <section class="hero-home">
         <h1 class="hero-home__title">Emmanuel Contreras: Arquitecto Digital</h1>
         <p class="text-xl max-w-2xl mx-auto opacity-90 mb-10">
@@ -20,7 +32,6 @@ const description =
             <a href="/contacto" class="button button--primary">Hablemos</a>
         </div>
     </section>
-
     <section class="page-section">
         <div class="container text-center">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">
@@ -34,11 +45,12 @@ const description =
             <div class="grid md:grid-cols-3 gap-8">
                 <div class="p-6 text-center">
                     <div class="flex justify-center mb-4">
-                        <img
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un-diagrama-de-arquitectura-de-software-profesional-y-limpio.webp?alt=media&token=be7c7448-79c1-43e6-8b45-47f1f4aad1d6"
+                        <Image
+                            src={strategyImage}
                             alt="Diagrama de estrategia digital"
                             width={200}
                             height={150}
+                            densities={[1, 1.5, 2]}
                             class="rounded-lg shadow-lg"
                         />
                     </div>
@@ -53,11 +65,12 @@ const description =
 
                 <div class="p-6 text-center">
                     <div class="flex justify-center mb-4">
-                        <img
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un-_mockup_-fotorrealista-que-muestra-una-aplicaci%C3%B3n-web-sofisticada-y-elegante-desplegada-en-m%C3%BAltip.webp?alt=media&token=94fc895d-95ee-4949-b2bf-adfc02fea510"
+                        <Image
+                            src={uxUiImage}
                             alt="Mockup de aplicación web en una laptop"
                             width={200}
                             height={150}
+                            densities={[1, 1.5, 2]}
                             class="rounded-lg shadow-lg"
                         />
                     </div>
@@ -72,11 +85,12 @@ const description =
 
                 <div class="p-6 text-center">
                     <div class="flex justify-center mb-4">
-                        <img
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un-diagrama-de-arquitectura-de-software-profesional-y-limpio_1.webp?alt=media&token=5bcb8ddb-4ce6-466f-bd18-0678e4748ad7"
+                        <Image
+                            src={developmentImage}
                             alt="Engranajes de precisión de un reloj"
                             width={200}
                             height={150}
+                            densities={[1, 1.5, 2]}
                             class="rounded-lg shadow-lg"
                         />
                     </div>

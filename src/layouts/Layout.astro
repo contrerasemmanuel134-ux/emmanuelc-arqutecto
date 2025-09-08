@@ -2,12 +2,11 @@
 // src/layouts/Layout.astro (VERSIÓN FINAL Y CORRECTA)
 
 // ¡AÑADE ESTAS DOS LÍNEAS!
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 // Y esta para tus estilos, que ya tenías
-import '../styles/main.css';
+import "../styles/main.css";
 
 // El resto de tu código de props...
 export interface Props {
@@ -15,30 +14,39 @@ export interface Props {
     description?: string;
     showFooter?: boolean;
 }
-const { title, description = 'Descripción por defecto', showFooter = true } = Astro.props;
+const {
+    title,
+    description = "Descripción por defecto",
+    showFooter = true,
+} = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    {/* ... todo tu head ... */}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-</head>
+    <head>
+        {/* ... todo tu head ... */}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <slot name="head" />
+    </head>
 
-<body>
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNJ8BG7H"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    
-    {/* Y aquí los usas con la Mayúscula */}
-    <Header />
-    <main>
-        <slot />
-    </main>
-    {showFooter && <Footer />}
+    <body>
+        <noscript
+            ><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-NNJ8BG7H"
+                height="0"
+                width="0"
+                style="display:none;visibility:hidden"></iframe></noscript
+        >
 
-</body>
+        {/* Y aquí los usas con la Mayúscula */}
+        <Header />
+        <main>
+            <slot />
+        </main>
+        {showFooter && <Footer />}
+    </body>
 </html>

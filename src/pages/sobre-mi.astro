@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import "../styles/pages/_sobre-mi.css";
+import { Image } from "astro:assets";
 
 const title = "Emmanuel Contreras - Arquitecto Digital";
 const description =
@@ -12,10 +13,13 @@ const description =
         <div class="container">
             <div class="about-hero">
                 <div class="about-hero__image-container">
-                    <img
+                    <Image
                         src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/emmanuel-contreras.webp?alt=media&token=70f9f486-954a-4398-85ee-7964b666a548"
                         alt="Retrato de Emmanuel Contreras"
                         class="about-hero__image"
+                        width={400}
+                        height={400}
+                        densities={[1, 1.5, 2]}
                     />
                 </div>
                 <div class="about-hero__text">
@@ -50,11 +54,12 @@ const description =
             <div class="philosophy-grid">
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <img
+                        <Image
                             src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/estratefia%20y%20consultoria.webp?alt=media&token=d794ea95-fb90-438c-9c02-414c1fe47658"
                             alt="Estrategia y Diseño UX"
                             width={80}
                             height={80}
+                            densities={[1, 1.5, 2]}
                             class="philosophy-image"
                         />
                     </div>
@@ -69,11 +74,12 @@ const description =
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <img
+                        <Image
                             src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/desarrollo-web.webp?alt=media&token=5dee2d1e-6419-4e64-b9e1-fad5b2cf0c2e"
                             alt="Desarrollo de Calidad"
                             width={80}
                             height={80}
+                            densities={[1, 1.5, 2]}
                             class="philosophy-image"
                         />
                     </div>
@@ -88,11 +94,12 @@ const description =
                 </div>
                 <div class="philosophy-card">
                     <div class="philosophy-card__icon">
-                        <img
+                        <Image
                             src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/optimisacion.webp?alt=media&token=a46e7a25-afad-41ef-9013-128d9a1a4a58"
                             alt="Fusión y Resultados"
                             width={80}
                             height={80}
+                            densities={[1, 1.5, 2]}
                             class="philosophy-image"
                         />
                     </div>
