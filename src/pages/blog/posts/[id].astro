@@ -1,0 +1,56 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { db } from "../../../firebase/client";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { Image } from "astro:assets";
+
+interface BlogPost {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+}
+
+export async function getStaticPaths() {
+  const blogPostsCollection = collection(db, "blogPosts");
+  const blogPostsSnapshot = await getDocs(blogPostsCollection);
+  return blogPostsSnapshot.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      params: { id: doc.id },
+      props: { post: { id: doc.id, ...(data as BlogPost) } },
+    };
+  });
+}
+
+const { id } = Astro.params;
+const { post } = Astro.props as { post: BlogPost };
+
+// Defensive checks for post and its properties
+const pageTitle = post?.title || "Blog Post";
+const pageDescription =
+  post?.content?.substring(0, 160) || "A blog post from Emmanuel Contreras.";
+const imageUrl = post?.imageUrl || "";
+const imageAlt = post?.title || "Blog Post Image";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <section class="page-section">
+    <div class="container prose lg:prose-xl mx-auto">
+      <h1>{pageTitle}</h1>
+      {
+        imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            class="w-full h-auto rounded-lg mb-8"
+            width={1200}
+            height={800}
+            densities={[1, 1.5, 2]}
+          />
+        )
+      }
+      <p>{post?.content || "Content not available."}</p>
+    </div>
+  </section>
+</Layout>

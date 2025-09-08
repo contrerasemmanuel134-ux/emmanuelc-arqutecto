@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/client";
+import { db } from "../../firebase/client";
 import { Image } from "astro:assets";
 interface BlogPost {
     id: string;
@@ -36,7 +36,7 @@ const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map((doc) => ({
             <div class="portfolio-grid">
                 {
                     blogPosts.map((post) => (
-                        <a href={`/blog/${post.id}`} class="card">
+                        <a href={`/blog/posts/${post.id}`} class="card">
                             <Image
                                 src={post.imageUrl || ""}
                                 alt={post.title || "Blog Post Image"}
