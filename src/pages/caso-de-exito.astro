@@ -29,7 +29,7 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
 
 <Layout title={title} description={description}>
     <section class="hero-interior">
-        <h1 class="hero-interior__title">Casos de Éxito</h1>
+        <h1 class="hero-interior__title"></h1>
         <p class="text-lg max-w-3xl mx-auto mt-4">
             Aquí puedes ver cómo la aplicación de una metodología estratégica y
             una ejecución técnica precisa se traducen en resultados reales y
@@ -63,7 +63,7 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
                                         href={proyecto.urlSitioWeb}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="btn btn-primary"
+                                        class="button button--primary"
                                     >
                                         Ver Sitio
                                     </a>
@@ -73,7 +73,7 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
                                         href={proyecto.urlRepositorio}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="btn btn-secondary"
+                                        class="button button--secondary"
                                     >
                                         Ver Repositorio
                                     </a>

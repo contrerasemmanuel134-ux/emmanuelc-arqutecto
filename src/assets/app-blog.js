@@ -18,31 +18,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postContentField = document.getElementById('post-content');
     const postImageUrlField = document.getElementById('post-image-url');
 
-    let easyMDEInstance = null;
-
     const openModal = () => {
-        if (easyMDEInstance) {
-            easyMDEInstance.toTextArea();
-            easyMDEInstance = null;
-        }
         postModal.classList.remove('hidden');
-        easyMDEInstance = new EasyMDE({ element: postContentField, spellChecker: false });
     };
 
     const closeModal = () => {
         postModal.classList.add('hidden');
-        if (easyMDEInstance) {
-            easyMDEInstance.toTextArea();
-            easyMDEInstance = null;
-        }
     };
 
     addPostBtn.addEventListener('click', () => {
         postForm.reset();
         postIdField.value = '';
-        if (easyMDEInstance) {
-            easyMDEInstance.value('');
-        }
+        postContentField.value = ''; // Clear content field
         openModal();
     });
 
@@ -76,11 +63,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 postIdField.value = id;
                 postTitleField.value = post.title;
                 postImageUrlField.value = post.imageUrl;
+                postContentField.value = post.content; // Set content field directly
 
                 openModal();
-                if (easyMDEInstance) {
-                    easyMDEInstance.value(post.content);
-                }
             });
         });
 
@@ -100,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const id = postIdField.value;
         const postData = {
             title: postTitleField.value,
-            content: easyMDEInstance ? easyMDEInstance.value() : postContentField.value,
+            content: postContentField.value, // Get content directly from textarea
             imageUrl: postImageUrlField.value,
         };
 

@@ -1,18 +1,17 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BlogLayout from "../../layouts/BlogLayout.astro";
 import { Image } from "astro:assets";
-import mainImage from "../../assets/images-blog/Compu.webp";
+import mainImage from "../../assets/images-blog/index-blog.webp";
 import adminPanelImage from "../../assets/images-blog/panelde admin.webp";
 import compuPageSpeedImage from "../../assets/images-blog/Compu-pagespeed.webp";
 import mobilePageSpeedImage from "../../assets/images-blog/sitioweb-celular.webp";
-import BlogHeader from "../components/BlogHeader.astro";
-import BlogFooter from "../components/BlogFooter.astro";
 
 const title = "Caso de Éxito: Mi Casa Digital";
-const description = "La Arquitectura Detrás del 100/100: Cómo Reconstruí Mi Propia Casa Digital";
+const description =
+    "La Arquitectura Detrás del 100/100: Cómo Reconstruí Mi Propia Casa Digital";
 ---
-<Layout {title} {description}>
-    <BlogHeader />
+
+<BlogLayout {title} {description}>
     <div class="p-6 md:p-12">
         <div
             class="container mx-auto bg-white rounded-xl shadow-lg p-6 md:p-10"
@@ -169,5 +168,4 @@ const description = "La Arquitectura Detrás del 100/100: Cómo Reconstruí Mi P
             </div>
         </div>
     </div>
-    <BlogFooter />
-</Layout>
+</BlogLayout>

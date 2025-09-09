@@ -1,5 +1,24 @@
 ---
+const currentYear = new Date().getFullYear();
 ---
-<footer>
-    <p>Blog Footer</p>
+
+<footer class="footer" id="main-footer">
+    <div class="container text-center">
+        <div class="mb-6">
+            <a
+                href="/"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Página Principal</a
+            >
+            <a
+                href="/blog/posts"
+                class="mx-3 hover:text-accent-cyan transition-colors"
+                >Ver todos los posts</a
+            >
+        </div>
+        <p class="text-sm opacity-80">
+            &copy; {currentYear} Emmanuel Contreras - Arquitecto Digital. Todos los
+            derechos reservados.
+        </p>
+    </div>
 </footer>

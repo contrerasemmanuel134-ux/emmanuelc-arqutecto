@@ -71,6 +71,58 @@
     font-style: normal;
 }
 
+/* --- Portfolio Grid and Item Styles --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.portfolio-item {
+    background: var(--white-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    cursor: pointer; /* Indicate interactivity */
+}
+
+.portfolio-item:hover {
+    transform: scale(1.03); /* Make it slightly larger */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.portfolio-item__image {
+    width: 100%;
+    height: 220px; /* Adjust as needed */
+    object-fit: cover;
+}
+
+.portfolio-item__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    padding: 0 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.portfolio-item__description {
+    color: var(--text-color);
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+    padding: 0 1.5rem;
+}
+
+.portfolio-item__links {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
 
 @media (max-width: 992px) {
     .project-narrative {

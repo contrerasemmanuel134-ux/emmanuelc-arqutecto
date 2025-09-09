@@ -1,18 +1,79 @@
 ---
+import Logo from "./Logo.astro";
 ---
-<header>
-    <nav class="flex justify-center gap-4 mb-8">
-        <a
-            href="/"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-            Página Principal
+
+<header class="bg-primary-dark text-white shadow-lg header-fixed">
+    <div class="container header-container">
+        <a href="/" class="logo-container">
+            <Logo class="logo-svg" />
+            <div class="hidden md:block">
+                <div class="font-bold tracking-wider">EMMANUEL CONTRERAS</div>
+                <div class="text-xs font-light tracking-wider opacity-80">
+                    ARQUITECTO DIGITAL
+                </div>
+            </div>
         </a>
-        <a
-            href="/blog/posts"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        >
-            Ver todos los posts
-        </a>
-    </nav>
+
+        <div class="header-right-side">
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="/" class="nav-link">Página Principal</a>
+                <a href="/blog/posts" class="nav-link">Ver todos los posts</a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-4 ml-6">
+                <a
+                    href="/contacto"
+                    class="button button--secondary"
+                    style="padding: 0.6rem 1.5rem;">Contacto</a
+                >
+            </div>
+            <div class="md:hidden ml-4">
+                <button
+                    id="menu-toggle"
+                    class="text-white focus:outline-none"
+                    aria-controls="mobile-menu"
+                    aria-expanded="false"
+                >
+                    <span class="sr-only">Abrir menú</span>
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden">
+        <nav class="px-6 pt-2 pb-4">
+            <ul class="flex flex-col space-y-2">
+                <li>
+                    <a href="/" class="nav-link text-center block py-2"
+                        >Página Principal</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="/blog/posts"
+                        class="nav-link text-center block py-2"
+                        >Ver todos los posts</a
+                    >
+                </li>
+                <li>
+                    <a href="/contacto" class="nav-link text-center block py-2"
+                        >Contacto</a
+                    >
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <script type="module" src="/assets/js/header-dropdown.js"></script>
 </header>

@@ -1,5 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import BlogLayout from "../../layouts/BlogLayout.astro";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/client";
 import { Image } from "astro:assets";
@@ -22,7 +22,7 @@ const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map((doc) => ({
 }));
 ---
 
-<Layout title={title} description={description}>
+<BlogLayout title={title} description={description}>
     <section class="hero-interior">
         <h1 class="hero-interior__title">Blog de Arquitectura Digital</h1>
         <p class="text-lg max-w-3xl mx-auto mt-4">
@@ -62,4 +62,4 @@ const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map((doc) => ({
             </div>
         </div>
     </section>
-</Layout>
+</BlogLayout>

@@ -1,5 +1,5 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
+import BlogLayout from "../../../layouts/BlogLayout.astro";
 import { db } from "../../../firebase/client";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { Image } from "astro:assets";
@@ -34,7 +34,7 @@ const imageUrl = post?.imageUrl || "";
 const imageAlt = post?.title || "Blog Post Image";
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
+<BlogLayout title={pageTitle} description={pageDescription}>
   <section class="page-section">
     <div class="container prose lg:prose-xl mx-auto">
       <h1>{pageTitle}</h1>
@@ -53,4 +53,4 @@ const imageAlt = post?.title || "Blog Post Image";
       <p>{post?.content || "Content not available."}</p>
     </div>
   </section>
-</Layout>
+</BlogLayout>
