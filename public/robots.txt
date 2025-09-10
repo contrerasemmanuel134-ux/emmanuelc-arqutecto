@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://expanded-system-469904-v9.web.app/sitemap-index.xml
+Sitemap: https://emmanuel-contreras.com/sitemap-index.xml

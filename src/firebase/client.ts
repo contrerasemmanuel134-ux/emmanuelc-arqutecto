@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth as _getAuth, onAuthStateChanged } from "firebase/auth"; // Rename to avoid conflict
+import { getAuth as _getAuth } from "firebase/auth";
 import { getFirestore as _getFirestore } from "firebase/firestore"; // Rename
 import { getStorage as _getStorage } from "firebase/storage"; // Rename
 
@@ -20,4 +20,4 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = _getAuth(app);
 export const db = _getFirestore(app);
 export const storage = _getStorage(app);
-export { onAuthStateChanged }
+

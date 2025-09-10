@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), sitemap()],
-  site: 'https://expanded-system-469904-v9.web.app/',
+  site: 'https://emmanuel-contreras.com',
   vite: {
     resolve: {
       alias: {
@@ -22,7 +22,9 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            // No manual chunks for now, let Rollup optimize
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
           }
         }
       }

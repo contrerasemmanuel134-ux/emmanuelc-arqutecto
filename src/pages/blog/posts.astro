@@ -3,6 +3,7 @@ import BlogLayout from "../../layouts/BlogLayout.astro";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/client";
 import { Image } from "astro:assets";
+import placeholderImage from "../../assets/development-gears.webp";
 interface BlogPost {
     id: string;
     title: string;
@@ -38,7 +39,7 @@ const blogPosts: BlogPost[] = blogPostsSnapshot.docs.map((doc) => ({
                     blogPosts.map((post) => (
                         <a href={`/blog/posts/${post.id}`} class="card">
                             <Image
-                                src={post.imageUrl || ""}
+                                src={post.imageUrl || placeholderImage}
                                 alt={post.title || "Blog Post Image"}
                                 class="card__image"
                                 width={400}

@@ -3,6 +3,7 @@ import BlogLayout from "../../../layouts/BlogLayout.astro";
 import { db } from "../../../firebase/client";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { Image } from "astro:assets";
+import placeholderImage from "../../../assets/development-gears.webp";
 
 interface BlogPost {
   id: string;
@@ -30,7 +31,7 @@ const { post } = Astro.props as { post: BlogPost };
 const pageTitle = post?.title || "Blog Post";
 const pageDescription =
   post?.content?.substring(0, 160) || "A blog post from Emmanuel Contreras.";
-const imageUrl = post?.imageUrl || "";
+const imageUrl = post?.imageUrl || placeholderImage;
 const imageAlt = post?.title || "Blog Post Image";
 ---
 

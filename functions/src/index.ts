@@ -3,6 +3,7 @@ import { setGlobalOptions } from "firebase-functions/v2";
 import * as admin from "firebase-admin";
 import * as express from "express";
 import * as cors from "cors";
+import { google } from "googleapis";
 
 admin.initializeApp();
 
@@ -190,6 +191,99 @@ app.delete("/media/:fileName", authenticate, async (req, res) => {
       res.status(404).send("File not found");
     } else {
       res.status(500).send("Internal Server Error");
+    }
+  }
+});
+
+// Marketing API routes
+app.get("/marketing/pagespeed", authenticate, async (req, res) => {
+  const urlToTest = req.query.url as string;
+
+  if (!urlToTest) {
+    return res.status(400).send("Bad Request: Missing 'url' query parameter.");
+  }
+
+  try {
+    const pagespeedonline = google.pagespeedonline("v5");
+    const response = await pagespeedonline.pagespeedapi.runpagespeed({
+      url: urlToTest,
+      key: process.env.PAGESPEED_KEY, // Accessing the key from .env
+      strategy: "DESKTOP", // or MOBILE
+    });
+
+    return res.status(200).send(response.data);
+  } catch (error) {
+    console.error("Error calling PageSpeed Insights API:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
+// Google Search Console route
+app.get("/marketing/searchconsole", authenticate, async (req, res) => {
+  // IMPORTANT: Replace with your site's URL as registered in Google Search Console
+  const siteUrl = "https://www.emmanuel-contreras.com/";
+
+  try {
+    const auth = new google.auth.GoogleAuth({
+      keyFile: "./service-account.json", // Path to your service account key
+      scopes: ["https://www.googleapis.com/auth/webmasters.readonly"],
+    });
+
+    const client = await auth.getClient();
+    google.options({ auth: client });
+
+    const searchconsole = google.searchconsole("v1");
+
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+
+    const formatDate = (date: Date) => date.toISOString().split('T')[0];
+
+    const response = await searchconsole.searchanalytics.query({
+      siteUrl: siteUrl,
+      requestBody: {
+        startDate: formatDate(thirtyDaysAgo),
+        endDate: formatDate(today),
+        dimensions: ["query"],
+        rowLimit: 20, // Get top 20 queries
+      },
+    });
+
+    const rows = response.data.rows || [];
+
+    // Calculate totals
+    const totals = rows.reduce((acc, row) => {
+      acc.clicks += row.clicks || 0;
+      acc.impressions += row.impressions || 0;
+      return acc;
+    }, { clicks: 0, impressions: 0, ctr: 0, position: 0 });
+
+    // Avoid division by zero
+    if (totals.impressions > 0) {
+      totals.ctr = totals.clicks / totals.impressions;
+    }
+
+    // To calculate the true average position, we need to sum weighted positions and divide by total impressions.
+    // This is a simplified average of averages, which is less accurate but sufficient for a dashboard overview.
+    const totalPosition = rows.reduce((acc, row) => acc + (row.position || 0), 0);
+    if (rows.length > 0) {
+      totals.position = totalPosition / rows.length;
+    }
+
+    res.status(200).send({
+      totals: totals,
+      queries: rows,
+    });
+  } catch (error: any) {
+    console.error("Error calling Search Console API:", error);
+    // Provide a more specific error message if possible
+    if (error.code === 403) {
+        res.status(403).json({ message: "Permission denied. Ensure the service account has access to the Search Console property." });
+    } else if (error.code === 404) {
+        res.status(404).json({ message: `Site not found: ${siteUrl}. Verify the URL is correct.` });
+    } else {
+        res.status(500).json({ message: error.message || "Internal Server Error" });
     }
   }
 });
