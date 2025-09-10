@@ -1,0 +1,1 @@
+// This file is no longer used as the AI assistant now directly calls the Google Gemini API.

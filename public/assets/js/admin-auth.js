@@ -33,15 +33,16 @@ if (loginForm) {
 }
 
 // --- Lógica para Proteger Rutas y Cerrar Sesión ---
+// Se ejecuta inmediatamente para proteger la ruta antes de que se cargue el contenido.
+onAuthStateChanged(auth, (user) => {
+    if (!user && window.location.pathname.includes('/dashboard')) {
+        window.location.href = '/login';
+    }
+});
+
+// La creación del botón de logout sí puede esperar a que el DOM esté listo.
 if (window.location.pathname.includes('/dashboard')) {
     document.addEventListener('DOMContentLoaded', () => {
-        // Usa la instancia 'auth' directamente aquí
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                window.location.href = '/login';
-            }
-        });
-
         const logoutButton = document.createElement('button');
         logoutButton.textContent = 'Cerrar Sesión';
         logoutButton.className = 'btn btn--secondary';

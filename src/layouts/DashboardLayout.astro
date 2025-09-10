@@ -65,7 +65,7 @@ const isActive = (linkHref: string, currentPath: string) => {
         <!-- Asistente de IA -->
         <AsistenteIA />
 
-        <script src="../assets/admin-auth.js"></script>
-        <script src="../assets/app-asistente-ia.js"></script> <!-- Añadir el script del asistente -->
+        <script is:inline type="module" src="/assets/js/admin-auth.js"></script>
+        <script is:inline type="module" src="/assets/js/app-asistente-ia.js"></script> <!-- Añadir el script del asistente -->
     </body>
 </html>
