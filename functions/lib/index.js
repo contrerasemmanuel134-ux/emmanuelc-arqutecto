@@ -7,6 +7,7 @@ const admin = require("firebase-admin");
 const express = require("express");
 const cors = require("cors");
 const googleapis_1 = require("googleapis");
+const generative_ai_1 = require("@google/generative-ai");
 admin.initializeApp();
 (0, v2_1.setGlobalOptions)({ region: "us-central1" });
 const app = express();
@@ -207,6 +208,160 @@ app.get("/marketing/pagespeed", authenticate, async (req, res) => {
     catch (error) {
         console.error("Error calling PageSpeed Insights API:", error);
         return res.status(500).send("Internal Server Error");
+    }
+});
+// Google Search Console route
+app.get("/marketing/searchconsole", authenticate, async (req, res) => {
+    // IMPORTANT: Replace with your site's URL as registered in Google Search Console
+    const siteUrl = "https://www.emmanuel-contreras.com/";
+    try {
+        const auth = new googleapis_1.google.auth.GoogleAuth({
+            keyFile: "./service-account.json", // Path to your service account key
+            scopes: ["https://www.googleapis.com/auth/webmasters.readonly"],
+        });
+        const searchconsole = googleapis_1.google.searchconsole({ version: "v1", auth });
+        const today = new Date();
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        const formatDate = (date) => date.toISOString().split('T')[0];
+        const response = await searchconsole.searchanalytics.query({
+            siteUrl: siteUrl,
+            requestBody: {
+                startDate: formatDate(thirtyDaysAgo),
+                endDate: formatDate(today),
+                dimensions: ["query"],
+                rowLimit: 20, // Get top 20 queries
+            },
+        });
+        const rows = response.data.rows || [];
+        // Calculate totals
+        const totals = rows.reduce((acc, row) => {
+            acc.clicks = (acc.clicks || 0) + (row.clicks || 0);
+            acc.impressions = (acc.impressions || 0) + (row.impressions || 0);
+            return acc;
+        }, { clicks: 0, impressions: 0, ctr: 0, position: 0 });
+        // Avoid division by zero
+        if (typeof totals.impressions === 'number' && totals.impressions > 0) {
+            totals.ctr = (totals.clicks || 0) / totals.impressions;
+        }
+        // To calculate the true average position, we need to sum weighted positions and divide by total impressions.
+        // This is a simplified average of averages, which is less accurate but sufficient for a dashboard overview.
+        const totalPosition = rows.reduce((acc, row) => acc + (row.position || 0), 0);
+        if (rows.length > 0) {
+            totals.position = totalPosition / rows.length;
+        }
+        res.status(200).send({
+            totals: totals,
+            queries: rows,
+        });
+    }
+    catch (error) {
+        console.error("Error calling Search Console API:", error);
+        // Provide a more specific error message if possible
+        if (error.code === 403) {
+            res.status(403).json({ message: "Permission denied. Ensure the service account has access to the Search Console property." });
+        }
+        else if (error.code === 404) {
+            res.status(404).json({ message: `Site not found: ${siteUrl}. Verify the URL is correct.` });
+        }
+        else {
+            res.status(500).json({ message: error.message || "Internal Server Error" });
+        }
+    }
+});
+// Google Analytics route
+app.get("/marketing/analytics", authenticate, async (req, res) => {
+    // IMPORTANT: Replace with your Google Analytics 4 Property ID
+    const propertyId = "365633566";
+    try {
+        const auth = new googleapis_1.google.auth.GoogleAuth({
+            keyFile: "./service-account.json",
+            scopes: ["https://www.googleapis.com/auth/analytics.readonly"],
+        });
+        const analytics = googleapis_1.google.analyticsdata({ version: 'v1beta', auth });
+        const today = new Date();
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        const formatDate = (date) => date.toISOString().split('T')[0];
+        const response = await analytics.properties.runReport({
+            property: `properties/${propertyId}`,
+            requestBody: {
+                dateRanges: [{
+                        startDate: formatDate(thirtyDaysAgo),
+                        endDate: formatDate(today),
+                    }],
+                metrics: [
+                    { name: 'activeUsers' },
+                    { name: 'sessions' },
+                    { name: 'screenPageViews' }
+                ],
+            }
+        });
+        res.status(200).send(response.data);
+    }
+    catch (error) {
+        console.error("Error calling Google Analytics API:", error);
+        if (error.code === 403) {
+            res.status(403).json({ message: "Permission denied. Ensure the service account has access to the Google Analytics property." });
+        }
+        else {
+            res.status(500).json({ message: error.message || "Internal Server Error" });
+        }
+    }
+});
+// Google Ads route - MOCK DATA
+app.get("/marketing/ads", authenticate, async (req, res) => {
+    // IMPORTANT: The Google Ads API is complex and the 'googleapis' library is not ideal.
+    // A dedicated client library like 'google-ads-api' is recommended for production.
+    // This endpoint returns mock data to demonstrate frontend integration.
+    try {
+        // In a real implementation, you would use the Google Ads API client here.
+        // This would involve your Customer ID, authentication, and a GAQL query.
+        const mockData = {
+            clicks: Math.floor(Math.random() * 1500 + 200),
+            impressions: Math.floor(Math.random() * 30000 + 5000),
+            cost_micros: Math.floor(Math.random() * 700000000 + 100000000), // Cost in micro-currency (e.g., micro-dollars)
+            conversions: Math.floor(Math.random() * 100 + 10),
+        };
+        res.status(200).send(mockData);
+    }
+    catch (error) {
+        console.error("Error in Google Ads mock endpoint:", error);
+        res.status(500).json({ message: "Google Ads API endpoint not fully implemented." });
+    }
+});
+// AI Assistant route
+app.post("/assistant", async (req, res) => {
+    // For production, you might want to add the 'authenticate' middleware here.
+    try {
+        const { prompt, history } = req.body;
+        if (!prompt) {
+            res.status(400).send("Bad Request: Missing prompt");
+            return;
+        }
+        const geminiKey = process.env.GEMINI_API_KEY;
+        if (!geminiKey) {
+            console.error("GEMINI_API_KEY not set.");
+            res.status(500).send("Internal Server Error: API key not configured.");
+            return;
+        }
+        const genAI = new generative_ai_1.GoogleGenerativeAI(geminiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const chat = model.startChat({
+            history: history || [],
+            generationConfig: {
+                maxOutputTokens: 1000,
+            },
+            systemInstruction: "You are a helpful and general-purpose AI assistant. Answer any questions the user has to the best of your ability.",
+        });
+        const result = await chat.sendMessage(prompt);
+        const response = await result.response;
+        const text = response.text();
+        res.status(200).send({ text });
+    }
+    catch (error) {
+        console.error("Error in AI Assistant route:", error);
+        res.status(500).send("Internal Server Error while generating content.");
     }
 });
 exports.api = (0, https_1.onRequest)(app);

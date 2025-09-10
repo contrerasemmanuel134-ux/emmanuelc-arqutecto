@@ -258,7 +258,7 @@ app.get("/marketing/searchconsole", authenticate, async (req, res) => {
     }, { clicks: 0, impressions: 0, ctr: 0, position: 0 });
 
     // Avoid division by zero
-    if (totals.impressions > 0) {
+    if (typeof totals.impressions === 'number' && totals.impressions > 0) {
       totals.ctr = (totals.clicks || 0) / totals.impressions;
     }
 
@@ -385,6 +385,7 @@ app.post("/assistant", async (req, res) => {
       generationConfig: {
         maxOutputTokens: 1000,
       },
+      systemInstruction: "You are a helpful and general-purpose AI assistant. Answer any questions the user has to the best of your ability.",
     });
 
     const result = await chat.sendMessage(prompt);
