@@ -1,0 +1,184 @@
+---
+// src/components/AsistenteIA.astro
+---
+<div id="asistente-container">
+  <button id="asistente-fab" class="asistente-fab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>
+  </button>
+  <div id="asistente-chat-window" class="asistente-chat-window hidden">
+    <div class="asistente-header">
+      <h3>Asistente de IA</h3>
+      <button id="asistente-close-btn">&times;</button>
+    </div>
+    <div id="asistente-messages" class="asistente-messages">
+      <div class="message message-ai">
+        <p>¡Hola! Soy tu asistente. ¿En qué puedo ayudarte hoy con tu marketing o tus proyectos?</p>
+      </div>
+    </div>
+    <div class="asistente-input-area">
+      <form id="asistente-form">
+        <input type="text" id="asistente-input" placeholder="Escribe tu pregunta..." autocomplete="off" required>
+        <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  #asistente-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+  }
+
+  .asistente-fab {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .asistente-fab:hover {
+    transform: scale(1.1);
+  }
+
+  .asistente-chat-window {
+    position: fixed;
+    bottom: 7rem;
+    right: 2rem;
+    width: 350px;
+    max-width: 90vw;
+    height: 500px;
+    max-height: 70vh;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: opacity 0.3s, transform 0.3s;
+    transform-origin: bottom right;
+  }
+
+  .asistente-chat-window.hidden {
+    display: none;
+  }
+
+  .asistente-header {
+    background-color: #f1f3f4;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .asistente-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  #asistente-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #5f6368;
+  }
+
+  .asistente-messages {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .message {
+    max-width: 85%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 18px;
+    word-wrap: break-word;
+  }
+
+  .message p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .message-user {
+    background-color: #e8f0fe;
+    color: #1967d2;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+
+  .message-ai {
+    background-color: #f1f3f4;
+    color: #3c4043;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .message-ai.loading p::after {
+    content: '❚';
+    display: inline-block;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .asistente-input-area {
+    border-top: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+
+  #asistente-form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  #asistente-input {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  #asistente-input:focus {
+    outline: none;
+    border-color: #1a73e8;
+  }
+
+  #asistente-form button {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+</style>
