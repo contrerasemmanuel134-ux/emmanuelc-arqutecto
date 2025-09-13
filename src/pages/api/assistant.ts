@@ -1,9 +1,31 @@
+export const prerender = false;
 import type { APIRoute } from 'astro';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { prompt, history } = await request.json();
+    const rawBody = await request.text();
+    console.log('Raw request body:', rawBody); // Keep this for debugging if needed
+
+    if (!rawBody) {
+      return new Response(JSON.stringify({ error: 'Request body is empty' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(rawBody);
+    } catch (jsonError) {
+      console.error('JSON parsing error:', jsonError);
+      return new Response(JSON.stringify({ error: 'Invalid JSON in request body', details: (jsonError as Error).message }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const { prompt, history } = parsedBody;
 
     if (!prompt) {
       return new Response(JSON.stringify({ error: 'Prompt is required' }), {
@@ -42,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
   } catch (error) {
     console.error('Error processing Gemini API call:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+    return new Response(JSON.stringify({ error: 'Internal Server Error', details: (error as Error).message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

@@ -1,95 +1,76 @@
-// src/assets/app-asistente-ia.js
 document.addEventListener('DOMContentLoaded', () => {
-  const fab = document.getElementById('asistente-fab');
-  const chatWindow = document.getElementById('asistente-chat-window');
-  const closeBtn = document.getElementById('asistente-close-btn');
-  const form = document.getElementById('asistente-form');
-  const input = document.getElementById('asistente-input');
-  const messagesContainer = document.getElementById('asistente-messages');
+    const fab = document.getElementById('asistente-fab');
+    const chatWindow = document.getElementById('asistente-chat-window');
+    const closeBtn = document.getElementById('asistente-close-btn');
+    const chatForm = document.getElementById('asistente-form');
+    const chatInput = document.getElementById('asistente-input');
+    const messagesContainer = document.getElementById('asistente-messages');
 
-  // --- State ---
-  let chatHistory = []; // [{ role: 'user' | 'model', parts: [{ text: '...' }] }]
+    let chatHistory = [];
 
-  // --- Event Listeners ---
-  fab.addEventListener('click', () => toggleChatWindow(true));
-  closeBtn.addEventListener('click', () => toggleChatWindow(false));
-  form.addEventListener('submit', handleFormSubmit);
+    // Toggle chat window visibility
+    fab.addEventListener('click', () => {
+        chatWindow.classList.toggle('hidden');
+    });
 
-  // --- Functions ---
-  function toggleChatWindow(show) {
-    if (show) {
-      chatWindow.classList.remove('hidden');
-      fab.classList.add('hidden');
-    } else {
-      chatWindow.classList.add('hidden');
-      fab.classList.remove('hidden');
-    }
-  }
+    closeBtn.addEventListener('click', () => {
+        chatWindow.classList.add('hidden');
+    });
 
-  async function handleFormSubmit(e) {
-    e.preventDefault();
-    const userMessage = input.value.trim();
-    if (!userMessage) return;
-
-    // Add user message to UI and history
-    addMessage(userMessage, 'user');
-    chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
-    input.value = '';
-
-    // Add loading indicator
-    const loadingElement = addMessage('', 'ai', true);
-
-    try {
-      // --- IMPORTANT ---
-      // The URL for the cloud function needs to be updated after deployment.
-      // This is a placeholder URL.
-      const response = await fetch('/api/assistant', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          prompt: userMessage,
-          history: chatHistory.slice(0, -1) // Send history without the current user message
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API Error: ${response.status} ${errorText}`);
-      }
-
-      const data = await response.json();
-      const aiMessage = data.text;
-
-      // Remove loading and add AI response
-      loadingElement.remove();
-      addMessage(aiMessage, 'ai');
-      chatHistory.push({ role: 'model', parts: [{ text: aiMessage }] });
-
-    } catch (error) {
-      console.error('Error fetching AI response:', error);
-      loadingElement.remove();
-      addMessage(`Lo siento, ocurrió un error. Por favor, revisa la consola para más detalles.`, 'ai');
-    }
-  }
-
-  function addMessage(text, sender, isLoading = false) {
-    const messageWrapper = document.createElement('div');
-    messageWrapper.className = `message message-${sender}`;
-    if (isLoading) {
-        messageWrapper.classList.add('loading');
+    // Function to add a message to the chat window
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', `message-${sender}`);
+        messageDiv.innerHTML = `<p>${text}</p>`;
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to bottom
     }
 
-    const p = document.createElement('p');
-    p.textContent = text;
-    messageWrapper.appendChild(p);
-    
-    messagesContainer.appendChild(messageWrapper);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    return messageWrapper;
-  }
+    // Handle form submission
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
 
-  // Initially hide the chat window and show the FAB
-  toggleChatWindow(false);
+        addMessage(userMessage, 'user');
+        chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+        chatInput.value = '';
+
+        // Add a loading indicator
+        const loadingMessageDiv = document.createElement('div');
+        loadingMessageDiv.classList.add('message', 'message-ai', 'loading');
+        loadingMessageDiv.innerHTML = `<p>...</p>`;
+        messagesContainer.appendChild(loadingMessageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        try {
+            const requestBody = JSON.stringify({ prompt: userMessage, history: chatHistory });
+            console.log('Client-side request body:', requestBody); // Add this line
+            const response = await fetch('/api/assistant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: requestBody,
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            // Remove loading indicator
+            messagesContainer.removeChild(loadingMessageDiv);
+
+            addMessage(data.text, 'ai');
+            chatHistory.push({ role: 'model', parts: [{ text: data.text }] });
+
+        } catch (error) {
+            console.error('Error al comunicarse con el asistente de IA:', error);
+            // Remove loading indicator
+            messagesContainer.removeChild(loadingMessageDiv);
+            addMessage('Lo siento, hubo un error al obtener la respuesta del asistente.', 'ai');
+        }
+    });
 });

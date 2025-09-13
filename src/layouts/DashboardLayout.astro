@@ -1,20 +1,19 @@
 ---
 // src/layouts/DashboardLayout.astro
 import "../styles/pages/_dashboard.css";
-import AsistenteIA from '../components/AsistenteIA.astro'; // Importar el componente
-
+import AsistenteIA from "../components/AsistenteIA.astro"; // Importar el componente
 export interface Props {
-    title: string;
+  title: string;
 }
 const { title } = Astro.props;
 
 const navLinks = [
-    { href: "/dashboard", name: "Resumen" },
-    { href: "/dashboard/proyectos", name: "Proyectos" },
-    { href: "/dashboard/reseñas", name: "Reseñas" },
-    { href: "/dashboard/blog", name: "Blog" },
-    { href: "/dashboard/media", name: "Media" },
-    { href: "/dashboard/marketing", name: "Marketing" },
+  { href: "/dashboard", name: "Resumen" },
+  { href: "/dashboard/proyectos", name: "Proyectos" },
+  { href: "/dashboard/reseñas", name: "Reseñas" },
+  { href: "/dashboard/blog", name: "Blog" },
+  { href: "/dashboard/media", name: "Media" },
+  { href: "/dashboard/marketing", name: "Marketing" },
 ];
 
 // Determina si la ruta actual es parte del dashboard
@@ -22,50 +21,50 @@ const isDashboardPage = (path: string) => path.startsWith("/dashboard");
 
 // Comprueba si el enlace debe estar activo
 const isActive = (linkHref: string, currentPath: string) => {
-    if (linkHref === "/dashboard") {
-        return currentPath === "/dashboard";
-    }
-    return currentPath.startsWith(linkHref);
+  if (linkHref === "/dashboard") {
+    return currentPath === "/dashboard";
+  }
+  return currentPath.startsWith(linkHref);
 };
 ---
 
 <!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title} | Dashboard</title>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
-    </head>
-    <body>
-        <aside class="sidebar">
-            <h1 class="sidebar__title">Admin Panel</h1>
-            <nav class="sidebar-nav">
-                {
-                    navLinks.map((link) => (
-                        <a
-                            href={link.href}
-                            class:list={{
-                                active: isActive(link.href, Astro.url.pathname),
-                            }}
-                        >
-                            {link.name}
-                        </a>
-                    ))
-                }
-            </nav>
-        </aside>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Dashboard</title>
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css"
+    />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1 class="sidebar__title">Admin Panel</h1>
+      <nav class="sidebar-nav">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class:list={{
+                active: isActive(link.href, Astro.url.pathname),
+              }}
+            >
+              {link.name}
+            </a>
+          ))
+        }
+      </nav>
+    </aside>
 
-        <main class="main-content">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">{title}</h1>
-            <slot />
-        </main>
+    <main class="main-content">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">{title}</h1>
+      <slot />
+    </main>
 
-        <!-- Asistente de IA -->
-        <AsistenteIA />
-
-        <script is:inline type="module" src="/assets/js/admin-auth.js"></script>
-        <script is:inline type="module" src="/assets/js/app-asistente-ia.js"></script> <!-- Añadir el script del asistente -->
-    </body>
+    <!-- Asistente de IA -->
+    <AsistenteIA />
+  </body>
 </html>

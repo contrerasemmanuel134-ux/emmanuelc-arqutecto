@@ -4,6 +4,9 @@ dist/
 # generated types
 .astro/
 
+#firebase/
+
+
 # dependencies
 node_modules/
 
@@ -13,10 +16,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+
 # environment variables
 .env
 .env.production
-
+.env.local
+.firebase
 # macOS-specific files
 .DS_Store
 
@@ -24,4 +29,6 @@ pnpm-debug.log*
 .idea/
 
 # Service account key
+functions/service-account.json
+# Service account credentials
 functions/service-account.json
