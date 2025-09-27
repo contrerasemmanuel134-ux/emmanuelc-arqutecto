@@ -5,7 +5,7 @@ import Logo from "./Logo.astro";
 
 <header class="bg-primary-dark text-white shadow-lg header-fixed">
     <div class="container header-container">
-        <a href="/" class="logo-container">
+        <a href="/" class="logo-container" aria-label="Página de inicio de Emmanuel Contreras">
             <Logo class="logo-svg" />
             <div class="hidden md:block">
                 <div class="font-bold tracking-wider">EMMANUEL CONTRERAS</div>
@@ -134,5 +134,6 @@ import Logo from "./Logo.astro";
         </nav>
     </div>
 
-    <script type="module" src="/assets/js/header-dropdown.js"></script>
+
+    <script is:inline type="module" src="/assets/js/header-dropdown.js"></script>
 </header>

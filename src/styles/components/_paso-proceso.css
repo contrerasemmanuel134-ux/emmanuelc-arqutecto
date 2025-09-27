@@ -1,0 +1,53 @@
+/* src/styles/components/_paso-proceso.css */
+.paso-proceso {
+    display: flex;
+    position: relative;
+    gap: 1.5rem; /* Espacio entre el número y el contenido */
+}
+
+.paso-proceso__numero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.paso-proceso__numero {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-dark);
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    z-index: 1;
+}
+
+.paso-proceso__linea {
+    width: 2px;
+    flex-grow: 1;
+    background-color: #e5e7eb; /* Un gris claro */
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.paso-proceso__contenido {
+    padding-bottom: 4rem; /* Espacio vertical entre pasos */
+    padding-top: 0.5rem; /* Alinea el texto con el centro del círculo */
+}
+
+.paso-proceso__titulo {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.paso-proceso__descripcion {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}

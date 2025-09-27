@@ -1,7 +1,7 @@
 /* --- Hero Caso de Éxito --- */
 .case-study-hero {
     position: relative;
-    padding: 8rem 2rem;
+    padding: 4rem 2rem;
     color: var(--white-color);
     text-align: center;
     background-size: cover;
@@ -79,48 +79,97 @@
 }
 
 .portfolio-item {
+    position: relative; /* Needed for the overlay */
     background: var(--white-color);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    cursor: pointer; /* Indicate interactivity */
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
 }
 
-.portfolio-item:hover {
-    transform: scale(1.03); /* Make it slightly larger */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+.portfolio-item:hover .portfolio-item__content {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .portfolio-item__image {
     width: 100%;
-    height: 220px; /* Adjust as needed */
+    height: 250px; /* A bit taller for better visuals */
     object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-item__image {
+    transform: scale(1.05);
+}
+
+.portfolio-item__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: rgba(10, 37, 64, 0.95); /* Dark overlay */
+    color: var(--white-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .portfolio-item__title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--primary-dark);
+    color: var(--white-color);
     margin-bottom: 0.5rem;
-    padding: 0 1.5rem;
-    margin-top: 1.5rem;
+    padding: 0;
+    margin-top: 0;
 }
 
 .portfolio-item__description {
-    color: var(--text-color);
+    color: var(--light-gray);
     line-height: 1.6;
-    flex-grow: 1;
     margin-bottom: 1.5rem;
-    padding: 0 1.5rem;
+    padding: 0;
 }
 
 .portfolio-item__links {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0;
     display: flex;
     gap: 1rem;
+}
+
+/* --- Portfolio Item Tags --- */
+.portfolio-item__tags {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    transition-delay: 0.3s;
+}
+
+.portfolio-item:hover .portfolio-item__tags {
+    opacity: 1;
+}
+
+.tag {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--white-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px; /* pill shape */
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
 }
 
 

@@ -5,6 +5,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 
+import node from '@astrojs/node';
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -12,6 +15,13 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   integrations: [tailwind(), sitemap()],
   site: 'https://emmanuel-contreras.com',
+
+  server: {
+    proxy: {
+      '/generalKnowledgeQueryFlow': 'http://localhost:3400/generalKnowledgeQueryFlow',
+    }
+  },
+
   vite: {
     resolve: {
       alias: {
@@ -30,4 +40,8 @@ export default defineConfig({
       }
     }
   },
+
+  adapter: node({
+    mode: 'standalone',
+  }),
 });

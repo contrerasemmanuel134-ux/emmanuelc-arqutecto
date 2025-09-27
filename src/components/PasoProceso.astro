@@ -1,0 +1,21 @@
+---
+interface Props {
+  stepNumber: string;
+  title: string;
+  description: string;
+  isLast?: boolean;
+}
+
+const { stepNumber, title, description, isLast = false } = Astro.props;
+---
+
+<div class="paso-proceso">
+  <div class="paso-proceso__numero-container">
+    <div class="paso-proceso__numero">{stepNumber}</div>
+    { !isLast && <div class="paso-proceso__linea"></div> }
+  </div>
+  <div class="paso-proceso__contenido">
+    <h3 class="paso-proceso__titulo">{title}</h3>
+    <p class="paso-proceso__descripcion">{description}</p>
+  </div>
+</div>

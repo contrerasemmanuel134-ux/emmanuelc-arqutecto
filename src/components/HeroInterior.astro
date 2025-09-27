@@ -1,0 +1,8 @@
+---
+// src/components/HeroInterior.astro
+const { title, description } = Astro.props;
+---
+<section class="hero-interior">
+    <h1 class="hero-interior__title">{title}</h1>
+    {description && <p class="text-lg max-w-3xl mx-auto mt-4">{description}</p>}
+</section>

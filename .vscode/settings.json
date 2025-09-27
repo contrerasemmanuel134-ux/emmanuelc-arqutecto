@@ -1,7 +1,8 @@
 {
     "chat.defaultProvider": "google.gemini",
     "geminicodeassist.agentYoloMode": true,
-    "geminicodeassist.agentDebugMode": false,
+    "geminicodeassist.agentDebugMode": true,
     "geminicodeassist.chat.automaticScrolling": false,
-    "intellicodeApiExamples.loggingLevel": "ALL"
+    "intellicodeApiExamples.loggingLevel": "ALL",
+    "geminicodeassist.codeGenerationPaneViewEnabled": true
 }

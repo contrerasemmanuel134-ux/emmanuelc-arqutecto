@@ -1,27 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase/client";
+import admin from 'firebase-admin';
+import serviceAccount from '../../functions/service-account.json' assert { type: 'json' };
 
-interface Testimonio {
-    textoTestimonio: string;
-    nombreCliente: string;
+if (admin.apps.length === 0) {
+  admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 }
+const db = admin.firestore();
 
 const title = "Reseñas y Testimonios - Emmanuel Contreras";
 const description =
     "La confianza se construye con resultados. Lee los testimonios y reseñas de clientes que han transformado su negocio con mis servicios de arquitectura digital.";
 
-const q = query(
-    collection(db, "testimonios"),
-    where("estado", "==", "aprobado"),
-);
-const testimoniosSnapshot = await getDocs(q);
-const testimonios: (Testimonio & { id: string })[] =
-    testimoniosSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Testimonio),
-    }));
+const testimoniosSnapshot = await db
+    .collection("testimonios")
+    .where("estado", "==", "aprobado")
+    .get();
+const testimonios = testimoniosSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+}));
 ---
 
 <Layout title={title} description={description}>

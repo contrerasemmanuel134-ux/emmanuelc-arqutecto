@@ -1,4 +1,8 @@
-/* 1. Abstracts (Variables, etc.) */
+@import "./abstracts/_variables.css";
+@import "./components/hero.css";
+@import "./components/_paso-proceso.css";
+@import "./pages/_servicios-layout.css";
+@import "./components/_asistente-cliente.css";
 @import './abstracts/_variables.css';
 
 /* 2. Base (Body, Tipografía base) */

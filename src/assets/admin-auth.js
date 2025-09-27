@@ -1,9 +1,7 @@
-import { app } from '../firebase/client';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../firebase/client';
+import { onAuthStateChanged, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const auth = getAuth(app);
-
     // --- Elementos del DOM ---
     const loginForm = document.getElementById('login-form');
     const emailInput = document.getElementById('email');

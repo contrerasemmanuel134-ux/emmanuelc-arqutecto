@@ -2,48 +2,51 @@
 import Layout from "../layouts/Layout.astro";
 import "../styles/pages/_sobre-mi.css";
 import { Image } from "astro:assets";
+import { db } from "../firebase/client";
+import { collection, getDocs, query, orderBy, doc, getDoc } from "firebase/firestore";
 
-const title = "Emmanuel Contreras - Arquitecto Digital";
+const title = "Sobre Mí - Emmanuel Contreras";
 const description =
     "Hola, soy Emmanuel Contreras, un Arquitecto Digital. Mi pasión es ser el puente entre tus metas de negocio y la tecnología que necesitas para lograrlas.";
+
+// Obtener datos de la sección "Sobre Mí"
+const sobreMiDocSnap = await getDoc(doc(db, "sobreMi", "main"));
+const sobreMi = sobreMiDocSnap.exists() ? sobreMiDocSnap.data() : null;
+
+// Obtener pilares de la filosofía
+const filosofiaSnapshot = await getDocs(query(collection(db, "filosofia"), orderBy("orden")));
+const filosofia = filosofiaSnapshot.docs.map((doc) => doc.data());
 ---
 
 <Layout title={title} description={description}>
     <section class="page-section">
         <div class="container">
-            <div class="about-hero">
-                <div class="about-hero__image-container">
-                    <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/emmanuel-contreras.webp?alt=media&token=70f9f486-954a-4398-85ee-7964b666a548"
-                        alt="Retrato de Emmanuel Contreras"
-                        class="about-hero__image"
-                        width={400}
-                        height={400}
-                        densities={[1, 1.5, 2]}
-                    />
-                </div>
-                <div class="about-hero__text">
-                    <h1 class="about-hero__title">
-                        Un Puente Entre Tu Visión y la Tecnología
-                    </h1>
-                    <p class="text-lg mt-4">
-                        Hola, soy Emmanuel Contreras. No soy solo un
-                        desarrollador; me considero un 'Arquitecto Digital'. Mi
-                        pasión es escuchar tus metas de negocio y diseñar y
-                        construir la solución tecnológica exacta que necesitas
-                        para alcanzarlas.
-                    </p>
-                    <p class="text-lg mt-2">
-                        Creo que un gran sitio web es más que código y diseño:
-                        es un activo estratégico que trabaja para ti 24/7.
-                    </p>
-                </div>
-            </div>
+            {
+                sobreMi && (
+                    <div class="about-hero">
+                        <div class="about-hero__image-container">
+                            <Image
+                                src={sobreMi.imagenUrl}
+                                alt="Retrato de Emmanuel Contreras"
+                                class="about-hero__image"
+                                width={400}
+                                height={400}
+                                densities={[1, 1.5, 2]}
+                            />
+                        </div>
+                        <div class="about-hero__text">
+                            <h1 class="about-hero__title">{sobreMi.titulo}</h1>
+                            <p class="text-lg mt-4">{sobreMi.parrafo1}</p>
+                            <p class="text-lg mt-2">{sobreMi.parrafo2}</p>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     </section>
 
     <section class="page-section bg-light-gray">
-        <div class="container text-center">
+        <div class="container text-center py-16 px-4 mx-auto">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">
                 Mi Filosofía de Trabajo
             </h2>
@@ -51,67 +54,29 @@ const description =
                 Mi proceso se fundamenta en tres pilares que garantizan el éxito
                 de cada proyecto.
             </p>
-            <div class="philosophy-grid">
-                <div class="philosophy-card">
-                    <div class="philosophy-card__icon">
-                        <Image
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/estratefia%20y%20consultoria.webp?alt=media&token=d794ea95-fb90-438c-9c02-414c1fe47658"
-                            alt="Estrategia y Diseño UX"
-                            width={80}
-                            height={80}
-                            densities={[1, 1.5, 2]}
-                            class="philosophy-image"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        1. Estrategia y Diseño UX
-                    </h3>
-                    <p>
-                        Analizo tu negocio y tus usuarios para crear un plano
-                        claro y una experiencia intuitiva que guíe a tus
-                        clientes hacia el objetivo.
-                    </p>
-                </div>
-                <div class="philosophy-card">
-                    <div class="philosophy-card__icon">
-                        <Image
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/desarrollo-web.webp?alt=media&token=5dee2d1e-6419-4e64-b9e1-fad5b2cf0c2e"
-                            alt="Desarrollo de Calidad"
-                            width={80}
-                            height={80}
-                            densities={[1, 1.5, 2]}
-                            class="philosophy-image"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        2. Desarrollo de Calidad
-                    </h3>
-                    <p>
-                        Construyo con código limpio, moderno y eficiente,
-                        creando plataformas robustas, rápidas y preparadas para
-                        crecer junto a tu negocio.
-                    </p>
-                </div>
-                <div class="philosophy-card">
-                    <div class="philosophy-card__icon">
-                        <Image
-                            src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/optimisacion.webp?alt=media&token=a46e7a25-afad-41ef-9013-128d9a1a4a58"
-                            alt="Fusión y Resultados"
-                            width={80}
-                            height={80}
-                            densities={[1, 1.5, 2]}
-                            class="philosophy-image"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        3. Fusión y Resultados
-                    </h3>
-                    <p>
-                        Mi valor real es conectar la estrategia con la ejecución
-                        técnica, entregando soluciones que no solo se ven bien,
-                        sino que generan resultados medibles.
-                    </p>
-                </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                {
+                    filosofia.map((pilar) => (
+                        <div class="service-card">
+                            <Image
+                                src={pilar.imagenUrl}
+                                alt={pilar.titulo}
+                                width={400}
+                                height={400}
+                                densities={[1, 1.5, 2]}
+                                class="service-card__image"
+                            />
+                            <div class="service-card__overlay">
+                                <h3 class="service-card__title">
+                                    {pilar.titulo}
+                                </h3>
+                                <p class="service-card__description">
+                                    {pilar.descripcion}
+                                </p>
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>

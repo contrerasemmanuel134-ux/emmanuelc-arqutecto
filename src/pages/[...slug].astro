@@ -1,0 +1,27 @@
+---
+// src/pages/[...slug].astro
+import Layout from '../layouts/Layout.astro';
+import ContentRenderer from '../components/ContentRenderer.astro';
+import { db } from '@/firebase/client';
+import { collection, getDocs } from 'firebase/firestore';
+
+export async function getStaticPaths() {
+  const pagesSnapshot = await getDocs(collection(db, 'pages'));
+  return pagesSnapshot.docs.map(doc => {
+    return {
+      params: { slug: doc.id },
+      props: { pageData: doc.data() }
+    };
+  });
+}
+
+const { pageData } = Astro.props;
+---
+
+<Layout title={pageData.title} description={pageData.metaDescription}>
+  <main class="page-section">
+    <div class="container mx-auto py-12 px-4">
+      <ContentRenderer contentBlocks={pageData.contentBlocks} />
+    </div>
+  </main>
+</Layout>

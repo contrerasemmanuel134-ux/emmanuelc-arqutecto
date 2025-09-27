@@ -1,11 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import "../styles/pages/_servicios-layout.css";
-import { Image } from "astro:assets";
+import PasoProceso from "../components/PasoProceso.astro";
+import { db } from "../firebase/client";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
-const title = "Proceso - Emmanuel Contreras";
+const title = "Mi Proceso - Emmanuel Contreras";
 const description =
     "Mi proceso probado de 4 fases (Descubrimiento, Diseño, Desarrollo y Lanzamiento) garantiza que tu proyecto se construya sobre cimientos sólidos y tenga éxito.";
+
+const procesoSnapshot = await getDocs(query(collection(db, "proceso"), orderBy("fase")));
+const procesos = procesoSnapshot.docs.map((doc) => doc.data());
 ---
 
 <Layout title={title} description={description}>
@@ -20,111 +24,17 @@ const description =
         </p>
     </section>
     <section class="page-section">
-        <div class="container">
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Un-diagrama-de-arquitectura-de-software-profesional-y-limpio%20(1).webp?alt=media&token=c03624e5-3945-44c3-af0b-05e112a3b42e"
-                        alt="Fase de Descubrimiento y Estrategia"
-                        width={200}
-                        height={150}
-                        densities={[1, 1.5, 2]}
-                        class="rounded-lg shadow-lg"
+        <div class="container max-w-3xl mx-auto">
+            {
+                procesos.map((proceso, index) => (
+                    <PasoProceso
+                        stepNumber={`0${proceso.fase}`}
+                        title={proceso.titulo}
+                        description={proceso.descripcion}
+                        isLast={index === procesos.length - 1}
                     />
-                </div>
-                <div class="service-item__content">
-                    <span class="font-semibold text-cyan-500 mb-2 block"
-                        >Fase 1</span
-                    >
-                    <h2 class="service-item__title">
-                        Descubrimiento y Estrategia
-                    </h2>
-                    <p>
-                        Antes de construir, debemos tener el plano perfecto.
-                        Esta fase se dedica a entender a fondo tu visión,
-                        audiencia y metas de negocio, definiendo los indicadores
-                        de éxito y el alcance del proyecto.
-                    </p>
-                </div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/UNFOND~1.WEB?alt=media&token=3e2f2f36-6a60-4904-bf06-b22c67491e9c"
-                        alt="Fase de Arquitectura y Diseño"
-                        width={200}
-                        height={150}
-                        densities={[1, 1.5, 2]}
-                        class="rounded-lg shadow-lg"
-                    />
-                </div>
-                <div class="service-item__content">
-                    <span class="font-semibold text-cyan-500 mb-2 block"
-                        >Fase 2</span
-                    >
-                    <h2 class="service-item__title">
-                        Arquitectura y Diseño (UX/UI)
-                    </h2>
-                    <p>
-                        Traducimos la estrategia en una experiencia de usuario
-                        intuitiva y un diseño visual atractivo. Creamos
-                        wireframes, flujos de navegación y un prototipo
-                        interactivo para que puedas "sentir" la plataforma.
-                    </p>
-                </div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una-visualizaci%C3%B3n-de-datos-en-3D-que-muestra-un-gr%C3%A1fico-de-barras-ascendente-que-se-transforma-en-un%20(1).webp?alt=media&token=c089a1ac-95b1-47a2-9081-98acc2d094a5"
-                        alt="Fase de Desarrollo e Implementación"
-                        width={200}
-                        height={150}
-                        densities={[1, 1.5, 2]}
-                        class="rounded-lg shadow-lg"
-                    />
-                </div>
-                <div class="service-item__content">
-                    <span class="font-semibold text-cyan-500 mb-2 block"
-                        >Fase 3</span
-                    >
-                    <h2 class="service-item__title">
-                        Desarrollo e Implementación
-                    </h2>
-                    <p>
-                        Materializamos el plano y el diseño en una plataforma
-                        digital robusta, escribiendo código limpio y eficiente.
-                        Trabajamos con metodologías ágiles para que veas avances
-                        constantes y realizamos pruebas exhaustivas.
-                    </p>
-                </div>
-            </div>
-            <div class="service-item">
-                <div class="service-item__graphic">
-                    <Image
-                        src="https://firebasestorage.googleapis.com/v0/b/expanded-system-469904-v9.firebasestorage.app/o/Una-visualizaci%C3%B3n-de-datos-en-3D-que-muestra-un-gr%C3%A1fico-de-barras-ascendente-que-se-transforma-en-un.webp?alt=media&token=ac50b177-12d6-482b-bbb1-a9d471c456f5"
-                        alt="Fase de Lanzamiento y Optimización"
-                        width={200}
-                        height={150}
-                        densities={[1, 1.5, 2]}
-                        class="rounded-lg shadow-lg"
-                    />
-                </div>
-                <div class="service-item__content">
-                    <span class="font-semibold text-cyan-500 mb-2 block"
-                        >Fase 4</span
-                    >
-                    <h2 class="service-item__title">
-                        Lanzamiento y Optimización
-                    </h2>
-                    <p>
-                        Aseguramos una transición suave al mundo real.
-                        Gestionamos el despliegue final, realizamos una última
-                        ronda de pruebas e instalamos herramientas de analítica
-                        para medir el rendimiento desde el primer día.
-                    </p>
-                </div>
-            </div>
+                ))
+            }
         </div>
     </section>
 </Layout>

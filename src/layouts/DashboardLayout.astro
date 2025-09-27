@@ -1,7 +1,7 @@
 ---
 // src/layouts/DashboardLayout.astro
 import "../styles/pages/_dashboard.css";
-import AsistenteIA from "../components/AsistenteIA.astro"; // Importar el componente
+import TerminalAgente from "../components/TerminalAgente.astro"; // Importar el componente
 export interface Props {
   title: string;
 }
@@ -64,7 +64,13 @@ const isActive = (linkHref: string, currentPath: string) => {
       <slot />
     </main>
 
-    <!-- Asistente de IA -->
-    <AsistenteIA />
+    <!-- Terminal del Agente -->
+    <TerminalAgente />
+    
+    <script>
+      // Importa los scripts necesarios como módulos.
+      // Esto asegura que compartan el mismo contexto y la instancia de Firebase inicializada.
+      import "@/assets/js/app-terminal-agente.js";
+    </script>
   </body>
 </html>

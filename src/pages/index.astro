@@ -1,25 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { db } from "@/firebase/client";
+import { collection, getDocs, query, limit, doc, getDoc } from "firebase/firestore";
 import { Image } from "astro:assets";
-import heroImage from "@/assets/hero-index.webp";
-import strategyImage from "@/assets/strategy-diagram.webp";
-import developmentImage from "@/assets/development-gears.webp";
-import uxUiImage from "@/assets/uxUi-mockup.webp";
-import "../styles/components/hero.css";
 
-const title = "Emmanuel Contreras - Arquitecto Digital";
+const title = "Emmanuel Contreras - Arquitectura Digital, Diseño Web y Diseño UX";
 const description =
     "Convierto tu visión de negocio en plataformas digitales robustas y que generan resultados. Como Arquitecto Digital, construyo soluciones web a medida.";
+
+// Fetch services
+const q = query(collection(db, "servicios"), limit(3));
+const serviciosSnapshot = await getDocs(q);
+const servicios = serviciosSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+}));
+
+// Fetch hero image from config
+const configRef = doc(db, "config", "website");
+const configSnap = await getDoc(configRef);
+const configData = configSnap.data();
+const heroImageUrl = configData?.heroSection?.imageUrl || '';
 ---
 
 <Layout {title} {description}>
-    <Fragment slot="head">
-        <link rel="preload" href={heroImage.src} as="image" type="image/webp" />
-        <style define:vars={{ "hero-bg-image": `url(${heroImage.src})` }}
-        ></style>
-    </Fragment>
-
-    <section class="hero-home">
+    <section class="hero-home" style={`background-image: url(${heroImageUrl})`}>
         <h1 class="hero-home__title">Emmanuel Contreras: Arquitecto Digital</h1>
         <p class="text-xl max-w-2xl mx-auto opacity-90 mb-10">
             Convierto tu visión de negocio en plataformas digitales robustas,
@@ -32,8 +37,8 @@ const description =
             <a href="/contacto" class="button button--primary">Hablemos</a>
         </div>
     </section>
-    <section class="page-section">
-        <div class="container text-center">
+    <section class="page-section fade-in-section mt-20 mb-20">
+        <div class="container text-center mx-auto">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">
                 De la Estrategia a la Realidad Digital
             </h2>
@@ -43,65 +48,28 @@ const description =
                 activos digitales a medida que impulsan el crecimiento.
             </p>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6 text-center">
-                    <div class="flex justify-center mb-4">
-                        <Image
-                            src={strategyImage}
-                            alt="Diagrama de estrategia digital"
-                            width={200}
-                            height={150}
-                            densities={[1, 1.5, 2]}
-                            class="rounded-lg shadow-lg"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        Estrategia Digital
-                    </h3>
-                    <p>
-                        Análisis, planificación y definición de KPIs para
-                        asegurar que el proyecto esté alineado con tus metas.
-                    </p>
-                </div>
-
-                <div class="p-6 text-center">
-                    <div class="flex justify-center mb-4">
-                        <Image
-                            src={uxUiImage}
-                            alt="Mockup de aplicación web en una laptop"
-                            width={200}
-                            height={150}
-                            densities={[1, 1.5, 2]}
-                            class="rounded-lg shadow-lg"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        Diseño UX/UI
-                    </h3>
-                    <p>
-                        Creación de experiencias de usuario lógicas y diseños
-                        visuales atractivos que fortalecen tu marca.
-                    </p>
-                </div>
-
-                <div class="p-6 text-center">
-                    <div class="flex justify-center mb-4">
-                        <Image
-                            src={developmentImage}
-                            alt="Engranajes de precisión de un reloj"
-                            width={200}
-                            height={150}
-                            densities={[1, 1.5, 2]}
-                            class="rounded-lg shadow-lg"
-                        />
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">
-                        Desarrollo Web
-                    </h3>
-                    <p>
-                        Código limpio, tecnologías modernas y un enfoque en el
-                        rendimiento para una plataforma sólida y escalable.
-                    </p>
-                </div>
+                {
+                    servicios.map((servicio) => (
+                        <div class="service-card">
+                            <Image
+                                src={servicio.imagenUrl}
+                                alt={servicio.titulo}
+                                width={400}
+                                height={400}
+                                densities={[1, 1.5, 2]}
+                                class="service-card__image"
+                            />
+                            <div class="service-card__overlay">
+                                <h3 class="service-card__title">
+                                    {servicio.titulo}
+                                </h3>
+                                <p class="service-card__description">
+                                    {servicio.descripcionCorta}
+                                </p>
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     </section>

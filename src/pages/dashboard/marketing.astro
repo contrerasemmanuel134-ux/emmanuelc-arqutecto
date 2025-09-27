@@ -2,91 +2,27 @@
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 ---
 
-<DashboardLayout title="Gestión de Marketing">
-  <div class="container mx-auto px-4 sm:px-8">
-    <div class="py-8">
-      <!-- Sección de PageSpeed -->
-      <div>
-        <h2 class="text-2xl font-semibold leading-tight">Análisis de PageSpeed</h2>
-      </div>
-      <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
-        <form id="pagespeed-form" class="flex flex-col sm:flex-row gap-4">
-          <input 
-            type="url" 
-            id="url-input" 
-            placeholder="Introduce una URL para analizar" 
-            class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" 
-            required
-          />
-          <button 
-            type="submit" 
-            id="analyze-button" 
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-          >
-            Analizar
-          </button>
-        </form>
-      </div>
-      <div id="results-container" class="mt-8"></div>
-
-      <!-- Divisor -->
-      <hr class="my-12 border-gray-300">
-
-      <!-- Sección de Google Search Console -->
-      <div>
-        <div class="flex justify-between items-center">
-          <h2 class="text-2xl font-semibold leading-tight">Métricas de Google Search Console</h2>
-          <button
-            id="load-search-console-data"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-          >
-            Cargar Datos
-          </button>
+<DashboardLayout title="Marketing y Analíticas">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="card">
+            <h2 class="card-title">Rendimiento del Sitio (PageSpeed)</h2>
+            <div id="pagespeed-data">Cargando...</div>
         </div>
-      </div>
-
-      <div id="search-console-results" class="mt-6">
-        <!-- Métricas Clave -->
-        <div id="kpi-container-sc" class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-gray-50 p-4 rounded-lg text-center border">
-            <p class="text-gray-500">Clics Totales</p>
-            <p id="kpi-sc-clicks" class="text-3xl font-bold">-</p>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg text-center border">
-            <p class="text-gray-500">Impresiones Totales</p>
-            <p id="kpi-sc-impressions" class="text-3xl font-bold">-</p>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg text-center border">
-            <p class="text-gray-500">CTR Promedio</p>
-            <p id="kpi-sc-ctr" class="text-3xl font-bold">-</p>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg text-center border">
-            <p class="text-gray-500">Posición Promedio</p>
-            <p id="kpi-sc-position" class="text-3xl font-bold">-</p>
-          </div>
+        <div class="card">
+            <h2 class="card-title">Visibilidad en Búsqueda (Search Console)</h2>
+            <div id="search-console-data">Cargando...</div>
         </div>
-
-        <!-- Tabla de Consultas -->
-        <h3 class="text-xl font-semibold leading-tight mb-4">Consultas Principales</h3>
-        <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-          <table class="min-w-full leading-normal">
-            <thead>
-              <tr>
-                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Consulta</th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Clics</th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Impresiones</th>
-              </tr>
-            </thead>
-            <tbody id="search-console-table-body">
-              <!-- Los datos se cargarán aquí -->
-              <tr>
-                <td colspan="3" class="text-center py-10">Haz clic en "Cargar Datos" para ver las métricas.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card">
+            <h2 class="card-title">Tráfico Web (Analytics)</h2>
+            <div id="analytics-data">Cargando...</div>
         </div>
-      </div>
+        <div class="card">
+            <h2 class="card-title">Rendimiento de Anuncios (Ads)</h2>
+            <div id="ads-data">Cargando...</div>
+        </div>
     </div>
-  </div>
-  <script src="../../assets/app-marketing.js"></script>
 </DashboardLayout>
+
+<script>
+    import "@/assets/app-marketing.js";
+</script>

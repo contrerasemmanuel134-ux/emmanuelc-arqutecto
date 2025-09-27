@@ -15,6 +15,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+database-debug.log
+firebase-debug.log
+firestore-debug.log
 
 
 # environment variables
@@ -32,3 +35,4 @@ pnpm-debug.log*
 functions/service-account.json
 # Service account credentials
 functions/service-account.json
+node_modules

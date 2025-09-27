@@ -1,0 +1,24 @@
+--- 
+// src/components/TerminalAgente.astro
+import "../styles/components/_asistente.css";
+---
+<div id="asistente-container">
+  <button id="asistente-fab" class="asistente-fab">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h6"></path><path d="m9 16 4-4-4-4"></path><path d="M14 8h7"></path></svg>
+  </button>
+  <div id="asistente-chat-window" class="asistente-chat-window hidden">
+    <div class="asistente-header">
+      <h3>Terminal del Agente</h3>
+      <button id="asistente-close-btn">&times;</button>
+    </div>
+    <div id="terminal-output" class="asistente-messages terminal-output">
+      <!-- Output will be appended here -->
+    </div>
+    <div class="asistente-input-area">
+      <form id="terminal-form">
+        <span class="prompt-symbol">$</span>
+        <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" autofocus>
+      </form>
+    </div>
+  </div>
+</div>

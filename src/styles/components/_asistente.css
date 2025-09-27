@@ -1,0 +1,145 @@
+/* 
+  Color Palette (Monokai-ish):
+  - Dark background: #272822
+  - Lighter background for window: #2D2E26
+  - Text color: #F8F8F2
+  - Prompt/Accent color: #A6E22E (Green)
+  - User Input color: #F8F8F2 (White)
+  - Agent Response color: #66D9EF (Cyan)
+  - FAB background: #AE81FF (Purple)
+*/
+
+#asistente-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.asistente-fab {
+  background-color: #AE81FF;
+  color: #272822;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.asistente-fab:hover {
+  transform: scale(1.1);
+}
+
+.asistente-chat-window {
+  position: fixed;
+  bottom: 7rem;
+  right: 2rem;
+  width: 450px; /* A bit wider for a terminal */
+  max-width: 90vw;
+  height: 500px;
+  max-height: 70vh;
+  background-color: #272822;
+  color: #F8F8F2;
+  border-radius: 8px; /* Sharper edges */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.3s, transform 0.3s;
+  transform-origin: bottom right;
+  border: 1px solid #414339;
+}
+
+.asistente-chat-window.hidden {
+  display: none;
+}
+
+.asistente-header {
+  background-color: #1e1f20;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #414339;
+  cursor: move; /* Allow moving the window */
+}
+
+.asistente-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-weight: 600;
+  color: #F8F8F2;
+}
+
+#asistente-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #F8F8F2;
+}
+
+.terminal-output {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.terminal-output .terminal-line {
+  word-break: break-all;
+}
+
+.terminal-output .user-command::before {
+  content: '$ ';
+  color: #A6E22E; /* Green prompt */
+}
+
+.terminal-output .user-command {
+  color: #F8F8F2; /* White user input */
+}
+
+.terminal-output .agent-response {
+  color: #66D9EF; /* Cyan agent response */
+  white-space: pre-wrap; /* Respect newlines in agent response */
+}
+
+.asistente-input-area {
+  border-top: 1px solid #414339;
+  padding: 0.5rem 1rem;
+  background-color: #272822;
+}
+
+#terminal-form {
+  display: flex;
+  align-items: center;
+}
+
+.prompt-symbol {
+  color: #A6E22E; /* Green prompt */
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+
+.terminal-input {
+  flex-grow: 1;
+  background-color: transparent;
+  color: #F8F8F2;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+}
+
+.terminal-input:focus {
+  outline: none;
+}

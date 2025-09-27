@@ -1,0 +1,7 @@
+{
+  "ui": {
+    "hideFooter": true,
+    "showMemoryUsage": true,
+    "GOOGLE_GENAI_USE_VERTEXAI": true
+  }
+}

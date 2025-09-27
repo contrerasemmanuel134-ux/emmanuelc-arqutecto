@@ -1,50 +1,63 @@
-/* Estilos para los elementos de servicio con imagen y texto lado a lado */
-.service-item {
+/* src/styles/pages/_servicios-layout.css */
+
+.hero-interior__title {
+    font-size: 3rem; /* Más grande */
+    color: var(--primary-dark); /* Color oscuro de los títulos */
+    font-weight: 700;
+}
+
+.service-item-detailed {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 3rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 6rem; /* Espacio entre servicios */
 }
 
-.service-item:nth-child(even) {
-    flex-direction: row-reverse; /* Invert order for even items */
+@media (min-width: 768px) {
+    .service-item-detailed {
+        flex-direction: row;
+        gap: 3rem;
+    }
+    .hero-interior__title {
+        font-size: 3.5rem; /* Aún más grande en pantallas mayores */
+    }
 }
 
-.service-item__graphic {
-    flex: 0 0 300px;
-    max-width: 300px;
+.service-item-detailed__graphic {
+    flex: 1 1 45%; /* Ocupa el 45% del ancho */
+    max-width: 500px;
+}
+
+.service-item-detailed__graphic .servicio-imagen {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.service-item__content {
-    flex: 1 1 320px;
-    min-width: 260px;
+.service-item-detailed__content {
+    flex: 1 1 55%; /* Ocupa el 55% del ancho */
 }
 
-.service-item__title {
+.service-item-detailed__title {
     font-size: 2.2rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--primary-dark);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-@media (max-width: 900px) {
-    .service-item,
-    .service-item:nth-child(even) {
-        flex-direction: column;
-        gap: 2rem;
-        text-align: center;
-    }
+.service-item-detailed__description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
 
-    .service-item__graphic {
-        margin-bottom: 1rem;
-    }
+/* Ajuste para el botón primario en fondo claro */
+.service-item-detailed .button--primary {
+    color: var(--white-color);
+}
 
-    .service-item__content {
-        min-width: 0;
-    }
+.service-item-detailed .button--primary:hover {
+    background-color: #00aeee; /* Un poco más claro al pasar el mouse */
+    box-shadow: 0 6px 20px rgba(0, 191, 255, 0.5);
 }

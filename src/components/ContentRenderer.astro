@@ -1,0 +1,27 @@
+---
+import HeroInterior from './HeroInterior.astro';
+import ServiceItem from './ServiceItem.astro';
+
+const { contentBlocks } = Astro.props;
+
+const componentMap = {
+  'hero-interior': HeroInterior,
+  'service-item': ServiceItem,
+  // Agrega otros tipos de bloques aquí si es necesario
+};
+---
+<div>
+  {contentBlocks.map((block, index) => {
+    const Component = componentMap[block.type];
+    if (!Component) {
+      return <p>Error: Bloque de contenido de tipo "{block.type}" no reconocido.</p>;
+    }
+    
+    // Pasa el layout alternado solo a los ServiceItem
+    const props = block.type === 'service-item' 
+      ? { ...block.props, layout: index % 2 === 0 ? 'right' : 'left' } 
+      : block.props;
+
+    return <Component {...props} />;
+  })}
+</div>

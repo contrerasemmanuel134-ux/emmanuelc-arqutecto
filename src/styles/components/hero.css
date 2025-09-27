@@ -1,5 +1,4 @@
 .hero-home {
-    background-image: var(--hero-bg-image);
     background-size: cover;
     background-position: center;
     color: var(--white-color);

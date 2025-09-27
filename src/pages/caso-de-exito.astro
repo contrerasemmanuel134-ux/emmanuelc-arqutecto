@@ -11,6 +11,7 @@ interface Proyecto {
     urlSitioWeb?: string;
     urlRepositorio?: string;
     estado: string;
+    tags?: string[];
 }
 
 const title = "Casos de Éxito - Emmanuel Contreras";
@@ -28,58 +29,29 @@ const proyectos: (Proyecto & { id: string })[] = proyectosSnapshot.docs.map(
 ---
 
 <Layout title={title} description={description}>
-    <section class="hero-interior">
-        <h1 class="hero-interior__title"></h1>
-        <p class="text-lg max-w-3xl mx-auto mt-4">
-            Aquí puedes ver cómo la aplicación de una metodología estratégica y
-            una ejecución técnica precisa se traducen en resultados reales y
-            medibles.
-        </p>
-    </section>
-
-    <section class="page-section">
+    <section class="page-section mt-20 mb-20">
         <div class="container">
-            <div class="portfolio-grid">
+            <div class="grid md:grid-cols-2 gap-8">
                 {
                     proyectos.map((proyecto) => (
-                        <div class="portfolio-item">
+                        <a href={proyecto.urlSitioWeb} target="_blank" rel="noopener noreferrer" class="service-card">
                             <Image
                                 src={proyecto.imageUrl}
                                 alt={proyecto.title}
-                                class="portfolio-item__image"
-                                width={800}
-                                height={600}
+                                width={400}
+                                height={400}
                                 densities={[1, 1.5, 2]}
+                                class="service-card__image"
                             />
-                            <h3 class="portfolio-item__title">
-                                {proyecto.title}
-                            </h3>
-                            <p class="portfolio-item__description">
-                                {proyecto.description}
-                            </p>
-                            <div class="portfolio-item__links">
-                                {proyecto.urlSitioWeb && (
-                                    <a
-                                        href={proyecto.urlSitioWeb}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="button button--primary"
-                                    >
-                                        Ver Sitio
-                                    </a>
-                                )}
-                                {proyecto.urlRepositorio && (
-                                    <a
-                                        href={proyecto.urlRepositorio}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="button button--secondary"
-                                    >
-                                        Ver Repositorio
-                                    </a>
-                                )}
+                            <div class="service-card__overlay">
+                                <h3 class="service-card__title">
+                                    {proyecto.title}
+                                </h3>
+                                <p class="service-card__description">
+                                    {proyecto.description}
+                                </p>
                             </div>
-                        </div>
+                        </a>
                     ))
                 }
             </div>

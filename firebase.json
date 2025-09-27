@@ -5,12 +5,19 @@
   "storage": {
     "rules": "storage.rules"
   },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs22"
-  },
+  "functions": [
+    {
+      "codebase": "default",
+      "source": "functions",
+      "runtime": "nodejs22",
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
   "hosting": {
-    "public": "dist",
+    "site": "expanded-system-469904-v9",
+    "public": "dist/client",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -18,8 +25,16 @@
     ],
     "rewrites": [
       {
+        "source": "/chatConAgente",
+        "function": "chatConAgente"
+      },
+      {
         "source": "/api/**",
         "function": "api"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   },
@@ -40,6 +55,13 @@
       "enabled": true,
       "port": 4001,
       "host": "0.0.0.0"
+    },
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
     }
+  },
+  "extensions": {},
+  "dataconnect": {
+    "source": "dataconnect"
   }
 }

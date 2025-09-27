@@ -1,0 +1,13 @@
+I0927 07:32:30.872790   19756 load.go:31] Reloading schema and connectors...
+I0927 07:32:30.897942   19756 control.go:94] [/emulator/expanded-system-469904-v9-service e2a6] UpdateResources(): done
+Schema: sources: schema/schema.gql [0B] 
+Connector "example": sources: 
+E0927 07:32:30.915317   19756 load.go:95] Errors generating SDK: [connector "example"]: invalid Data Connect Connector no query found in connector
+I0927 07:32:30.915787   19756 collector.go:107] schema extensions wrote into "/workspaces/emmanuelc-arqutecto/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0927 07:32:30.915818   19756 load.go:109] Finished reloading
+I0927 07:32:30.916445   19756 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:9399
+I0927 07:32:30.916719   19756 dev.go:102] Listening on address (HTTP + gRPC): [::1]:9399
+I0927 07:32:35.335270   19756 control.go:94] [/emulator/expanded-system-469904-v9-service da03] UpdateResources(): done
+Schema: sources: schema/schema.gql [0B] 
+Connector "example": sources: 
