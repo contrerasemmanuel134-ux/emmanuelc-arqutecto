@@ -44,9 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
         try {
-            const requestBody = JSON.stringify({ input: { query: userMessage } });
-            console.log('Client-side request body:', requestBody); // Add this line
-            const response = await fetch('http://127.0.0.1:5001/expanded-system-469904-v9/us-central1/generalKnowledgeQueryFlow', {
+            // The new agent expects the entire chat history
+            const requestBody = JSON.stringify({ history: chatHistory });
+            
+            const response = await fetch('http://localhost:8080/api/chatConAgente', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorData = await response.json().catch(() => ({ error: 'Error desconocido sin JSON.' }));
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error}`);
             }
 
             const data = await response.json();
@@ -63,8 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remove loading indicator
             messagesContainer.removeChild(loadingMessageDiv);
 
-            const assistantMessage = data.output ? data.output.answer : "No se recibió respuesta del asistente.";
+            // The new agent returns a 'response' field
+            const assistantMessage = data.response ? data.response : "No se recibió respuesta del asistente.";
             addMessage(assistantMessage, 'ai');
+            // The agent manages history, but we'll keep it here for the UI
             chatHistory.push({ role: 'model', parts: [{ text: assistantMessage }] });
 
         } catch (error) {
