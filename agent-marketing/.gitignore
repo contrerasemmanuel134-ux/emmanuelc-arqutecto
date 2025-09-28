@@ -1,0 +1,39 @@
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment files
+.env
+*.env
+.env.*
+service-AccountKey.json
+conversation_history.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+/backend/venv/
+
+# Node.js
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.astro/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# Logs
+*.log
+database-debug.log
+dataconnect-debug.log
+firestore-debug.log
+pglite-debug.log
