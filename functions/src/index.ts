@@ -1,6 +1,9 @@
+
 import { logger } from "firebase-functions";
 import { onRequest } from "firebase-functions/v2/https";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
+import { getFirestore } from "firebase-admin/firestore";
 import cors from "cors";
 import express from "express";
 
@@ -97,4 +100,50 @@ export const chatConAgente = onRequest({ cors: true }, (req, res) => {
       res.status(500).json({ error: "Error interno del servidor." });
     }
   });
+});
+
+// Nueva función para aprobar una propuesta de cambio
+export const approveProposal = onCall(async (request) => {
+  const { proposalId } = request.data;
+  if (!proposalId) {
+    throw new HttpsError("invalid-argument", "The function must be called with one argument 'proposalId'.");
+  }
+
+  const db = getFirestore();
+  const proposalRef = db.collection("propuestas_de_cambio").doc(proposalId);
+
+  try {
+    const proposalDoc = await proposalRef.get();
+    if (!proposalDoc.exists) {
+      throw new HttpsError("not-found", `No proposal found with ID: ${proposalId}`);
+    }
+
+    const proposalData = proposalDoc.data();
+    if (!proposalData || proposalData.status !== "pendiente") {
+      throw new HttpsError("failed-precondition", "Proposal is not pending approval.");
+    }
+
+    const {
+      target_collection,
+      target_document_id,
+      target_field,
+      proposed_value,
+    } = proposalData;
+
+    // Apply the change to the target document
+    const targetRef = db.collection(target_collection).doc(target_document_id);
+    await targetRef.update({ [target_field]: proposed_value });
+
+    // Update the proposal status to 'aprobada'
+    await proposalRef.update({ status: "aprobada" });
+
+    return { result: `Successfully approved and applied proposal ${proposalId}.` };
+
+  } catch (error) {
+    logger.error(`Error approving proposal ${proposalId}:`, error);
+    if (error instanceof HttpsError) {
+      throw error; // Re-throw HttpsError
+    }
+    throw new HttpsError("internal", "An internal error occurred while approving the proposal.");
+  }
 });
