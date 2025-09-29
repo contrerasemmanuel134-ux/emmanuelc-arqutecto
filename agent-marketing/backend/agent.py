@@ -8,7 +8,7 @@ from firestore_api import propose_content_change
 
 from firebase_admin import firestore
 from storage_api import list_images, get_image_url
-from marketing_api import get_search_console_data
+from marketing_api import get_search_console_data, get_pagespeed_insights, get_analytics_data, get_google_ads_data
 
 def find_best_image_for_title(title, image_list):
     """
@@ -126,6 +126,35 @@ def run_strategy_cycle():
     if isinstance(sc_data, dict) and 'error' in sc_data:
         print(f"CRITICAL: Could not get Search Console data. {sc_data['error']}")
         return
+
+    # 2. Fetch PageSpeed Data for Homepage
+    print("Fetching PageSpeed data for the homepage...")
+    pagespeed_data = get_pagespeed_insights("https://emmanuel-contreras.com/")
+    if isinstance(pagespeed_data, dict) and 'error' in pagespeed_data:
+        print(f"WARNING: Could not get PageSpeed data. {pagespeed_data['error']}")
+    else:
+        performance_score = pagespeed_data.get('performance', 0)
+        print(f"Homepage Performance Score: {performance_score}")
+        if performance_score < 90:
+            print("Opportunity identified: Homepage performance is below 90.")
+
+    # 3. Fetch Google Analytics Data
+    print("Fetching Google Analytics data...")
+    ga_property_id = "YOUR_PROPERTY_ID"  # <-- REEMPLAZAR CON TU ID DE PROPIEDAD DE GA4
+    analytics_data = get_analytics_data(ga_property_id, thirty_days_ago.strftime('%Y-%m-%d'), today.strftime('%Y-%m-%d'))
+    if isinstance(analytics_data, dict) and 'error' in analytics_data:
+        print(f"WARNING: Could not get Analytics data. {analytics_data['error']}")
+    else:
+        print(f"Google Analytics Data: {analytics_data}")
+
+    # 4. Fetch Google Ads Data
+    print("Fetching Google Ads data...")
+    gads_customer_id = "YOUR_CUSTOMER_ID"  # <-- REEMPLAZAR CON TU ID DE CLIENTE DE GOOGLE ADS (sin guiones)
+    ads_data = get_google_ads_data(gads_customer_id)
+    if isinstance(ads_data, dict) and 'error' in ads_data:
+        print(f"WARNING: Could not get Google Ads data. {ads_data['error']}")
+    else:
+        print(f"Google Ads Data: {ads_data}")
 
     if not sc_data:
         print("No Search Console data found for the period. Nothing to do.")

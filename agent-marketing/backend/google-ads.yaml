@@ -1,0 +1,9 @@
+# Este archivo debe ser llenado con tus credenciales de la API de Google Ads.
+# Asegúrate de que este archivo NUNCA se suba a un repositorio público.
+
+developer_token: "YOUR_DEVELOPER_TOKEN" # Token de desarrollador de tu cuenta de MCC.
+client_id: "YOUR_CLIENT_ID.apps.googleusercontent.com" # ID de cliente de tu proyecto de GCP.
+client_secret: "YOUR_CLIENT_SECRET" # Secreto de cliente de tu proyecto de GCP.
+refresh_token: "YOUR_REFRESH_TOKEN" # Token de actualización generado para tu app.
+login_customer_id: "YOUR_LOGIN_CUSTOMER_ID" # ID de cliente de la cuenta de MCC a la que tienes acceso.
+use_proto_plus: true
