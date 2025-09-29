@@ -3,7 +3,8 @@
   "description": "Astro project",
   "scripts": {
     "dev": "astro dev",
-    "dev:all": "npm-run-all --parallel dev emulators:essentials",
+    "dev:agent": "cd agent-marketing/backend && export FIREBASE_CREDENTIALS=serviceAccountKey.json && python3 app.py",
+    "dev:all": "npm-run-all --parallel dev emulators:essentials dev:agent",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -14,7 +15,7 @@
     "logs": "firebase functions:log",
     "emulators": "firebase emulators:start --only functions,firestore,auth,storage,hosting --debug",
     "dev:functions": "cd functions && npm run build:watch",
-    "emulators:essentials": "firebase emulators:start --only functions,firestore,auth"
+    "emulators:essentials": "firebase emulators:start --only functions,firestore,auth,hosting,ui"
   },
   "private": true,
   "dependencies": {

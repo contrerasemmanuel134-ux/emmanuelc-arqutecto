@@ -70,7 +70,7 @@ export const chatConAgente = onRequest({ cors: true }, (req, res) => {
       return;
     }
 
-        const AGENT_API_URL = "https://web-admin-agent-546231550004.us-central1.run.app/api/chatConAgente";
+        const AGENT_API_URL = "http://127.0.0.1:8081/api/chatConAgente";
 
     try {
       const { history } = req.body;

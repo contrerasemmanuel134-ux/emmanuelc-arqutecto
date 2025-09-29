@@ -1,0 +1,19 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+const title = "Propuestas del Agente";
+---
+
+<DashboardLayout title={title}>
+  <div class="proposals-container">
+    <h2 class="text-2xl font-semibold mb-4">Propuestas Pendientes</h2>
+    <p class="text-gray-600 mb-6">Aquí aparecerán las sugerencias de contenido generadas por el agente de IA para tu revisión.</p>
+    
+    <div id="proposals-list" class="space-y-4">
+      <!-- Las propuestas se cargarán aquí dinámicamente -->
+      <p class="text-center text-gray-500 py-8">No hay propuestas pendientes en este momento.</p>
+    </div>
+  </div>
+
+  <script src="../../assets/js/app-dashboard-propuestas.js"></script>
+</DashboardLayout>

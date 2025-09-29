@@ -82,23 +82,32 @@ def handle_client_request_route():
     else:
         return jsonify({"error": "Failed to handle client request."}), 500
 
-@app.route("/api/chatConAgente", methods=["POST"])
+@app.route("/api/chatConAgente", methods=["POST", "OPTIONS"])
 def handle_chat_agent_route():
     """Endpoint to handle a chat message from the chatbot UI."""
-    data = request.get_json()
-    if not data or "history" not in data:
-        return jsonify({"error": "Missing required field: history"}), 400
-    
-    history = data["history"]
-    
-    # Call the agent function to get a response based on the history
-    ai_response = agent.handle_chat_message(history)
-    
-    if "Lo siento, no pude procesar tu mensaje" in ai_response:
-        return jsonify({"error": ai_response}), 500
+    try:
+        if request.method == "OPTIONS":
+            return jsonify(success=True), 200
 
-    return jsonify({"response": ai_response}), 200
+        data = request.get_json()
+        if not data or "history" not in data:
+            return jsonify({"error": "Missing required field: history"}), 400
+        
+        history = data["history"]
+        
+        # Call the agent function to get a response based on the history
+        ai_response = agent.handle_chat_message(history)
+        
+        if "Lo siento, no pude procesar tu mensaje" in ai_response:
+            return jsonify({"error": "AI agent failed to process the message.", "details": ai_response}), 500
+
+        return jsonify({"response": ai_response}), 200
+    except Exception as e:
+        # Log the exception for debugging
+        print(f"An exception occurred in handle_chat_agent_route: {e}")
+        # Return a generic but structured error
+        return jsonify({"error": "An internal server error occurred.", "details": str(e)}), 500
 
 if __name__ == "__main__":
-    # Runs the Flask app on port 8080, accessible from any network interface.
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    # Runs the Flask app on port 8081, accessible from any network interface.
+    app.run(host="0.0.0.0", port=8081, debug=True)
