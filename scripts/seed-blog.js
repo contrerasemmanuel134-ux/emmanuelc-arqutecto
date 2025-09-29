@@ -1,0 +1,74 @@
+const admin = require('firebase-admin');
+const serviceAccount = require('../functions/service-account.json');
+// --- Initialize Admin SDK ---
+if (admin.apps.length === 0) {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+}
+const db = admin.firestore();
+console.log("✅ Connected to Firebase with Admin privileges.");
+// --- Blog Post Data ---
+const postData = {
+    title: "La Arquitectura Detrás del 100/100: Cómo Reconstruí Mi Propia Casa Digital",
+    slug: "arquitectura-digital-100-100",
+    author: "Emmanuel Contreras",
+    publishedDate: "2023-10-25",
+    mainImageUrl: "/images/blog/index-blog.webp",
+    metaDescription: "A case study on how I rebuilt my website with Astro and Firebase to achieve a 100/100 PageSpeed Insights score.",
+    content: `
+    <p class="mb-6">
+        Un "Arquitecto Digital" se distingue por construir proyectos sobre cimientos sólidos y funcionales. Mi sitio web, <a href="https://emmanuel-contreras.com" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">emmanuel-contreras.com</a>, es la prueba viviente de esta filosofía. No es solo un escaparate de servicios, sino un caso de estudio en sí mismo, diseñado para demostrar que la velocidad, la escalabilidad y una experiencia de usuario impecable pueden coexistir.
+    </p>
+    <p class="mb-6">
+        En una era donde muchos sitios web están saturados con código innecesario, el verdadero reto no es solo crear algo que se vea bien, sino algo que <strong>funcione a la perfección y se pueda gestionar con facilidad</strong>. Mi objetivo era claro: reconstruir mi sitio para que, además de ser extremadamente rápido, me permitiera administrar todo mi contenido de forma autónoma.
+    </p>
+    <h2 class="text-3xl font-bold text-gray-900 mt-10 mb-4">La Estrategia: Evolución de Estático a una Arquitectura de Alto Rendimiento</h2>
+    <p class="mb-6">
+        Mi sitio web original era una estructura estática, construida en HTML puro. Si bien cumplía su función inicial, sabía que para realmente representar mis servicios, necesitaba una solución que fuera no solo rápida, sino también dinámica y fácil de mantener. El siguiente paso fue una reconstrucción completa para lograrlo.
+    </p>
+    <p class="mb-6">
+        Para alcanzar el objetivo de un rendimiento perfecto en un sitio funcional y dinámico, mi enfoque fue una combinación estratégica de tecnologías modernas:
+    </p>
+    <ul class="list-disc list-inside space-y-2 mb-6 ml-4">
+        <li><strong>Astro como core del Frontend:</strong> Para la interfaz, elegí <strong>Astro</strong>, un framework centrado en la velocidad. Su innovadora "Arquitectura de Islas" permite que las páginas carguen con un mínimo de JavaScript, lo que optimiza el SEO y la experiencia del usuario.</li>
+        <li><strong>Backend con Firebase:</strong> Detrás de su interfaz, el sitio no es estático. Todo el contenido dinámico, como las entradas de blog, los casos de éxito, las reseñas y las imágenes, se carga desde una base de datos. Para gestionar este contenido, utilicé <strong>Firebase</strong>, una plataforma de Google, junto con un panel de administración personalizado.</li>
+    </ul>
+    <p class="mb-6">
+        Para demostrar la funcionalidad de mi arquitectura, aquí puedes ver una captura del panel de administración que creé para gestionar el contenido.
+    </p>
+    <div class="flex justify-center my-10">
+        <img src="/images/blog/panelde admin.webp" alt="Captura de pantalla del panel de administración del sitio" class="w-full h-auto rounded-lg shadow-md border-2 border-gray-200" />
+    </div>
+    <h2 class="text-3xl font-bold text-gray-900 mt-10 mb-4">Los Resultados: La Prueba de la Arquitectura</h2>
+    <p class="mb-6">
+        Para validar el resultado de esta estrategia, utilicé <strong>Google PageSpeed Insights</strong>, la herramienta más confiable para medir el rendimiento de un sitio web.
+    </p>
+    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 my-10">
+        <img src="/images/blog/Compu-pagespeed.webp" alt="Captura de pantalla de Google PageSpeed Insights para escritorio" class="w-full md:w-1/2 h-auto rounded-lg shadow-md border-2 border-gray-200" />
+        <img src="/images/blog/sitioweb-celular.webp" alt="Captura de pantalla de Google PageSpeed Insights para móvil" class="w-full md:w-1/2 h-auto rounded-lg shadow-md border-2 border-gray-200" />
+    </div>
+    <p class="mb-6">
+        El sitio web de escritorio y móvil alcanzaron una puntuación de <strong>100/100</strong>. Estos puntajes son el resultado directo de la transformación: la combinación de la arquitectura de islas de Astro y un backend dinámico demuestra que es posible tener un sitio completamente funcional y editable sin sacrificar un rendimiento excepcional.
+    </p>
+    <div class="bg-gray-100 p-6 rounded-lg text-center mt-12 mb-6">
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Construyamos Tu Éxito Digital</h3>
+        <p class="text-gray-600 mb-4">Tu negocio merece una arquitectura digital tan sólida y funcional como la que construí para mí.</p>
+        <a href="/contacto" class="inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 transition-colors shadow-lg">Contáctame Aquí</a>
+    </div>
+  `
+};
+// --- Seeding Function ---
+async function seedBlog() {
+    try {
+        console.log("\nInitiating blog seeding process...");
+        const blogCollectionRef = db.collection('blog');
+        const docRef = blogCollectionRef.doc(postData.slug);
+        await docRef.set(postData);
+        console.log(`✅ Post "${postData.title}" successfully seeded into the 'blog' collection.`);
+    }
+    catch (error) {
+        console.error("\n❌ Error during blog seeding process:", error);
+    }
+}
+seedBlog();
