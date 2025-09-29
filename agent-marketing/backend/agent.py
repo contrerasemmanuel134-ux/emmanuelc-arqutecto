@@ -4,6 +4,7 @@ import datetime
 from memory import Memory
 from website_api import get_blog_posts, get_projects
 from generative_ai import get_intent, generate_text, generate_blog_title, generate_blog_content
+from firestore_api import propose_content_change
 
 from firebase_admin import firestore
 from storage_api import list_images, get_image_url
@@ -318,7 +319,7 @@ tools_description = """
 - `publish_blog`: Publishes a blog post. Requires `title`.
 - `run_strategy`: Runs the autonomous marketing strategy cycle.
 - `create_project`: Creates a new success case project. Requires `title`, `challenge`, `solution`, `result`.
-- `update_content`: Updates a text field in a document. Requires `collection`, `doc_title`, `field`, `new_text`.
+- `propose_content_change`: Proposes a content change to a document. Requires `collection`, `document_id`, `field`, `new_value`, and a `reason`.
 - `update_image`: Updates the image of a document. Requires `collection`, `doc_title`, `new_image_name`.
 """
 
@@ -454,15 +455,16 @@ def main():
             else:
                 response = "Failed to create project draft."
 
-        elif tool == "update_content":
+        elif tool == "propose_content_change":
             collection = params.get("collection")
-            doc_title = params.get("doc_title")
+            document_id = params.get("document_id")
             field = params.get("field")
-            new_text = params.get("new_text")
-            if not all([collection, doc_title, field, new_text]):
-                response = "To update content, I need a collection, a document title, a field, and the new text."
+            new_value = params.get("new_value")
+            reason = params.get("reason")
+            if not all([collection, document_id, field, new_value, reason]):
+                response = "To propose a content change, I need a collection, a document_id, a field, the new_value, and a reason."
             else:
-                response = update_content(collection, doc_title, field, new_text)
+                response = propose_content_change(collection, document_id, field, new_value, reason)
 
         elif tool == "update_image":
             collection = params.get("collection")
