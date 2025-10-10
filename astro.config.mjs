@@ -3,16 +3,14 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-
 import node from '@astrojs/node';
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server', // <-- Correcto: Especifica la salida para SSR
   integrations: [tailwind(), sitemap()],
   site: 'https://emmanuel-contreras.com',
 

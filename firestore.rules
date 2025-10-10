@@ -3,84 +3,31 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // REGLA TEMPORAL DE DESARROLLO:
-    // Permite leer y escribir en TODA la base de datos hasta el 25 de Septiembre de 2025.
-    // Esto es para permitir la siembra inicial de datos.
-    // ¡Recuerda ajustar estas reglas para producción!
-    allow read, write: if request.time < timestamp.date(2025, 9, 25);
+    // --- Reglas de Lectura Pública para SSG (Static Site Generation) ---
+    match /blog/{postId} { allow read: if true; allow write: if request.auth != null; }
+    match /posts/{postId} { allow read: if true; allow write: if request.auth != null; }
+    match /proyectos/{proyectoId} { allow read: if true; allow write: if request.auth != null; }
+    match /servicios/{servicioId} { allow read: if true; allow write: if request.auth != null; }
+    match /config/{configId} { allow read: if true; allow write: if request.auth != null; }
+    match /pages/{pageId} { allow read: if true; allow write: if request.auth != null; }
+    match /proceso/{pasoId} { allow read: if true; allow write: if request.auth != null; }
 
-    // --- Reglas Específicas ---
-
-    // Config: Cualquiera puede leer la configuración del sitio.
-    match /config/{configId} {
-      allow read: if true;
-      allow write: if request.auth != null; // Solo admins pueden escribir
-    }
-
-    // Proyectos: Cualquiera puede leer, solo usuarios autenticados pueden escribir.
-    match /proyectos/{proyectoId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Servicios: Cualquiera puede leer.
-    match /servicios/{servicioId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Blog: Cualquiera puede leer, solo usuarios autenticados pueden escribir.
-    match /blogPosts/{postId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Pages: Cualquiera puede leer.
-    match /pages/{pageId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Proceso: Cualquiera puede leer.
-    match /proceso/{pasoId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Sobre Mí: Cualquiera puede leer.
-    match /sobreMi/{docId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Filosofía: Cualquiera puede leer.
-    match /filosofia/{pilarId} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // Testimonios: Reglas más complejas para un formulario público.
-    // Se mantienen sin cambios ya que no son gestionados por la API del dashboard.
+    // --- Reglas con Lógica Específica ---
     match /testimonios/{testimonioId} {
-      // Cualquiera puede crear un testimonio (dejar una reseña)
       allow create: if request.resource.data.nombreCliente is string
                       && request.resource.data.textoTestimonio is string
                       && request.resource.data.calificacion is number
                       && request.resource.data.estado == "pendiente";
 
-      // El admin puede leer todos, y el público solo los aprobados.
       allow read: if request.auth != null || resource.data.estado == 'aprobado';
-
-      // El admin puede actualizar y borrar
-      allow update, delete: if request.auth != null;
+      allow update, delete: if request.auth != null; // Solo admin
     }
 
-    // Agente IA: Los clientes autenticados pueden enviar comandos.
-    match /agent_commands/{commandId} {
-      allow create: if request.auth != null;
-      allow read, update, delete: if false; // Nadie más puede tocar esto
+    // --- Regla para Otras Colecciones ---
+    // Cualquier otra colección de primer nivel no definida anteriormente 
+    // requerirá autenticación. Es más seguro que /{document=**}.
+    match /{collection}/{docId} {
+      allow read, write: if request.auth != null;
     }
   }
 }
-
-

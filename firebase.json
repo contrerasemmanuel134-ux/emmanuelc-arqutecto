@@ -15,29 +15,6 @@
       ]
     }
   ],
-  "hosting": {
-    "site": "expanded-system-469904-v9",
-    "public": "dist/client",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/chatConAgente",
-        "function": "chatConAgente"
-      },
-      {
-        "source": "/api/**",
-        "function": "api"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
   "emulators": {
     "auth": {
       "port": 9099

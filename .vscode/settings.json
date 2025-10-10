@@ -4,5 +4,6 @@
     "geminicodeassist.agentDebugMode": true,
     "geminicodeassist.chat.automaticScrolling": false,
     "intellicodeApiExamples.loggingLevel": "ALL",
-    "geminicodeassist.codeGenerationPaneViewEnabled": true
+    "geminicodeassist.codeGenerationPaneViewEnabled": true,
+    "IDX.agenticWorkspace": true
 }
