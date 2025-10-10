@@ -1,5 +1,10 @@
 {
   "projects": {
     "default": "expanded-system-469904-v9"
+  },
+  "dataconnectEmulatorConfig": {
+    "postgres": {
+      "localConnectionString": "postgresql://localhost:5432?sslmode=disable"
+    }
   }
 }

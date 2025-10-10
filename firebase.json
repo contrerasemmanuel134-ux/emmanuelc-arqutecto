@@ -34,8 +34,13 @@
       "host": "0.0.0.0"
     },
     "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData"
-    }
+      "dataDir": "dataconnect/.dataconnect/pgliteData",
+      "port": 9399
+    },
+    "storage": {
+      "port": 9199
+    },
+    "singleProjectMode": true
   },
   "extensions": {},
   "dataconnect": {
