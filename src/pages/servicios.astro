@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceItem from '../components/ServiceItem.astro';
+---
+
+<Layout
+  title="Servicios de Desarrollo y Marketing Digital"
+  description="Soluciones a medida para potenciar tu presencia online. Desde desarrollo web hasta estrategias de marketing digital que convierten."
+>
+  <main class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-12">
+      Lo que Hacemos por Tu Negocio
+    </h1>
+
+    <div class="space-y-20">
+      <ServiceItem
+        title="Desarrollo Web a Medida y Centrado en el Usuario"
+        description="Creamos sitios web y aplicaciones web desde cero, enfocados en tus objetivos de negocio y en la experiencia de tus usuarios. Cada línea de código está pensada para ser eficiente, escalable y segura."
+        imageUrl="/images/placeholder-desarrollo.jpg"
+        layout="left"
+      />
+
+      <ServiceItem
+        title="Estrategia de Marketing Digital y SEO"
+        description="Aumentamos tu visibilidad en internet. A través de SEO, SEM y marketing de contenidos, atraemos tráfico cualificado a tu web y lo convertimos en clientes. Medimos cada acción para asegurar el retorno de tu inversión."
+        imageUrl="/images/placeholder-marketing.jpg"
+        layout="right"
+      />
+
+      <ServiceItem
+        title="Mantenimiento y Evolución de Proyectos"
+        description="Tu proyecto web es un activo que debe crecer contigo. Ofrecemos planes de mantenimiento para asegurar que tu sitio esté siempre actualizado, seguro y funcionando a máxima velocidad, listos para implementar nuevas funcionalidades cuando las necesites."
+        imageUrl="/images/placeholder-mantenimiento.jpg"
+        layout="left"
+      />
+    </div>
+  </main>
+</Layout>

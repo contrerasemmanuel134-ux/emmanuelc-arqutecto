@@ -4,9 +4,7 @@ dist/
 # generated types
 .astro/
 
-#firebase/
-
-
+.firebase/
 # dependencies
 node_modules/
 
@@ -40,3 +38,4 @@ node_modules
 firestore-debug.log
 pglite-debug.log
 dataconnect-debug.log
+agent-marketing/
