@@ -10,9 +10,13 @@ const __dirname = path.dirname(__filename);
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server', // <-- Correcto: Especifica la salida para SSR
+  output: 'server', 
   integrations: [tailwind(), sitemap()],
   site: 'https://emmanuel-contreras.com',
+
+  adapter: node({
+    mode: 'middleware',
+  }),
 
   server: {
     proxy: {
@@ -38,8 +42,4 @@ export default defineConfig({
       }
     }
   },
-
-  adapter: node({
-    mode: 'standalone',
-  }),
 });

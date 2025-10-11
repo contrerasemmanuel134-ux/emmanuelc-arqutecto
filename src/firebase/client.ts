@@ -1,7 +1,7 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore, initializeFirestore, CACHE_SIZE_UNLIMITED } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, initializeFirestore, CACHE_SIZE_UNLIMITED, connectFirestoreEmulator } from "firebase/firestore";
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 // Get Firebase configuration from environment variables
 const firebaseConfig = {
@@ -14,10 +14,24 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
-export const db = initializeFirestore(app, {
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(app);
+const db = initializeFirestore(app, {
   cacheSizeBytes: CACHE_SIZE_UNLIMITED,
   ignoreUndefinedProperties: true,
 });
-export const storage = getStorage(app);
+const storage = getStorage(app);
+
+// Connect to emulators in development
+if (import.meta.env.DEV) {
+  try {
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectFirestoreEmulator(db, "localhost", 8081);
+    connectStorageEmulator(storage, "localhost", 9199);
+    console.log("Conectado a los Emuladores de Firebase.");
+  } catch (error) {
+    console.error("Error al conectar con los emuladores: ", error);
+  }
+}
+
+export { app, auth, db, storage };

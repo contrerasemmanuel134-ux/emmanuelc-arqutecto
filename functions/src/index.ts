@@ -7,6 +7,14 @@ import { getFirestore } from "firebase-admin/firestore";
 import cors from "cors";
 import express from "express";
 
+// Importa el manejador del servidor de Astro.
+// La ruta es relativa desde la carpeta `lib` (donde se compila el código de las funciones)
+// a la carpeta `dist` (donde Astro genera el sitio).
+// Usamos @ts-ignore porque TypeScript no ve este archivo durante la compilación.
+// @ts-ignore
+import { handler as astroHandler } from "../../dist/server/entry.mjs";
+
+
 // Inicialización de Firebase y CORS
 admin.initializeApp();
 const corsHandler = cors({ origin: true });
@@ -147,3 +155,10 @@ export const approveProposal = onCall(async (request) => {
     throw new HttpsError("internal", "An internal error occurred while approving the proposal.");
   }
 });
+
+// --- Servidor SSR de Astro ---
+// Esta función sirve la aplicación de Astro usando el middleware generado.
+const astroServer = express();
+astroServer.use(astroHandler);
+
+export const server = onRequest(astroServer);

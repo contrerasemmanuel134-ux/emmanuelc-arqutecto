@@ -5,9 +5,18 @@
   "storage": {
     "rules": "storage.rules"
   },
+  "hosting": {
+    "public": "dist/client",
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "server"
+      }
+    ]
+  },
   "functions": [
     {
-      "codebase": "default",
       "source": "functions",
       "runtime": "nodejs22",
       "predeploy": [
@@ -23,7 +32,7 @@
       "port": 5001
     },
     "firestore": {
-      "port": 8080
+      "port": 8081
     },
     "hosting": {
       "port": 5000
@@ -33,17 +42,8 @@
       "port": 4001,
       "host": "0.0.0.0"
     },
-    "dataconnect": {
-      "dataDir": "dataconnect/.dataconnect/pgliteData",
-      "port": 9399
-    },
     "storage": {
       "port": 9199
-    },
-    "singleProjectMode": true
-  },
-  "extensions": {},
-  "dataconnect": {
-    "source": "dataconnect"
+    }
   }
 }
