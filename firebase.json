@@ -1,19 +1,11 @@
 {
   "firestore": {
-    "rules": "firestore.rules"
+    "rules": "firestore.rules",
+    "database": "(default)"
   },
   "storage": {
-    "rules": "storage.rules"
-  },
-  "hosting": {
-    "public": "dist/client",
-    "cleanUrls": true,
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "server"
-      }
-    ]
+    "rules": "storage.rules",
+    "bucket": "expanded-system-469904-v9.firebasestorage.app"
   },
   "functions": [
     {
@@ -45,5 +37,18 @@
     "storage": {
       "port": 9199
     }
+  },
+  "apphosting": {
+    "backendId": "emmanuelc-arqutecto-1",
+    "rootDir": "/",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions",
+      "agent-marketing"
+    ],
+    "alwaysDeployFromSource": true
   }
 }

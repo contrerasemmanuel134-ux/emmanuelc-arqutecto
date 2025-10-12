@@ -11,12 +11,14 @@ const __dirname = path.dirname(__filename);
 // https://astro.build/config
 export default defineConfig({
   output: 'server', 
-  integrations: [tailwind(), sitemap()],
+  integrations: [
+    tailwind(), 
+    sitemap(),
+    node({
+      mode: 'middleware',
+    })
+  ],
   site: 'https://emmanuel-contreras.com',
-
-  adapter: node({
-    mode: 'middleware',
-  }),
 
   server: {
     proxy: {

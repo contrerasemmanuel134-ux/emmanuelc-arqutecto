@@ -6,18 +6,17 @@ import * as admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import cors from "cors";
 import express from "express";
+import { defineString } from 'firebase-functions/params';
 
-// Importa el manejador del servidor de Astro.
-// La ruta es relativa desde la carpeta `lib` (donde se compila el código de las funciones)
-// a la carpeta `dist` (donde Astro genera el sitio).
-// Usamos @ts-ignore porque TypeScript no ve este archivo durante la compilación.
-// @ts-ignore
-import { handler as astroHandler } from "../../dist/server/entry.mjs";
-
+// La importación estática del manejador de Astro ha sido eliminada.
+// Se importará dinámicamente dentro de la función 'server'.
 
 // Inicialización de Firebase y CORS
 admin.initializeApp();
 const corsHandler = cors({ origin: true });
+
+// Definimos la URL del agente como un parámetro configurable.
+const agentApiUrl = defineString("AGENT_API_URL");
 
 // --- API para el Dashboard de Marketing (con Mock Data) ---
 const apiApp = express();
@@ -81,13 +80,12 @@ export const chatConAgente = onRequest({ cors: true }, (req, res) => {
       return;
     }
 
-        const AGENT_API_URL = "http://127.0.0.1:8081/api/chatConAgente";
-
     try {
       const { history } = req.body;
       logger.info("Historial recibido:", history);
 
-      const agentResponse = await fetch(AGENT_API_URL, {
+      // Usamos el valor del parámetro
+      const agentResponse = await fetch(agentApiUrl.value(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ history }),
@@ -114,7 +112,7 @@ export const chatConAgente = onRequest({ cors: true }, (req, res) => {
 export const approveProposal = onCall(async (request) => {
   const { proposalId } = request.data;
   if (!proposalId) {
-    throw new HttpsError("invalid-argument", "The function must be called with one argument 'proposalId'.");
+    throw new HttpsError("invalid-argument", "The function must be called with one argument \'proposalId\'.");
   }
 
   const db = getFirestore();
@@ -157,8 +155,10 @@ export const approveProposal = onCall(async (request) => {
 });
 
 // --- Servidor SSR de Astro ---
-// Esta función sirve la aplicación de Astro usando el middleware generado.
-const astroServer = express();
-astroServer.use(astroHandler);
-
-export const server = onRequest(astroServer);
+// Esta función carga dinámicamente el manejador de Astro para evitar el error ERR_REQUIRE_ESM.
+export const server = onRequest(async (request, response) => {
+  // La ruta es relativa al directorio de salida \`lib/\`
+  // @ts-ignore
+  const { handler } = await import('../../dist/server/entry.mjs');
+  handler(request, response);
+});

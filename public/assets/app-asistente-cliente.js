@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const fabIconDefault = fab.querySelector('.cliente-fab__icon:not(.cliente-fab__icon--close)');
     const fabIconClose = fab.querySelector('.cliente-fab__icon--close');
 
+    // Leemos la URL de la API desde el atributo de datos
+    const chatApiUrl = chatWindow.dataset.apiUrl;
+
     let chatHistory = []; // Aquí guardaremos la conversación
 
     // --- Funciones para manejar la visibilidad del chat ---
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const userMessage = chatInput.value.trim();
-        if (!userMessage) return;
+        if (!userMessage || !chatApiUrl) return;
 
         addMessage(userMessage, 'user');
         chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
@@ -60,9 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
         try {
-            // *** LLAMADA A LA NUEVA FIREBASE FUNCTION ***
-            // Esta es la función "puente" que crearemos a continuación.
-            const response = await fetch('http://127.0.0.1:5001/expanded-system-469904-v9/us-central1/chatConAgente', {
+            // Usamos la URL obtenida del atributo de datos
+            const response = await fetch(chatApiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ history: chatHistory }),

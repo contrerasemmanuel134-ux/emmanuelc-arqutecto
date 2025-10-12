@@ -36,15 +36,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chatConAgente = exports.api = void 0;
+exports.server = exports.approveProposal = exports.chatConAgente = exports.api = void 0;
 const firebase_functions_1 = require("firebase-functions");
 const https_1 = require("firebase-functions/v2/https");
+const https_2 = require("firebase-functions/v2/https");
 const admin = __importStar(require("firebase-admin"));
+const firestore_1 = require("firebase-admin/firestore");
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
+const params_1 = require("firebase-functions/params");
+// La importación estática del manejador de Astro ha sido eliminada.
+// Se importará dinámicamente dentro de la función 'server'.
 // Inicialización de Firebase y CORS
 admin.initializeApp();
 const corsHandler = (0, cors_1.default)({ origin: true });
+// Definimos la URL del agente como un parámetro configurable.
+const agentApiUrl = (0, params_1.defineString)("AGENT_API_URL");
 // --- API para el Dashboard de Marketing (con Mock Data) ---
 const apiApp = (0, express_1.default)();
 apiApp.use((0, cors_1.default)({ origin: true }));
@@ -98,11 +105,11 @@ exports.chatConAgente = (0, https_1.onRequest)({ cors: true }, (req, res) => {
             res.status(405).send("Method Not Allowed");
             return;
         }
-        const AGENT_API_URL = "https://web-admin-agent-546231550004.us-central1.run.app/api/chatConAgente";
         try {
             const { history } = req.body;
             firebase_functions_1.logger.info("Historial recibido:", history);
-            const agentResponse = await fetch(AGENT_API_URL, {
+            // Usamos el valor del parámetro
+            const agentResponse = await fetch(agentApiUrl.value(), {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ history }),
@@ -121,5 +128,46 @@ exports.chatConAgente = (0, https_1.onRequest)({ cors: true }, (req, res) => {
             res.status(500).json({ error: "Error interno del servidor." });
         }
     });
+});
+// Nueva función para aprobar una propuesta de cambio
+exports.approveProposal = (0, https_2.onCall)(async (request) => {
+    const { proposalId } = request.data;
+    if (!proposalId) {
+        throw new https_2.HttpsError("invalid-argument", "The function must be called with one argument \'proposalId\'.");
+    }
+    const db = (0, firestore_1.getFirestore)();
+    const proposalRef = db.collection("propuestas_de_cambio").doc(proposalId);
+    try {
+        const proposalDoc = await proposalRef.get();
+        if (!proposalDoc.exists) {
+            throw new https_2.HttpsError("not-found", `No proposal found with ID: ${proposalId}`);
+        }
+        const proposalData = proposalDoc.data();
+        if (!proposalData || proposalData.status !== "pendiente") {
+            throw new https_2.HttpsError("failed-precondition", "Proposal is not pending approval.");
+        }
+        const { target_collection, target_document_id, target_field, proposed_value, } = proposalData;
+        // Apply the change to the target document
+        const targetRef = db.collection(target_collection).doc(target_document_id);
+        await targetRef.update({ [target_field]: proposed_value });
+        // Update the proposal status to 'aprobada'
+        await proposalRef.update({ status: "aprobada" });
+        return { result: `Successfully approved and applied proposal ${proposalId}.` };
+    }
+    catch (error) {
+        firebase_functions_1.logger.error(`Error approving proposal ${proposalId}:`, error);
+        if (error instanceof https_2.HttpsError) {
+            throw error; // Re-throw HttpsError
+        }
+        throw new https_2.HttpsError("internal", "An internal error occurred while approving the proposal.");
+    }
+});
+// --- Servidor SSR de Astro ---
+// Esta función carga dinámicamente el manejador de Astro para evitar el error ERR_REQUIRE_ESM.
+exports.server = (0, https_1.onRequest)(async (request, response) => {
+    // La ruta es relativa al directorio de salida \`lib/\`
+    // @ts-ignore
+    const { handler } = await import('../../dist/server/entry.mjs');
+    handler(request, response);
 });
 //# sourceMappingURL=index.js.map

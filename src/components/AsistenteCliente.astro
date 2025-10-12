@@ -1,6 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/logo-emmanuel-contreras.png';
+
+// Obtenemos la URL de la variable de entorno.
+// Astro requiere el prefijo PUBLIC_ para exponerla al cliente.
+const chatApiUrl = import.meta.env.PUBLIC_CHAT_API_URL;
 ---
 <div id="cliente-fab" class="cliente-fab">
     <Image src={logo} alt="Asistente de Proyectos" class="cliente-fab__icon" />
@@ -9,7 +13,7 @@ import logo from '../assets/logo-emmanuel-contreras.png';
     </svg>
 </div>
 
-<div id="cliente-chat-window" class="cliente-chat-window hidden">
+<div id="cliente-chat-window" class="cliente-chat-window hidden" data-api-url={chatApiUrl}>
     <header class="cliente-chat-header">
         <h3 class="cliente-chat-header__title">Asistente de Proyectos</h3>
         <button id="cliente-close-btn" class="cliente-chat-header__close-btn">&times;</button>

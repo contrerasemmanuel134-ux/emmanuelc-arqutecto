@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "astro dev",
     "dev:agent": "cd agent-marketing/backend && export FIREBASE_CREDENTIALS=serviceAccountKey.json && python3 app.py",
-    "dev:all": "npm-run-all --parallel dev emulators:essentials dev:agent",
+    "dev:all": "npm-run-all --parallel dev emulators:essentials ",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",

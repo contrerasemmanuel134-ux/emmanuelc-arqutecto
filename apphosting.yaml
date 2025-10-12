@@ -1,0 +1,57 @@
+# apphosting.yaml
+
+# Especifica la versión del formato de archivo de App Hosting.
+specVersion: v1alpha1
+
+# Tells the build system to ignore specified files and directories
+ignore:
+  - agent-marketing
+
+# Define el proceso de construcción para la aplicación.
+build:
+  # Comandos que se ejecutarán para construir tu proyecto.
+  # 1. Instala las dependencias de las Firebase Functions.
+  # 2. Instala las dependencias del proyecto de Astro.
+  # 3. Ejecuta el script de construcción de Astro.
+  run:
+    - npm --prefix "./functions" install
+    - npm install
+    - npm run build
+  # Especifica que el proceso de construcción necesita acceso a la red.
+  requires:
+  - network
+
+# Define el servicio de backend que ejecutará tu código del lado del servidor.
+backend:
+  # El punto de entrada principal (la función que sirve tu sitio Astro SSR).
+  entryPoint: server
+  # Los servicios de Firebase que tu backend necesita.
+  uses:
+    - firestore
+    - auth
+
+# Define las variables de entorno para la aplicación.
+env:
+  # Esta es la URL pública de tu API de chat.
+  # Estará disponible durante el proceso de construcción para que Astro la utilice.
+  - variable: PUBLIC_CHAT_API_URL
+    value: "https://chatConAgente-expanded-system-469904-v9-uc.a.run.app"
+    availability:
+      - BUILD
+
+  # Esta es la URL de tu agente de Python. Se pasa como un secreto.
+  - variable: AGENT_API_URL
+    secret: PROD_AGENT_API_URL # El nombre del secreto en Google Secret Manager.
+    availability: # ¡Corrección aplicada aquí!
+      - BUILD
+      - RUN
+
+# Define cómo se sirve la aplicación a través de HTTPS.
+hosting:
+  # El directorio que contiene los archivos estáticos generados por Astro.
+  public: dist/client
+  # Redirige todas las solicitudes al backend para el renderizado del lado del servidor (SSR).
+  rewrites:
+    - glob: "**"
+      backend:
+        entryPoint: server
