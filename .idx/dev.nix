@@ -11,7 +11,11 @@
     # pkgs.python311Packages.pip
      pkgs.nodejs_22
     # pkgs.nodePackages.nodemon
+    pkgs.docker # Installs the Docker client
   ];
+
+  # Enable the Docker daemon service, required to run Docker
+  services.docker.enable = true;
 
   # Sets environment variables in the workspace
   env = {};
@@ -19,6 +23,8 @@
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
       # "vscodevim.vim"
+      "astro-build.astro"
+      "googlecloudtools"
     ];
 
     # Enable previews
@@ -43,7 +49,7 @@
       # Runs when a workspace is first created
       onCreate = {
         # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
+         npm-install = "npm install";
       };
       # Runs when the workspace is (re)started
       onStart = {
